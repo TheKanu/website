@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K.M.T - Dark Fantasy Author & D&D Dungeon Master</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            font-family: "MS Sans Serif", sans-serif;
+            font-size: 11px;
+            overflow: hidden;
+            cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAASCAYAAABrXO8xAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwNi8xMy8xMGQq5W4AAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzbovLKMAAAA7ElEQVQ4jZXTsUrDQBjA8f9972hSW0VBHEV8ABEn8QmcXHwGJ6e+gpOLm6PgC4iDQycRwcFNcHBwEAQRq03Se/crSS+xYht/cHA/jrvf3XHHOecAaK2Nh0E8770b+vM0pQqgquJS1EkpKKXgnBsB3Ah4TlOqlIJSiizLlABYa6m1xjkHcJukaQpAEAT9IAi+hBD8VFUVQRBgjEkBRAiBEAIpJdZaANI4jhFC4Jz7d8Isy5BSYq1lMBwWxpjHKIqKTiKiKMIY0wIATHe73U8RhmGhtR6EYVgA4JzDWkvOuRYE8JGm6RRALXnv3QX4BsVjk5QFzi6lAAAAAElFTkSuQmCC'), auto;
+        }
+
+        /* Windows 95 Desktop Background */
+        .desktop {
+            width: 100vw;
+            height: 100vh;
+            background-color: #008080;
+            position: relative;
+        }
+
+        /* Desktop Icons */
+        .desktop-icon {
+            position: absolute;
+            width: 75px;
+            text-align: center;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .desktop-icon:hover {
+            background-color: rgba(0, 0, 128, 0.3);
+            outline: 1px dotted #000080;
+        }
+
+        .desktop-icon.selected {
+            background-color: #000080;
+            color: white;
+        }
+
+        .desktop-icon img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 3px;
+            image-rendering: pixelated;
+        }
+
+        .desktop-icon span {
+            display: block;
+            color: white;
+            text-shadow: 1px 1px 1px black;
+            font-size: 11px;
+            word-wrap: break-word;
+        }
+
+        /* Windows */
+        .window {
+            position: absolute;
+            background-color: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            box-shadow: 1px 1px 0 0 #000;
+            display: none;
+        }
+
+        .window.active {
+            z-index: 100;
+        }
+
+        .window-header {
+            background: linear-gradient(to right, #000080, #1084d0);
+            color: white;
+            padding: 2px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+        }
+
+        .window-header.inactive {
+            background: linear-gradient(to right, #808080, #b5b5b5);
+        }
+
+        .window-title {
+            font-weight: bold;
+            font-size: 11px;
+            padding-left: 3px;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 2px;
+        }
+
+        .window-button {
+            width: 16px;
+            height: 14px;
+            background-color: #c0c0c0;
+            border: 1px solid;
+            border-color: #ffffff #000000 #000000 #ffffff;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .window-button:active {
+            border-color: #000000 #ffffff #ffffff #000000;
+        }
+
+        .window-content {
+            padding: 10px;
+            background-color: white;
+            border: 2px inset #c0c0c0;
+            margin: 2px;
+            min-height: 200px;
+        }
+
+        /* Menu Bar */
+        .menu-bar {
+            background-color: #c0c0c0;
+            border-bottom: 1px solid #000000;
+            padding: 2px 4px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .menu-item {
+            padding: 4px 8px;
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            background-color: #000080;
+            color: white;
+        }
+
+        /* Taskbar */
+        .taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 28px;
+            background-color: #c0c0c0;
+            border-top: 2px solid #ffffff;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* Start Button */
+        .start-button {
+            height: 22px;
+            padding: 0 6px;
+            margin: 2px;
+            background-color: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .start-button:active {
+            border-color: #808080 #ffffff #ffffff #808080;
+        }
+
+        .start-button img {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Start Menu */
+        .start-menu {
+            position: absolute;
+            bottom: 28px;
+            left: 0;
+            background-color: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            width: 200px;
+            display: none;
+            z-index: 999;
+        }
+
+        .start-menu.open {
+            display: block;
+        }
+
+        .start-menu-header {
+            background: linear-gradient(to bottom, #000080, #1084d0);
+            color: white;
+            padding: 5px;
+            font-weight: bold;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 25px;
+        }
+
+        .start-menu-items {
+            margin-left: 25px;
+            padding: 2px;
+        }
+
+        .start-menu-item {
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .start-menu-item:hover {
+            background-color: #000080;
+            color: white;
+        }
+
+        .start-menu-item img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .separator {
+            height: 1px;
+            background-color: #808080;
+            margin: 2px 4px;
+        }
+
+        /* Task buttons */
+        .task-button {
+            height: 22px;
+            padding: 0 10px;
+            margin: 2px;
+            background-color: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .task-button.active {
+            background-color: #dfdfdf;
+            border-color: #808080 #ffffff #ffffff #808080;
+            font-weight: bold;
+        }
+
+        /* Clock */
+        .clock {
+            margin-left: auto;
+            margin-right: 4px;
+            padding: 0 8px;
+            border: 1px inset #c0c0c0;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            font-size: 11px;
+        }
+
+        /* Button styles */
+        .button {
+            background-color: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 11px;
+            font-family: "MS Sans Serif", sans-serif;
+        }
+
+        .button:active {
+            border-color: #808080 #ffffff #ffffff #808080;
+        }
+
+        /* Text input */
+        .text-input {
+            border: 2px inset #c0c0c0;
+            background-color: white;
+            padding: 3px;
+            font-family: "MS Sans Serif", sans-serif;
+            font-size: 11px;
+        }
+
+        /* Icon Base64 - Using emoji as placeholders */
+        .icon-manuscript::before {
+            content: "📖";
+            font-size: 24px;
+        }
+
+        .icon-folder::before {
+            content: "📁";
+            font-size: 24px;
+        }
+
+        .icon-notepad::before {
+            content: "📝";
+            font-size: 24px;
+        }
+
+        .icon-dice::before {
+            content: "🎲";
+            font-size: 24px;
+        }
+
+        .icon-map::before {
+            content: "🗺️";
+            font-size: 24px;
+        }
+
+        .icon-mail::before {
+            content: "📧";
+            font-size: 24px;
+        }
+
+        .icon-coffee::before {
+            content: "☕";
+            font-size: 24px;
+        }
+
+        .icon-character::before {
+            content: "🧙";
+            font-size: 24px;
+        }
+
+        .icon-start::before {
+            content: "⊞";
+            font-size: 14px;
+        }
+
+        .icon-sword::before {
+            content: "⚔️";
+            font-size: 24px;
+        }
+
+        /* Links */
+        a {
+            color: #0000FF;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        a:visited {
+            color: #800080;
+        }
+
+        /* Special text styling */
+        .manuscript-text {
+            font-family: "Courier New", monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .platform-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .platform-list li {
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .platform-list li::before {
+            content: "▸";
+            color: #000080;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="desktop" id="desktop">
+        <!-- Desktop Icons -->
+        <div class="desktop-icon" style="top: 20px; left: 20px;" data-window="manuscript">
+            <div class="icon-manuscript"></div>
+            <span>Unyielding.doc</span>
+        </div>
+
+        <div class="desktop-icon" style="top: 20px; left: 110px;" data-window="textproben">
+            <div class="icon-folder"></div>
+            <span>Text Samples</span>
+        </div>
+
+        <div class="desktop-icon" style="top: 110px; left: 20px;" data-window="aetherial">
+            <div class="icon-map"></div>
+            <span>Aetherial Wiki</span>
+        </div>
+
+        <div class="desktop-icon" style="top: 110px; left: 110px;" data-window="characters">
+            <div class="icon-character"></div>
+            <span>Character Creator 95</span>
+        </div>
+
+        <div class="desktop-icon" style="top: 200px; left: 20px;" data-window="dungeonmapper">
+            <div class="icon-dice"></div>
+            <span>Dungeon Mapper</span>
+        </div>
+
+        <div class="desktop-icon" style="top: 200px; left: 110px;" data-window="mail">
+            <div class="icon-mail"></div>
+            <span>Mail Client</span>
+        </div>
+
+        <div class="desktop-icon" style="bottom: 50px; right: 20px;" data-window="kofi">
+            <div class="icon-coffee"></div>
+            <span>Support Me</span>
+        </div>
+
+        <!-- Windows -->
+        <div class="window" id="window-manuscript" style="top: 100px; left: 200px; width: 600px;">
+            <div class="window-header">
+                <span class="window-title">Unyielding.doc - Microsoft Word</span>
+                <div class="window-controls">
+                    <button class="window-button minimize">_</button>
+                    <button class="window-button maximize">□</button>
+                    <button class="window-button close">✕</button>
+                </div>
+            </div>
+            <div class="menu-bar">
+                <span class="menu-item">File</span>
+                <span class="menu-item">Edit</span>
+                <span class="menu-item">View</span>
+                <span class="menu-item">Insert</span>
+                <span class="menu-item">Format</span>
+                <span class="menu-item">Tools</span>
+                <span class="menu-item">Help</span>
+            </div>
+            <div class="window-content">
+                <h2>UNYIELDING - A Dark Fantasy Novel</h2>
+                <p><em>by K.M.T</em></p>
+                <br>
+                <p><strong>Synopsis:</strong></p>
+                <p class="manuscript-text">A dark fantasy tale that explores the depths of human resilience and the
+                    price of power...</p>
+                <br>
+                <p><strong>Available on multiple platforms:</strong></p>
+                <ul class="platform-list">
+                    <li><a href="https://tapas.io/series/unyielding_/info" target="_blank">Read on Tapas</a></li>
+                    <li><a href="https://www.wattpad.com/myworks/390996157-unyielding" target="_blank">Read on
+                            Wattpad</a></li>
+                    <li><a href="https://archiveofourown.org/works/64068811/chapters/164375182" target="_blank">Read on
+                            Archive of Our Own</a></li>
+                    <li><a href="https://getinkspired.com/en/story/558599/unyielding/" target="_blank">Read on
+                            GetInkspired</a></li>
+                    <li><a href="https://www.royalroad.com/fiction/110754/unyielding" target="_blank">Read on Royal
+                            Road</a></li>
+                    <li><a href="https://www.scribblehub.com/series/1514528/unyielding/" target="_blank">Read on
+                            ScribbleHub</a></li>
+                </ul>
+                <br>
+                <button class="button">Save</button>
+                <button class="button">Print</button>
+            </div>
+        </div>
+
+        <div class="window" id="window-textproben" style="top: 120px; left: 250px; width: 500px;">
+            <div class="window-header">
+                <span class="window-title">Text Samples</span>
+                <div class="window-controls">
+                    <button class="window-button minimize">_</button>
+                    <button class="window-button maximize">□</button>
+                    <button class="window-button close">✕</button>
+                </div>
+            </div>
+            <div class="menu-bar">
+                <span class="menu-item">File</span>
+                <span class="menu-item">Edit</span>
+                <span class="menu-item">View</span>
+                <span class="menu-item">Help</span>
+            </div>
+            <div class="window-content">
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                    <div class="desktop-icon" style="position: relative;" data-sample="echoes">
+                        <div class="icon-notepad"></div>
+                        <span>Echoes of the Abyss.txt</span>
+                    </div>
+                    <div class="desktop-icon" style="position: relative;" data-sample="heart">
+                        <div class="icon-notepad"></div>
+                        <span>Heart of Ashen.txt</span>
+                    </div>
+                </div>
+                <br>
+                <p style="color: #808080;">Double-click to open text samples</p>
+            </div>
+        </div>
+
+        <div class="window" id="window-echoes" style="top: 140px; left: 300px; width: 600px; display: none;">
+            <div class="window-header">
+                <span class="window-title">Notepad - Echoes of the Abyss.txt</span>
+                <div class="window-controls">
+                    <button class="window-button minimize">_</button>
+                    <button class="window-button maximize">□</button>
+                    <button class="window-button close">✕</button>
+                </div>
+            </div>
+            <div class="menu-bar">
+                <span class="menu-item">File</span>
+                <span class="menu-item">Edit</span>
+                <span class="menu-item">Search</span>
+                <span class="menu-item">Help</span>
+            </div>
+            <div class="window-content">
+                <textarea class="text-input manuscript-text" style="width: 100%; height: 300px; resize: none;"
+                    readonly>ECHOES OF THE ABYSS
+
+The darkness whispered secrets that mortals were never meant to hear. In the depths of the forgotten catacombs, where shadows danced with malevolent purpose, she found herself drawn deeper into the abyss...</textarea>
+            </div>
+        </div>
+
+        <div class="window" id="window-heart" style="top: 160px; left: 320px; width: 600px; display: none;">
+            <div class="window-header">
+                <span class="window-title">Notepad - Heart of Ashen.txt</span>
+                <div class="window-controls">
+                    <button class="window-button minimize">_</button>
+                    <button class="window-button maximize">□</button>
+                    <button class="window-button close">✕</button>
+                </div>
+            </div>
+            <div class="menu-bar">
+                <span class="menu-item">File</span>
+                <span class="menu-item">Edit</span>
+                <span class="menu-item">Search</span>
+                <span class="menu-item">Help</span>
+            </div>
+            <div class="window-content">
+                <textarea class="text-input manuscript-text" style="width: 100%; height: 300px; resize: none;"
+                    readonly>HEART OF ASHEN
+
+The city of ash stood silent beneath the crimson moon. Its towers, once proud monuments to human ambition, now served as tombstones for a civilization that had dared to challenge the old gods...</textarea>
+            </div>
+        </div>
+
+        <div class="window" id="window-aetherial" style="top: 80px; left: 150px; width: 700px;">
+            <div class="window-header">
+                <span class="window-title">Internet Explorer - Aetherial Wiki</span>
+                <div class="window-controls">
+                    <button class="window-button minimize">_</button>
+                    <button class="window-button maximize">□</button>
+                    <button class="window-button close">✕</button>
+                </div>
+            </div>
+            <div class="menu-bar">
+                <span class="menu-item">File</span>
+                <span class="menu-item">Edit</span>
+                <span class="menu-item">View</span>
+                <span class="menu-item">Go</span>
+                <span class="menu-item">Favorites</span>
+                <span class="menu-item">Help</span>
+            </div>
+            <div class="window-content" style="min-height: 400px;">
+                <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                    <button class="button">Back</button>
+                    <button class="button">Forward</button>
+                    <button class="button">Stop</button>
+                    <button class="button">Refresh</button>
+                    <button class="button">Home</button>
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 10px;">
+                    <span>Address:</span>
+                    <input type="text" class="text-input" style="flex: 1;"
+                        value="https://aetherial.fandom.com/wiki/Aetherial_Wiki">
+                    <button class="button">Go</button>
+                </div>
+                <div style="border: 2px inset #c0c0c0; padding: 20px; background: white;">
+                    <h1>Welcome to the Aetherial Wiki</h1>
+                    <p><em>A comprehensive guide to the world of Aetherial</em></p>
+                    <hr>
+                    <h3>About Aetherial</h3>
+                    <p>Aetherial is a custom D&D 5.24e campaign setting created by K.M.T. This dark fantasy world
+                        features unique races, classes, and a rich history spanning thousands of years.</p>
+                    <br>
+                    <p><strong>Key Features:</strong></p>
+                    <ul>
+                        <li>• Custom pantheon of gods and demigods</li>
+                        <li>• Unique magic system with consequences</li>
+                        <li>• Original races and subraces</li>
+                        <li>• Detailed world history and lore</li>
+                        <li>• Homebrew classes and subclasses</li>
+                    </ul>
+                    <br>
+                    <p><a href="https://aetherial.fandom.com/wiki/Aetherial_Wiki" target="_blank">Visit the full
+                            Aetherial Wiki →</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="window-characters" style="top: 130px; left: 280px; width: 500px;">
+            <div class="window-header">
+                <span class="window-title">Character Creator 95</span>
+                <div class="window-controls">
+                    <button class="window-button minimize">_</button>
+                    <button class="window-button maximize">□</button>
+                    <button class="window-button close">✕</button>
+                </div>
+            </div>
+            <div class="menu-bar">
+                <span class="menu-item">File</span>
+                <span class="menu-item">Character</span>
+                <span class="menu-item">Race</span>
+                <span class="menu-item">Class</span>
+                <span class="menu-item">Tools</span>
+                <span class="menu-item">Help</span>
+            </div>
+            <div class="window-content">
+                <h3>D&D 5.24e Character Creator</h3>
+                <p>Create characters for the Aetherial campaign setting</p>
+                <br>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                        <label>Character Name:</label><br>
+                        <input type="text" class="text-input" style="width: 100%;">
+                    </div>
+                    <div>
+                        <label>Race:</label><br>
+                        <select class="text-input" style="width: 100%; padding: 4px;">
+                            <option>Human</option>
+                            <option>Elf (Aetherial)</option>
+                            <option>Dwarf (Mountain)</option>
+                            <option>Shadowborn</option>
+                            <option>Crystalforged</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Class:</label><br>
+                        <select class="text-input" style="width: 100%; padding: 4px;">
+                            <option>Fighter</option>
+                            <option>Wizard</option>
+                            <option>Cleric</option>
+                            <option>Voidwalker (Homebrew)</option>
+                            <option>Soulbinder (Homebrew)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Level:</label><br>
+                        <input type="number" class="text-input" style="width: 100%;" value="1" min="1" max="20">
+                    </div>
+                </div>
+                <br>
+                <div style="border: 1px solid #808080; padding: 10px;">
+                    <strong>Stats:</strong><br>
+                    STR: <input type="number" class="text-input" style="width: 40px;" value="10">
+                    DEX: <input type="number" class="text-input" style="width: 40px;" value="10">
+                    CON: <input type="number" class="text-input" style="width: 40px;" value="10"><br>
+                    INT: <input type="number" class="text-input" style="width: 40px;" value="10">
+                    WIS: <input type="number" class="text-input" style="width: 40px;" value="10">
+                    CHA: <input type="number" class="text-input" style="width: 40px;" value="10">
+                </div>
+                <br>
+                <button class="button">Generate Character</button>
+                <button class="button">Save to File</button>
+                <button class="button">Export to Roll20</button>
+            </div>
+        </div>
+
+        <div class="window" id="window-dungeonmapper" style="top: 110px; left: 220px; width: 600px;">
+            <div class="window-header">
+                <span class="window-title">Dungeon Mapper - Aetherial Edition</span>
+                <div class="window-controls">
+                    <button class="window-button minimize">_</button>
+                    <button class="window-button maximize">□</button>
+                    <button class="window-button close">✕</button>
+                </div>
+            </div>
+            <div class="menu-bar">
+                <span class="menu-item">File</span>
+                <span class="menu-item">Edit</span>
+                <span class="menu-item">Tiles</span>
+                <span class="menu-item">Objects</span>
+                <span class="menu-item">View</span>
+                <span class="menu-item">Help</span>
+            </div>
+            <div class="window-content">
+                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                    <button class="button">Wall</button>
+                    <button class="button">Floor</button>
+                    <button class="button">Door</button>
+                    <button class="button">Trap</button>
+                    <button class="button">Monster</button>
+                    <button class="button">Treasure</button>
+                </div>
+                <canvas id="dungeon-canvas" width="560" height="300"
+                    style="border: 1px solid black; background: #f0f0f0; cursor: crosshair;"></canvas>
+                <div style="margin-top: 10px;">
+                    <button class="button">New Map</button>
+                    <button class="button">Save Map</button>
+                    <button class="button">Export to Roll20</button>
+                    <span style="margin-left: 10px;">Grid: 20x15</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="window-mail" style="top: 90px; left: 180px; width: 550px;">
+            <div class="window-header">
+                <span class="window-title">Outlook Express - Contact K.M.T</span>
+                <div class="window-controls">
+                    <button class="window-button minimize">_</button>
+                    <button class="window-button maximize">□</button>
+                    <button class="window-button close">✕</button>
+                </div>
+            </div>
+            <div class="menu-bar">
+                <span class="menu-item">File</span>
+                <span class="menu-item">Edit</span>
+                <span class="menu-item">View</span>
+                <span class="menu-item">Tools</span>
+                <span class="menu-item">Message</span>
+                <span class="menu-item">Help</span>
+            </div>
+            <div class="window-content">
+                <h3>New Message</h3>
+                <div style="margin: 10px 0;">
+                    <div style="margin-bottom: 5px;">
+                        <strong>To:</strong> <input type="text" class="text-input" style="width: 400px;"
+                            value="info@catto.at" readonly>
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <strong>Subject:</strong> <input type="text" class="text-input" style="width: 380px;"
+                            placeholder="Your subject here">
+                    </div>
+                </div>
+                <textarea class="text-input" style="width: 100%; height: 200px; resize: none;" placeholder="Hello K.M.T,
+
+I'm interested in..."></textarea>
+                <br><br>
+                <button class="button">Send</button>
+                <button class="button">Save Draft</button>
+                <button class="button">Cancel</button>
+                <br><br>
+                <p style="color: #808080;">You can also find me on <a href="https://app.roll20.net/users/11982524/kanu"
+                        target="_blank">Roll20</a></p>
+            </div>
+        </div>
+
+        <div class="window" id="window-kofi" style="top: 100px; left: 200px; width: 400px;">
+            <div class="window-header">
+                <span class="window-title">Support K.M.T on Ko-fi</span>
+                <div class="window-controls">
+                    <button class="window-button minimize">_</button>
+                    <button class="window-button maximize">□</button>
+                    <button class="window-button close">✕</button>
+                </div>
+            </div>
+            <div class="menu-bar">
+                <span class="menu-item">File</span>
+                <span class="menu-item">Help</span>
+            </div>
+            <div class="window-content" style="text-align: center;">
+                <h2 style="color: #FF5E5B;">☕ Buy me a coffee!</h2>
+                <br>
+                <p>If you enjoy my dark fantasy stories or find my D&D content helpful, consider supporting me on Ko-fi!
+                </p>
+                <br>
+                <p>Your support helps me:</p>
+                <ul style="text-align: left; display: inline-block;">
+                    <li>• Continue writing Unyielding</li>
+                    <li>• Create more D&D content</li>
+                    <li>• Expand the Aetherial world</li>
+                    <li>• Share more stories with you</li>
+                </ul>
+                <br><br>
+                <a href="https://ko-fi.com/k_m_t" target="_blank">
+                    <button class="button" style="background-color: #FF5E5B; color: white; padding: 10px 20px;">
+                        ☕ Support on Ko-fi
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Taskbar -->
+    <div class="taskbar">
+        <button class="start-button" id="start-button">
+            <span class="icon-start"></span>
+            Start
+        </button>
+
+        <div id="taskbar-windows"></div>
+
+        <div class="clock" id="clock"></div>
+    </div>
+
+    <!-- Start Menu -->
+    <div class="start-menu" id="start-menu">
+        <div class="start-menu-header">K.M.T Portfolio</div>
+        <div class="start-menu-items">
+            <div class="start-menu-item" data-window="manuscript">
+                <span class="icon-manuscript"></span>
+                My Works
+            </div>
+            <div class="start-menu-item" data-window="aetherial">
+                <span class="icon-map"></span>
+                D&D World
+            </div>
+            <div class="start-menu-item" data-window="characters">
+                <span class="icon-character"></span>
+                Character Creator
+            </div>
+            <div class="start-menu-item" data-window="mail">
+                <span class="icon-mail"></span>
+                Contact Me
+            </div>
+            <div class="separator"></div>
+            <div class="start-menu-item">
+                <span class="icon-notepad"></span>
+                About
+            </div>
+            <div class="start-menu-item" data-window="kofi">
+                <span class="icon-coffee"></span>
+                Support
+            </div>
+            <div class="separator"></div>
+            <div class="start-menu-item">
+                <span>🔌</span>
+                Shut Down...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Clock
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+            document.getElementById('clock').textContent = time;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Start Menu
+        const startButton = document.getElementById('start-button');
+        const startMenu = document.getElementById('start-menu');
+
+        startButton.addEventListener('click', () => {
+            startMenu.classList.toggle('open');
+        });
+
+        // Close start menu when clicking elsewhere
+        document.addEventListener('click', (e) => {
+            if (!startButton.contains(e.target) && !startMenu.contains(e.target)) {
+                startMenu.classList.remove('open');
+            }
+        });
+
+        // Window Management
+        let activeWindow = null;
+        let zIndex = 10;
+        const openWindows = new Map();
+
+        function makeWindowActive(windowElement) {
+            if (activeWindow) {
+                activeWindow.classList.remove('active');
+                activeWindow.querySelector('.window-header').classList.add('inactive');
+            }
+
+            windowElement.classList.add('active');
+            windowElement.querySelector('.window-header').classList.remove('inactive');
+            windowElement.style.zIndex = ++zIndex;
+            activeWindow = windowElement;
+            updateTaskbar();
+        }
+
+        function openWindow(windowId) {
+            const window = document.getElementById(`window-${windowId}`);
+            if (window) {
+                window.style.display = 'block';
+                makeWindowActive(window);
+
+                if (!openWindows.has(windowId)) {
+                    openWindows.set(windowId, {
+                        element: window,
+                        title: window.querySelector('.window-title').textContent.split(' - ')[0]
+                    });
+                }
+                updateTaskbar();
+            }
+        }
+
+        function closeWindow(windowElement) {
+            windowElement.style.display = 'none';
+            const windowId = windowElement.id.replace('window-', '');
+            openWindows.delete(windowId);
+            updateTaskbar();
+
+            if (windowElement === activeWindow) {
+                activeWindow = null;
+            }
+        }
+
+        function minimizeWindow(windowElement) {
+            windowElement.style.display = 'none';
+            updateTaskbar();
+        }
+
+        function updateTaskbar() {
+            const taskbarWindows = document.getElementById('taskbar-windows');
+            taskbarWindows.innerHTML = '';
+
+            openWindows.forEach((windowInfo, windowId) => {
+                const taskButton = document.createElement('button');
+                taskButton.className = 'task-button';
+                taskButton.textContent = windowInfo.title;
+
+                if (windowInfo.element.style.display !== 'none' && windowInfo.element === activeWindow) {
+                    taskButton.classList.add('active');
+                }
+
+                taskButton.addEventListener('click', () => {
+                    if (windowInfo.element.style.display === 'none') {
+                        windowInfo.element.style.display = 'block';
+                        makeWindowActive(windowInfo.element);
+                    } else if (windowInfo.element === activeWindow) {
+                        minimizeWindow(windowInfo.element);
+                    } else {
+                        makeWindowActive(windowInfo.element);
+                    }
+                });
+
+                taskbarWindows.appendChild(taskButton);
+            });
+        }
+
+        // Desktop Icons
+        document.querySelectorAll('.desktop-icon').forEach(icon => {
+            icon.addEventListener('dblclick', () => {
+                const windowId = icon.dataset.window;
+                const sampleId = icon.dataset.sample;
+
+                if (windowId) {
+                    openWindow(windowId);
+                } else if (sampleId) {
+                    openWindow(sampleId);
+                }
+            });
+
+            icon.addEventListener('click', (e) => {
+                document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
+                icon.classList.add('selected');
+                e.stopPropagation();
+            });
+        });
+
+        // Start menu items
+        document.querySelectorAll('.start-menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const windowId = item.dataset.window;
+                if (windowId) {
+                    openWindow(windowId);
+                    startMenu.classList.remove('open');
+                }
+            });
+        });
+
+        // Deselect icons when clicking desktop
+        document.getElementById('desktop').addEventListener('click', () => {
+            document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
+        });
+
+        // Window Controls
+        document.querySelectorAll('.window').forEach(window => {
+            const header = window.querySelector('.window-header');
+            const closeBtn = window.querySelector('.close');
+            const minimizeBtn = window.querySelector('.minimize');
+            const maximizeBtn = window.querySelector('.maximize');
+
+            // Make window active on click
+            window.addEventListener('mousedown', () => {
+                makeWindowActive(window);
+            });
+
+            // Close button
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => closeWindow(window));
+            }
+
+            // Minimize button
+            if (minimizeBtn) {
+                minimizeBtn.addEventListener('click', () => minimizeWindow(window));
+            }
+
+            // Window dragging
+            let isDragging = false;
+            let dragOffsetX = 0;
+            let dragOffsetY = 0;
+
+            header.addEventListener('mousedown', (e) => {
+                if (e.target.classList.contains('window-button')) return;
+
+                isDragging = true;
+                dragOffsetX = e.clientX - window.offsetLeft;
+                dragOffsetY = e.clientY - window.offsetTop;
+
+                document.addEventListener('mousemove', handleDrag);
+                document.addEventListener('mouseup', stopDrag);
+            });
+
+            function handleDrag(e) {
+                if (isDragging) {
+                    window.style.left = (e.clientX - dragOffsetX) + 'px';
+                    window.style.top = (e.clientY - dragOffsetY) + 'px';
+                }
+            }
+
+            function stopDrag() {
+                isDragging = false;
+                document.removeEventListener('mousemove', handleDrag);
+                document.removeEventListener('mouseup', stopDrag);
+            }
+        });
+
+        // Dungeon Mapper Canvas
+        const dungeonCanvas = document.getElementById('dungeon-canvas');
+        if (dungeonCanvas) {
+            const ctx = dungeonCanvas.getContext('2d');
+            const gridSize = 20;
+
+            // Draw grid
+            function drawGrid() {
+                ctx.strokeStyle = '#ccc';
+                ctx.lineWidth = 0.5;
+
+                for (let x = 0; x <= dungeonCanvas.width; x += gridSize) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, dungeonCanvas.height);
+                    ctx.stroke();
+                }
+
+                for (let y = 0; y <= dungeonCanvas.height; y += gridSize) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(dungeonCanvas.width, y);
+                    ctx.stroke();
+                }
+            }
+
+            drawGrid();
+
+            // Simple drawing on click
+            dungeonCanvas.addEventListener('click', (e) => {
+                const rect = dungeonCanvas.getBoundingClientRect();
+                const x = Math.floor((e.clientX - rect.left) / gridSize) * gridSize;
+                const y = Math.floor((e.clientY - rect.top) / gridSize) * gridSize;
+
+                ctx.fillStyle = '#333';
+                ctx.fillRect(x, y, gridSize, gridSize);
+            });
+        }
+    </script>
+</body>
+
+</html>
