@@ -23,15 +23,18 @@
         /* Desktop Icons */
         .desktop-icon {
             position: absolute;
-            width: 75px;
+            width: 100px;
             text-align: center;
-            padding: 5px;
+            padding: 8px;
             cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.1s ease;
         }
 
         .desktop-icon:hover {
             background-color: rgba(0, 0, 128, 0.3);
             outline: 1px dotted #000080;
+            transform: scale(1.05);
         }
 
         .desktop-icon.selected {
@@ -40,18 +43,13 @@
         }
 
         .desktop-icon img {
-            width: 32px;
-            height: 32px;
-            margin-bottom: 3px;
+            width: 48px;
+            height: 48px;
+            margin-bottom: 5px;
             image-rendering: pixelated;
-        }
-
-        .desktop-icon span {
             display: block;
-            color: white;
-            text-shadow: 1px 1px 1px black;
-            font-size: 11px;
-            word-wrap: break-word;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* Windows */
