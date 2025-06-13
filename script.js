@@ -138,8 +138,17 @@ document.addEventListener('DOMContentLoaded', () => {
             clearIconSelection();
             icon.classList.add('selected');
         });
-        // Double-click: öffnen
+        // Double-click: öffnen / Link folgen
         icon.addEventListener('dblclick', (e) => {
+            e.stopPropagation();
+            // Prüfe zuerst, ob ein data-url-Attribut existiert:
+            const url = icon.dataset.url;
+            if (url) {
+                // Öffne in neuem Tab/Fenster
+                window.open(url, '_blank');
+                return;
+            }
+            // Falls kein data-url, wie bisher data-window / data-sample behandeln:
             const windowId = icon.dataset.window;
             const sampleId = icon.dataset.sample;
             if (windowId) {
@@ -147,10 +156,11 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (sampleId) {
                 openWindow(sampleId);
             } else {
-                console.log("Icon hat weder data-window noch data-sample:", icon);
+                console.log("Icon hat weder data-url noch data-window noch data-sample:", icon);
             }
         });
     });
+
 
     if (desktopElem) {
         desktopElem.addEventListener('click', () => {
