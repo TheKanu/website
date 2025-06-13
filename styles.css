@@ -142,7 +142,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 28px;
+            height: 32px;
             background-color: #c0c0c0;
             border-top: 2px solid #ffffff;
             display: flex;
@@ -203,6 +203,14 @@
             top: 0;
             bottom: 0;
             width: 25px;
+        }
+
+        #taskbar-windows {
+            display: flex;
+            align-items: center;
+            gap: 1px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
         }
 
         .start-menu-items {
