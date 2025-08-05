@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="K.M.T - Dark Fantasy Author & D&D Dungeon Master. Read Unyielding, explore the Aetherial campaign setting, and discover immersive storytelling in a retro Windows 95 interface.">
+    <meta name="keywords" content="dark fantasy, author, D&D, dungeon master, Unyielding, Aetherial, campaign setting, storytelling">
     <title>K.M.T - Dark Fantasy Author & D&D Dungeon Master</title>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js"></script>
@@ -52,6 +54,11 @@
             data-url="https://github.com/TheKanu?tab=repositories">
             <img src="icons/github.ico" alt="github">
             <span>Repositories</span>
+        </div>
+
+        <div class="desktop-icon" style="top: 110px; left: 200px;" data-window="news">
+            <img src="icons/news.ico" alt="News">
+            <span>Chapter Updates</span>
         </div>
 
         <!-- Windows -->
@@ -120,21 +127,21 @@
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
                     <div class="desktop-icon" style="position: relative;" data-sample="echoes">
                         <img src="icons/text_file.ico" alt="Text File">
-                        <span>Echoes of the Abyss.txt</span>
+                        <span>Echoes of the Abyss</span>
                     </div>
-                    <div class="desktop-icon" style="position: relative;" data-sample="heart">
+                    <div class="desktop-icon" style="position: relative;" data-sample="unyielding">
                         <img src="icons/text_file.ico" alt="Text File">
-                        <span>Heart of Ashen.txt</span>
+                        <span>Unyielding (Full Novel)</span>
                     </div>
                 </div>
                 <br>
-                <p style="color: #808080;">Double-click to open text samples</p>
+                <p style="color: #808080;">Double-click to read on writing platforms</p>
             </div>
         </div>
 
-        <div class="window" id="window-echoes" style="top: 140px; left: 300px; width: 600px; display: none;">
+        <div class="window" id="window-echoes" style="top: 140px; left: 300px; width: 700px; display: none;">
             <div class="window-header">
-                <span class="window-title">Notepad - Echoes of the Abyss.txt</span>
+                <span class="window-title">Internet Explorer - Echoes of the Abyss</span>
                 <div class="window-controls">
                     <button class="window-button minimize">_</button>
                     <button class="window-button maximize">□</button>
@@ -144,20 +151,62 @@
             <div class="menu-bar">
                 <span class="menu-item">File</span>
                 <span class="menu-item">Edit</span>
-                <span class="menu-item">Search</span>
+                <span class="menu-item">View</span>
+                <span class="menu-item">Go</span>
+                <span class="menu-item">Favorites</span>
                 <span class="menu-item">Help</span>
             </div>
-            <div class="window-content">
-                <textarea class="text-input manuscript-text" style="width: 100%; height: 300px; resize: none;"
-                    readonly>ECHOES OF THE ABYSS
-
-The darkness whispered secrets that mortals were never meant to hear. In the depths of the forgotten catacombs, where shadows danced with malevolent purpose, she found herself drawn deeper into the abyss...</textarea>
+            <div class="window-content" style="min-height: 400px;">
+                <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                    <button class="button">Back</button>
+                    <button class="button">Forward</button>
+                    <button class="button">Stop</button>
+                    <button class="button">Refresh</button>
+                    <button class="button">Home</button>
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 10px;">
+                    <span>Address:</span>
+                    <input type="text" class="text-input" style="flex: 1;" id="echoes-url" readonly>
+                    <button class="button">Go</button>
+                </div>
+                <div id="echoes-content" style="border: 2px inset #c0c0c0; padding: 20px; background: white; min-height: 300px;">
+                    <h2>📖 Echoes of the Abyss - Sample Chapter</h2>
+                    <p><em>Choose a platform to read this dark fantasy story:</em></p>
+                    <br>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                        <button class="button platform-btn" data-story="echoes" data-platform="local" style="padding: 10px;">
+                            📝 Read Sample Text
+                        </button>
+                        <button class="button platform-btn" data-story="echoes" data-platform="getinkspired" style="padding: 10px;">
+                            🌟 Read on GetInkspired
+                        </button>
+                        <button class="button platform-btn" data-story="echoes" data-platform="wattpad" style="padding: 10px;">
+                            📚 Read on Wattpad
+                        </button>
+                        <button class="button platform-btn" data-story="echoes" data-platform="ao3" style="padding: 10px;">
+                            📖 Read on Archive of Our Own
+                        </button>
+                    </div>
+                    <br>
+                    <div id="echoes-text" style="display: none;">
+                        <hr>
+                        <div class="manuscript-text" style="padding: 20px; background: #f9f9f9; border: 1px solid #ccc;">
+                            <h3>ECHOES OF THE ABYSS</h3>
+                            <br>
+                            <p>The darkness whispered secrets that mortals were never meant to hear. In the depths of the forgotten catacombs, where shadows danced with malevolent purpose, she found herself drawn deeper into the abyss...</p>
+                            <br>
+                            <p>Ancient symbols carved into stone pulsed with an otherworldly light, each marking a testament to powers that had been sealed away for millennia. The air grew thick with the weight of forgotten magic, and every step forward felt like a betrayal of the natural order.</p>
+                            <br>
+                            <p>But she pressed on, driven by a hunger that transcended mortal understanding—a need to uncover the truth that lay buried beneath layers of fear and superstition.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="window" id="window-heart" style="top: 160px; left: 320px; width: 600px; display: none;">
+        <div class="window" id="window-unyielding" style="top: 160px; left: 320px; width: 700px; display: none;">
             <div class="window-header">
-                <span class="window-title">Notepad - Heart of Ashen.txt</span>
+                <span class="window-title">Internet Explorer - Unyielding Novel</span>
                 <div class="window-controls">
                     <button class="window-button minimize">_</button>
                     <button class="window-button maximize">□</button>
@@ -167,14 +216,56 @@ The darkness whispered secrets that mortals were never meant to hear. In the dep
             <div class="menu-bar">
                 <span class="menu-item">File</span>
                 <span class="menu-item">Edit</span>
-                <span class="menu-item">Search</span>
+                <span class="menu-item">View</span>
+                <span class="menu-item">Go</span>
+                <span class="menu-item">Favorites</span>
                 <span class="menu-item">Help</span>
             </div>
-            <div class="window-content">
-                <textarea class="text-input manuscript-text" style="width: 100%; height: 300px; resize: none;"
-                    readonly>HEART OF ASHEN
-
-The city of ash stood silent beneath the crimson moon. Its towers, once proud monuments to human ambition, now served as tombstones for a civilization that had dared to challenge the old gods...</textarea>
+            <div class="window-content" style="min-height: 400px;">
+                <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                    <button class="button">Back</button>
+                    <button class="button">Forward</button>
+                    <button class="button">Stop</button>
+                    <button class="button">Refresh</button>
+                    <button class="button">Home</button>
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 10px;">
+                    <span>Address:</span>
+                    <input type="text" class="text-input" style="flex: 1;" id="unyielding-url" readonly>
+                    <button class="button">Go</button>
+                </div>
+                <div id="unyielding-content" style="border: 2px inset #c0c0c0; padding: 20px; background: white; min-height: 300px;">
+                    <h2>⚔️ UNYIELDING - Dark Fantasy Novel</h2>
+                    <p><em>by K.M.T</em></p>
+                    <br>
+                    <p><strong>Choose your preferred reading platform:</strong></p>
+                    <br>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                        <button class="button platform-btn" data-story="unyielding" data-platform="tapas" style="padding: 8px; font-size: 10px;">
+                            🎨 Tapas
+                        </button>
+                        <button class="button platform-btn" data-story="unyielding" data-platform="wattpad" style="padding: 8px; font-size: 10px;">
+                            📚 Wattpad
+                        </button>
+                        <button class="button platform-btn" data-story="unyielding" data-platform="ao3" style="padding: 8px; font-size: 10px;">
+                            📖 AO3
+                        </button>
+                        <button class="button platform-btn" data-story="unyielding" data-platform="getinkspired" style="padding: 8px; font-size: 10px;">
+                            🌟 GetInkspired
+                        </button>
+                        <button class="button platform-btn" data-story="unyielding" data-platform="royalroad" style="padding: 8px; font-size: 10px;">
+                            👑 Royal Road
+                        </button>
+                        <button class="button platform-btn" data-story="unyielding" data-platform="scribblehub" style="padding: 8px; font-size: 10px;">
+                            ✍️ ScribbleHub
+                        </button>
+                    </div>
+                    <br>
+                    <div style="border: 1px solid #ccc; padding: 15px; background: #f5f5f5;">
+                        <p><strong>Synopsis:</strong></p>
+                        <p>A dark fantasy tale that explores the depths of human resilience and the price of power. Follow the journey through a world where magic comes with consequences and heroes are forged in the crucible of impossible choices.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -232,9 +323,9 @@ The city of ash stood silent beneath the crimson moon. Its towers, once proud mo
             </div>
         </div>
 
-        <div class="window" id="window-characters" style="top: 130px; left: 280px; width: 500px;">
+        <div class="window" id="window-characters" style="top: 130px; left: 280px; width: 800px;">
             <div class="window-header">
-                <span class="window-title">Character Creator 95</span>
+                <span class="window-title">Character Creator 95 - Aetherial Edition</span>
                 <div class="window-controls">
                     <button class="window-button minimize">_</button>
                     <button class="window-button maximize">□</button>
@@ -250,53 +341,224 @@ The city of ash stood silent beneath the crimson moon. Its towers, once proud mo
                 <span class="menu-item">Help</span>
             </div>
             <div class="window-content">
-                <h3>D&D 5.24e Character Creator</h3>
-                <p>Create characters for the Aetherial campaign setting</p>
-                <br>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <div>
-                        <label>Character Name:</label><br>
-                        <input type="text" class="text-input" style="width: 100%;">
+                <h3>🧙‍♂️ D&D 5.24e Character Creator</h3>
+                <p><em>Create characters for the Aetherial campaign setting</em></p>
+                
+                <!-- Basic Info -->
+                <div style="border: 2px inset #c0c0c0; padding: 10px; margin: 10px 0;">
+                    <h4>📝 Basic Information</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px;">
+                        <div>
+                            <label><strong>Name:</strong></label><br>
+                            <input type="text" id="char-name" class="text-input" style="width: 100%;" placeholder="Enter character name">
+                        </div>
+                        <div>
+                            <label><strong>Race:</strong></label><br>
+                            <select id="char-race" class="text-input" style="width: 100%; padding: 4px;">
+                                <optgroup label="🗡️ Mortals">
+                                    <option value="human">Human (Menschen)</option>
+                                    <option value="dwarf">Dwarf (Zwerge)</option>
+                                    <option value="half-elf">Half-Elf (Halb-Elf)</option>
+                                    <option value="halfling">Halfling (Halblinge)</option>
+                                    <option value="gnome">Gnome</option>
+                                    <option value="lizardfolk">Lizardfolk</option>
+                                    <option value="tortle">Tortle</option>
+                                    <option value="triton">Triton</option>
+                                </optgroup>
+                                <optgroup label="✨ Immortals">
+                                    <option value="aasimar">Aasimar</option>
+                                    <option value="elf">Elf (Elfen)</option>
+                                    <option value="eladrin">Eladrin</option>
+                                    <option value="shadar-kai">Shadar-kai</option>
+                                    <option value="genasi">Genasi</option>
+                                    <option value="kalashtar">Kalashtar</option>
+                                    <option value="warforged">Warforged</option>
+                                    <option value="voidling">Voidling (Voidlinge) ⭐</option>
+                                    <option value="vampire">Vampire (Vampir) ⭐</option>
+                                    <option value="werewolf">Werewolf (Werwolf) ⭐</option>
+                                    <option value="centaur">Centaur (Zentauren)</option>
+                                    <option value="giant">Giant (Riesen)</option>
+                                    <option value="fae">Fae ⭐</option>
+                                    <option value="githyanki">Githyanki</option>
+                                </optgroup>
+                                <optgroup label="👹 Demons">
+                                    <option value="tiefling">Tiefling (Tieflinge)</option>
+                                    <option value="changeling">Changeling</option>
+                                    <option value="dhampir">Dhampir</option>
+                                    <option value="goblin">Goblin</option>
+                                    <option value="hobgoblin">Hobgoblin</option>
+                                    <option value="kobold">Kobold</option>
+                                    <option value="orc">Orc</option>
+                                    <option value="satyr">Satyr</option>
+                                    <option value="shifter">Shifter</option>
+                                    <option value="succubus">Succubus/Incubus ⭐</option>
+                                    <option value="hexblood">Hexblood</option>
+                                    <option value="firbolg">Firbolg</option>
+                                </optgroup>
+                                <optgroup label="🐾 Tierfolk">
+                                    <option value="tabaxi">Tabaxi</option>
+                                    <option value="kenku">Kenku</option>
+                                    <option value="minotaur">Minotaur</option>
+                                    <option value="gnoll">Gnoll</option>
+                                    <option value="hadozee">Hadozee</option>
+                                    <option value="ratfolk">Ratfolk ⭐</option>
+                                    <option value="kitsune">Kitsune ⭐</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div>
+                            <label><strong>Class:</strong></label><br>
+                            <select id="char-class" class="text-input" style="width: 100%; padding: 4px;">
+                                <optgroup label="⚔️ Core Classes">
+                                    <option value="barbarian">Barbarian</option>
+                                    <option value="bard">Bard</option>
+                                    <option value="cleric">Cleric</option>
+                                    <option value="druid">Druid</option>
+                                    <option value="fighter">Fighter</option>
+                                    <option value="monk">Monk</option>
+                                    <option value="paladin">Paladin</option>
+                                    <option value="ranger">Ranger</option>
+                                    <option value="rogue">Rogue</option>
+                                    <option value="sorcerer">Sorcerer</option>
+                                    <option value="warlock">Warlock</option>
+                                    <option value="wizard">Wizard</option>
+                                </optgroup>
+                                <optgroup label="⭐ Aetherial Classes">
+                                    <option value="tactician">Tactician ⭐</option>
+                                    <option value="voidwalker">Voidwalker ⭐</option>
+                                    <option value="soulbinder">Soulbinder ⭐</option>
+                                    <option value="mana-knight">Mana Knight ⭐</option>
+                                    <option value="doomkeeper">Doomkeeper ⭐</option>
+                                    <option value="crystal-sage">Crystal Sage ⭐</option>
+                                    <option value="shadow-dancer">Shadow Dancer ⭐</option>
+                                </optgroup>
+                            </select>
+                        </div>
                     </div>
-                    <div>
-                        <label>Race:</label><br>
-                        <select class="text-input" style="width: 100%; padding: 4px;">
-                            <option>Human</option>
-                            <option>Elf (Aetherial)</option>
-                            <option>Dwarf (Mountain)</option>
-                            <option>Shadowborn</option>
-                            <option>Crystalforged</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Class:</label><br>
-                        <select class="text-input" style="width: 100%; padding: 4px;">
-                            <option>Fighter</option>
-                            <option>Wizard</option>
-                            <option>Cleric</option>
-                            <option>Voidwalker (Homebrew)</option>
-                            <option>Soulbinder (Homebrew)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Level:</label><br>
-                        <input type="number" class="text-input" style="width: 100%;" value="1" min="1" max="20">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px;">
+                        <div>
+                            <label><strong>Level:</strong></label><br>
+                            <input type="number" id="char-level" class="text-input" style="width: 100%;" value="1" min="1" max="20">
+                        </div>
+                        <div>
+                            <label><strong>Background:</strong></label><br>
+                            <select id="char-background" class="text-input" style="width: 100%; padding: 4px;">
+                                <option value="acolyte">Acolyte</option>
+                                <option value="criminal">Criminal</option>
+                                <option value="folk-hero">Folk Hero</option>
+                                <option value="noble">Noble</option>
+                                <option value="sage">Sage</option>
+                                <option value="soldier">Soldier</option>
+                                <option value="void-touched">Void Touched ⭐</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label><strong>Alignment:</strong></label><br>
+                            <select id="char-alignment" class="text-input" style="width: 100%; padding: 4px;">
+                                <option value="lg">Lawful Good</option>
+                                <option value="ng">Neutral Good</option>
+                                <option value="cg">Chaotic Good</option>
+                                <option value="ln">Lawful Neutral</option>
+                                <option value="n">True Neutral</option>
+                                <option value="cn">Chaotic Neutral</option>
+                                <option value="le">Lawful Evil</option>
+                                <option value="ne">Neutral Evil</option>
+                                <option value="ce">Chaotic Evil</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <br>
-                <div style="border: 1px solid #808080; padding: 10px;">
-                    <strong>Stats:</strong><br>
-                    STR: <input type="number" class="text-input" style="width: 40px;" value="10">
-                    DEX: <input type="number" class="text-input" style="width: 40px;" value="10">
-                    CON: <input type="number" class="text-input" style="width: 40px;" value="10"><br>
-                    INT: <input type="number" class="text-input" style="width: 40px;" value="10">
-                    WIS: <input type="number" class="text-input" style="width: 40px;" value="10">
-                    CHA: <input type="number" class="text-input" style="width: 40px;" value="10">
+
+                <!-- Ability Scores -->
+                <div style="border: 2px inset #c0c0c0; padding: 10px; margin: 10px 0;">
+                    <h4>💪 Ability Scores</h4>
+                    <div style="display: flex; gap: 10px; margin: 10px 0;">
+                        <button class="button" id="roll-stats">🎲 Roll 4d6</button>
+                        <button class="button" id="point-buy">📊 Point Buy (27)</button>
+                        <button class="button" id="standard-array">📋 Standard Array</button>
+                        <span style="margin-left: 10px; color: #666;">Points Remaining: <span id="points-remaining">27</span></span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;">
+                        <div style="text-align: center;">
+                            <strong>STR</strong><br>
+                            <input type="number" id="str" class="text-input stat-input" style="width: 60px; text-align: center;" value="10" min="8" max="15">
+                            <div class="stat-modifier" id="str-mod">+0</div>
+                            <div class="final-score" id="str-final">10</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <strong>DEX</strong><br>
+                            <input type="number" id="dex" class="text-input stat-input" style="width: 60px; text-align: center;" value="10" min="8" max="15">
+                            <div class="stat-modifier" id="dex-mod">+0</div>
+                            <div class="final-score" id="dex-final">10</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <strong>CON</strong><br>
+                            <input type="number" id="con" class="text-input stat-input" style="width: 60px; text-align: center;" value="10" min="8" max="15">
+                            <div class="stat-modifier" id="con-mod">+0</div>
+                            <div class="final-score" id="con-final">10</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <strong>INT</strong><br>
+                            <input type="number" id="int" class="text-input stat-input" style="width: 60px; text-align: center;" value="10" min="8" max="15">
+                            <div class="stat-modifier" id="int-mod">+0</div>
+                            <div class="final-score" id="int-final">10</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <strong>WIS</strong><br>
+                            <input type="number" id="wis" class="text-input stat-input" style="width: 60px; text-align: center;" value="10" min="8" max="15">
+                            <div class="stat-modifier" id="wis-mod">+0</div>
+                            <div class="final-score" id="wis-final">10</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <strong>CHA</strong><br>
+                            <input type="number" id="cha" class="text-input stat-input" style="width: 60px; text-align: center;" value="10" min="8" max="15">
+                            <div class="stat-modifier" id="cha-mod">+0</div>
+                            <div class="final-score" id="cha-final">10</div>
+                        </div>
+                    </div>
+                    <small style="color: #666;">Base → Modifier → Final (with racial bonuses)</small>
                 </div>
-                <br>
-                <button class="button">Generate Character</button>
-                <button class="button">Save to File</button>
-                <button class="button">Export to Roll20</button>
+
+                <!-- Character Info -->
+                <div style="border: 2px inset #c0c0c0; padding: 10px; margin: 10px 0;">
+                    <h4>📊 Character Details</h4>
+                    <div id="character-details" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px;">
+                        <div>
+                            <strong>Hit Points:</strong> <span id="hp-display">8</span><br>
+                            <strong>Armor Class:</strong> <span id="ac-display">10</span><br>
+                            <strong>Proficiency Bonus:</strong> <span id="prof-bonus">+2</span><br>
+                            <strong>Speed:</strong> <span id="speed-display">30 ft</span>
+                        </div>
+                        <div>
+                            <strong>Saving Throws:</strong><br>
+                            <div id="saving-throws"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Racial Abilities -->
+                <div style="border: 2px inset #c0c0c0; padding: 10px; margin: 10px 0;">
+                    <h4>🌟 Racial Abilities</h4>
+                    <div id="racial-abilities" style="margin-top: 10px; font-size: 10px;">
+                        <em>Select a race to see abilities...</em>
+                    </div>
+                </div>
+
+                <!-- Class Features -->
+                <div style="border: 2px inset #c0c0c0; padding: 10px; margin: 10px 0;">
+                    <h4>⚔️ Class Features</h4>
+                    <div id="class-features" style="margin-top: 10px; font-size: 10px;">
+                        <em>Select a class to see features...</em>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="button" id="randomize-all">🎲 Random Character</button>
+                    <button class="button" id="save-character">💾 Save Character</button>
+                    <button class="button" id="export-character">📄 Export to Roll20</button>
+                    <button class="button" id="print-sheet">🖨️ Print Sheet</button>
+                </div>
             </div>
         </div>
 
@@ -319,20 +581,21 @@ The city of ash stood silent beneath the crimson moon. Its towers, once proud mo
             </div>
             <div class="window-content">
                 <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                    <button class="button">Wall</button>
-                    <button class="button">Floor</button>
-                    <button class="button">Door</button>
-                    <button class="button">Trap</button>
-                    <button class="button">Monster</button>
-                    <button class="button">Treasure</button>
+                    <button class="button dungeon-tool" data-tool="wall">Wall</button>
+                    <button class="button dungeon-tool" data-tool="floor">Floor</button>
+                    <button class="button dungeon-tool" data-tool="door">Door</button>
+                    <button class="button dungeon-tool" data-tool="trap">Trap</button>
+                    <button class="button dungeon-tool" data-tool="monster">Monster</button>
+                    <button class="button dungeon-tool" data-tool="treasure">Treasure</button>
+                    <button class="button dungeon-tool" data-tool="erase">Erase</button>
                 </div>
                 <canvas id="dungeon-canvas" width="560" height="300"
                     style="border: 1px solid black; background: #f0f0f0; cursor: crosshair;"></canvas>
                 <div style="margin-top: 10px;">
-                    <button class="button">New Map</button>
-                    <button class="button">Save Map</button>
-                    <button class="button">Export to Roll20</button>
-                    <span style="margin-left: 10px;">Grid: 20x15</span>
+                    <button class="button" id="new-map">New Map</button>
+                    <button class="button" id="save-map">Save Map</button>
+                    <button class="button" id="export-map">Export to Roll20</button>
+                    <span style="margin-left: 10px;">Grid: 20x15 | Tool: <span id="current-tool">Wall</span></span>
                 </div>
             </div>
         </div>
@@ -363,14 +626,14 @@ The city of ash stood silent beneath the crimson moon. Its towers, once proud mo
                     </div>
                     <div style="margin-bottom: 5px;">
                         <strong>Subject:</strong> <input type="text" class="text-input" style="width: 380px;"
-                            placeholder="Your subject here">
+                            placeholder="Your subject here" id="contact-subject">
                     </div>
                 </div>
                 <textarea class="text-input" style="width: 100%; height: 200px; resize: none;" placeholder="Hello K.M.T,
 
-I'm interested in..."></textarea>
+I'm interested in..." id="contact-message"></textarea>
                 <br><br>
-                <button class="button">Send</button>
+                <button class="button" id="send-email">Send</button>
                 <button class="button">Save Draft</button>
                 <button class="button">Cancel</button>
                 <br><br>
@@ -379,9 +642,9 @@ I'm interested in..."></textarea>
             </div>
         </div>
 
-        <div class="window" id="window-kofi" style="top: 100px; left: 200px; width: 400px;">
+        <div class="window" id="window-news" style="top: 150px; left: 350px; width: 700px;">
             <div class="window-header">
-                <span class="window-title">Support K.M.T on Ko-fi</span>
+                <span class="window-title">📰 Chapter Updates Blog - K.M.T News</span>
                 <div class="window-controls">
                     <button class="window-button minimize">_</button>
                     <button class="window-button maximize">□</button>
@@ -390,27 +653,185 @@ I'm interested in..."></textarea>
             </div>
             <div class="menu-bar">
                 <span class="menu-item">File</span>
+                <span class="menu-item">Edit</span>
+                <span class="menu-item">View</span>
+                <span class="menu-item">Feed</span>
                 <span class="menu-item">Help</span>
             </div>
-            <div class="window-content" style="text-align: center;">
-                <h2 style="color: #FF5E5B;">☕ Buy me a coffee!</h2>
-                <br>
-                <p>If you enjoy my dark fantasy stories or find my D&D content helpful, consider supporting me on Ko-fi!
-                </p>
-                <br>
-                <p>Your support helps me:</p>
-                <ul style="text-align: left; display: inline-block;">
-                    <li>• Continue writing Unyielding</li>
-                    <li>• Create more D&D content</li>
-                    <li>• Expand the Aetherial world</li>
-                    <li>• Share more stories with you</li>
-                </ul>
-                <br><br>
-                <a href="https://ko-fi.com/k_m_t" target="_blank">
-                    <button class="button" style="background-color: #FF5E5B; color: white; padding: 10px 20px;">
-                        ☕ Support on Ko-fi
-                    </button>
-                </a>
+            <div class="window-content">
+                <div style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; padding: 15px; margin: -10px -10px 15px -10px; text-align: center; border-radius: 6px;">
+                    <h2 style="margin: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">📚 "Unyielding" Chapter Updates</h2>
+                    <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 11px;">Stay updated on new chapters across all platforms!</p>
+                </div>
+                
+                <!-- Platform Status -->
+                <div style="background: #f8f9fa; border: 2px inset #c0c0c0; padding: 12px; margin-bottom: 15px; border-radius: 4px;">
+                    <h3 style="color: #495057; margin-top: 0; font-size: 14px;">🌐 Platform Status</h3>
+                    <div id="platform-status-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; font-size: 10px;">
+                        <!-- Platform status cards will be populated by API -->
+                        <div style="background: white; border: 1px solid #6c757d; padding: 8px; border-radius: 3px; text-align: center;">
+                            <div style="color: #6c757d; font-weight: bold;">🎨 Tapas</div>
+                            <div style="color: #6c757d;">Loading...</div>
+                            <div style="background: #6c757d; color: white; border-radius: 2px; padding: 2px 4px; font-size: 8px; margin-top: 3px;">LOADING</div>
+                        </div>
+                        <div style="background: white; border: 1px solid #6c757d; padding: 8px; border-radius: 3px; text-align: center;">
+                            <div style="color: #6c757d; font-weight: bold;">📚 Wattpad</div>
+                            <div style="color: #6c757d;">Loading...</div>
+                            <div style="background: #6c757d; color: white; border-radius: 2px; padding: 2px 4px; font-size: 8px; margin-top: 3px;">LOADING</div>
+                        </div>
+                        <div style="background: white; border: 1px solid #6c757d; padding: 8px; border-radius: 3px; text-align: center;">
+                            <div style="color: #6c757d; font-weight: bold;">📖 AO3</div>
+                            <div style="color: #6c757d;">Loading...</div>
+                            <div style="background: #6c757d; color: white; border-radius: 2px; padding: 2px 4px; font-size: 8px; margin-top: 3px;">LOADING</div>
+                        </div>
+                        <div style="background: white; border: 1px solid #6c757d; padding: 8px; border-radius: 3px; text-align: center;">
+                            <div style="color: #6c757d; font-weight: bold;">🌟 Inkspired</div>
+                            <div style="color: #6c757d;">Loading...</div>
+                            <div style="background: #6c757d; color: white; border-radius: 2px; padding: 2px 4px; font-size: 8px; margin-top: 3px;">LOADING</div>
+                        </div>
+                        <div style="background: white; border: 1px solid #6c757d; padding: 8px; border-radius: 3px; text-align: center;">
+                            <div style="color: #6c757d; font-weight: bold;">👑 Royal Road</div>
+                            <div style="color: #6c757d;">Loading...</div>
+                            <div style="background: #6c757d; color: white; border-radius: 2px; padding: 2px 4px; font-size: 8px; margin-top: 3px;">LOADING</div>
+                        </div>
+                        <div style="background: white; border: 1px solid #6c757d; padding: 8px; border-radius: 3px; text-align: center;">
+                            <div style="color: #6c757d; font-weight: bold;">✍️ ScribbleHub</div>
+                            <div style="color: #6c757d;">Loading...</div>
+                            <div style="background: #6c757d; color: white; border-radius: 2px; padding: 2px 4px; font-size: 8px; margin-top: 3px;">LOADING</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Updates -->
+                <div id="updates-feed" style="background: white; border: 2px inset #c0c0c0; padding: 15px; margin-bottom: 15px; height: 300px; overflow-y: auto;">
+                    <h3 style="color: #495057; margin-top: 0; font-size: 14px; border-bottom: 2px solid #e9ecef; padding-bottom: 5px;">📝 Recent Chapter Updates</h3>
+                    
+                    <div style="text-align: center; padding: 40px; color: #6c757d;">
+                        <div style="font-size: 24px; margin-bottom: 10px;">⏳</div>
+                        <p style="margin: 0; font-size: 12px;">Loading chapter updates from platforms...</p>
+                        <p style="margin: 5px 0 0 0; font-size: 10px;">This may take a few moments while we check all sources.</p>
+                    </div>
+                </div>
+                
+                <!-- API Status Footer -->
+                <div style="background: #e9ecef; border: 2px inset #c0c0c0; padding: 10px; border-radius: 4px; text-align: center;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 10px; color: #495057;">
+                            <strong>📡 API Status:</strong> 
+                            <span style="color: #28a745;">●</span> All Systems Operational
+                        </div>
+                        <div style="font-size: 10px; color: #6c757d;">
+                            Last Update: <span id="last-update">Just now</span> • Next Check: <span id="next-check">5 minutes</span>
+                        </div>
+                        <button class="button" style="font-size: 9px; padding: 4px 8px;" onclick="refreshPlatformData()">🔄 Refresh</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="window-kofi" style="top: 100px; left: 200px; width: 600px;">
+            <div class="window-header">
+                <span class="window-title">☕ Support K.M.T - Buy a Coffee for the Creator</span>
+                <div class="window-controls">
+                    <button class="window-button minimize">_</button>
+                    <button class="window-button maximize">□</button>
+                    <button class="window-button close">✕</button>
+                </div>
+            </div>
+            <div class="menu-bar">
+                <span class="menu-item">File</span>
+                <span class="menu-item">View</span>
+                <span class="menu-item">Help</span>
+            </div>
+            <div class="window-content">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; margin: -10px -10px 15px -10px; text-align: center; border-radius: 8px;">
+                    <h1 style="margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">☕ Buy a Coffee for K.M.T</h1>
+                    <p style="margin: 8px 0 0 0; opacity: 0.9;">Hey Adventurer – Support the writer of "Unyielding"!</p>
+                </div>
+                
+                <div style="background: #f8f9fa; border: 2px inset #c0c0c0; padding: 15px; margin-bottom: 15px; border-radius: 4px;">
+                    <h3 style="color: #495057; margin-top: 0; text-align: center;">About Keanu & "Unyielding"</h3>
+                    <p style="color: #6c757d; font-size: 11px; margin: 8px 0;">I'm Keanu, writer of "Unyielding" – an action-packed fantasy webnovel about hope, courage, and forging your own destiny. I publish new chapters every week on platforms like Inkspired, Tapas, Wattpad, Royal Road, and ScribbleHub, reaching thousands of enthusiastic readers.</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                        <div>
+                            <h4 style="color: #495057; margin: 0 0 8px 0; font-size: 12px;">🎯 Your Support Helps:</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0; font-size: 10px;">
+                                <li style="padding: 2px 0; color: #6c757d;">• Consistent weekly chapter releases</li>
+                                <li style="padding: 2px 0; color: #6c757d;">• Cover costs for artwork & editing</li>
+                                <li style="padding: 2px 0; color: #6c757d;">• Future print books & special editions</li>
+                                <li style="padding: 2px 0; color: #6c757d;">• Cat food (very important!)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: #495057; margin: 0 0 8px 0; font-size: 12px;">✨ As a Supporter You Get:</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0; font-size: 10px;">
+                                <li style="padding: 2px 0; color: #6c757d;">• Exclusive insights & polls</li>
+                                <li style="padding: 2px 0; color: #6c757d;">• Behind-the-scenes content</li>
+                                <li style="padding: 2px 0; color: #6c757d;">• Q&As and sneak peeks</li>
+                                <li style="padding: 2px 0; color: #6c757d;">• Voice in future projects</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                    <div style="background: #e8f5e8; border: 2px inset #c0c0c0; padding: 12px; border-radius: 4px;">
+                        <h3 style="color: #2d5a2d; margin-top: 0; font-size: 14px; text-align: center;">☕ One Time Support</h3>
+                        <div style="text-align: center; margin: 10px 0;">
+                            <button class="button" style="background: #28a745; color: white; padding: 8px 16px; margin: 2px;">€3 Coffee</button>
+                            <button class="button" style="background: #20c997; color: white; padding: 8px 16px; margin: 2px;">€5 Large Coffee</button>
+                            <button class="button" style="background: #17a2b8; color: white; padding: 8px 16px; margin: 2px;">€10 Cappuccino</button>
+                        </div>
+                        <p style="font-size: 9px; color: #4a6741; text-align: center; margin: 5px 0;">Perfect for showing appreciation!</p>
+                    </div>
+                    
+                    <div style="background: #fff3cd; border: 2px inset #c0c0c0; padding: 12px; border-radius: 4px;">
+                        <h3 style="color: #856404; margin-top: 0; font-size: 14px; text-align: center;">🌟 Monthly Membership</h3>
+                        
+                        <div style="background: white; border: 1px solid #dee2e6; padding: 8px; margin: 5px 0; border-radius: 3px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <strong style="color: #495057; font-size: 11px;">Supporter</strong>
+                                <span style="background: #007bff; color: white; padding: 2px 6px; border-radius: 2px; font-size: 9px;">€2/month</span>
+                            </div>
+                            <ul style="list-style: none; padding: 0; margin: 4px 0 0 0; font-size: 9px; color: #6c757d;">
+                                <li>• Personal THANK YOU in every chapter</li>
+                                <li>• Behind-the-scenes insights & polls</li>
+                                <li>• Help keep "Unyielding" alive!</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; border: 1px solid #dee2e6; padding: 8px; margin: 5px 0; border-radius: 3px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <strong style="color: #495057; font-size: 11px;">Artistic Cappuccino</strong>
+                                <span style="background: #28a745; color: white; padding: 2px 6px; border-radius: 2px; font-size: 9px;">€5/month</span>
+                            </div>
+                            <ul style="list-style: none; padding: 0; margin: 4px 0 0 0; font-size: 9px; color: #6c757d;">
+                                <li>• Early access to next 4-8 chapters</li>
+                                <li>• Exclusive polls & Q&As</li>
+                                <li>• Influence character names & story details</li>
+                                <li>• Behind-the-scenes looks & spoilers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; background: #e9ecef; border: 2px inset #c0c0c0; padding: 15px; border-radius: 4px;">
+                    <p style="margin-bottom: 15px; color: #495057; font-weight: bold; font-size: 12px;">"Every bit of support means the world to me. Thank you for being a true hero and helping make this adventure legendary!" - Keanu</p>
+                    
+                    <div style="margin: 15px 0;">
+                        <a href="https://ko-fi.com/k_m_t" target="_blank" style="text-decoration: none;">
+                            <button class="button" style="background: linear-gradient(135deg, #FF5E5B, #FF8A80); color: white; padding: 12px 24px; font-weight: bold; border: none; box-shadow: 0 4px 8px rgba(255,94,91,0.3); font-size: 14px;">
+                                ☕ Visit Ko-fi Page
+                            </button>
+                        </a>
+                    </div>
+                    
+                    <p style="margin-top: 10px; font-size: 10px; color: #6c757d;">
+                        Building a positive, interactive space for readers, writers, and fans to connect.<br>
+                        Your support goes directly back into bringing you new chapters, artwork, and an even better reading experience!
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -446,6 +867,10 @@ I'm interested in..."></textarea>
             <div class="start-menu-item" data-window="mail">
                 <img src="icons/mail.ico" alt="Contact Me">
                 Contact Me
+            </div>
+            <div class="start-menu-item" data-window="news">
+                <img src="icons/news.ico" alt="Chapter Updates">
+                Chapter Updates
             </div>
             <div class="separator"></div>
             <div class="start-menu-item">

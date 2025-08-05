@@ -54,18 +54,7 @@
         }
 
         /* Windows */
-        .window {
-            position: absolute;
-            background-color: #c0c0c0;
-            border: 2px solid;
-            border-color: #ffffff #808080 #808080 #ffffff;
-            box-shadow: 1px 1px 0 0 #000;
-            display: none;
-        }
 
-        .window.active {
-            z-index: 100;
-        }
 
         .window-header {
             background: linear-gradient(to right, #000080, #1084d0);
@@ -115,6 +104,28 @@
             border: 2px inset #c0c0c0;
             margin: 2px;
             min-height: 200px;
+            overflow: auto;
+            flex: 1;
+        }
+
+        .window {
+            position: absolute !important;
+            display: none;
+            flex-direction: column;
+            min-width: 200px;
+            min-height: 150px;
+            background-color: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            box-shadow: 1px 1px 0 0 #000;
+            top: auto;
+            left: auto;
+            margin: 0;
+            transform: none;
+        }
+
+        .window[style*="display: flex"], .window.open {
+            display: flex;
         }
 
         /* Menu Bar */
@@ -131,9 +142,64 @@
             cursor: pointer;
         }
 
+        .menu-item {
+            position: relative;
+        }
+
         .menu-item:hover {
             background-color: #000080;
             color: white;
+        }
+
+        /* Dropdown menu styles */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            min-width: 120px;
+            z-index: 1001;
+            display: none;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 4px 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 11px;
+            border-bottom: 1px solid #808080;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background-color: #000080;
+            color: white;
+        }
+
+        .dropdown-item.disabled {
+            color: #808080;
+            cursor: default;
+        }
+
+        .dropdown-item.disabled:hover {
+            background-color: transparent;
+            color: #808080;
+        }
+
+        .dropdown-separator {
+            height: 1px;
+            background-color: #808080;
+            margin: 2px 0;
         }
 
         /* Taskbar */
@@ -384,4 +450,195 @@
         .platform-list li::before {
             content: "▸";
             color: #000080;
+        }
+
+        /* Dungeon Mapper styles */
+        .dungeon-tool.active {
+            background-color: #000080;
+            color: white;
+            border-color: #000000 #ffffff #ffffff #000000;
+        }
+
+        .dungeon-tool:hover {
+            background-color: #dfdfdf;
+        }
+
+        /* Platform button styles */
+        .platform-btn {
+            transition: all 0.1s ease;
+        }
+
+        .platform-btn:hover {
+            background-color: #000080;
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .platform-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Loading state */
+        .loading-content {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .loading-content::before {
+            content: "⏳";
+            font-size: 24px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* Character Creator styles */
+        .stat-modifier {
+            font-size: 9px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .final-score {
+            font-size: 11px;
+            font-weight: bold;
+            color: #000080;
+            margin-top: 2px;
+        }
+
+        .stat-input {
+            margin: 2px 0;
+        }
+
+        #character-details {
+            font-size: 10px;
+            line-height: 1.4;
+        }
+
+        #racial-abilities, #class-features {
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        .ability-item {
+            margin-bottom: 8px;
+            padding: 4px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+
+        .ability-name {
+            font-weight: bold;
+            color: #000080;
+        }
+
+        .ability-desc {
+            font-size: 9px;
+            color: #333;
+            margin-top: 2px;
+        }
+
+        /* Window resize handles */
+        .window {
+            position: relative;
+        }
+
+        .resize-handle {
+            position: absolute;
+            background: transparent;
+        }
+
+        .resize-handle-n {
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            cursor: n-resize;
+        }
+
+        .resize-handle-s {
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            cursor: s-resize;
+        }
+
+        .resize-handle-e {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 4px;
+            cursor: e-resize;
+        }
+
+        .resize-handle-w {
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 4px;
+            cursor: w-resize;
+        }
+
+        .resize-handle-ne {
+            top: 0;
+            right: 0;
+            width: 8px;
+            height: 8px;
+            cursor: ne-resize;
+        }
+
+        .resize-handle-nw {
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            cursor: nw-resize;
+        }
+
+        .resize-handle-se {
+            bottom: 0;
+            right: 0;
+            width: 8px;
+            height: 8px;
+            cursor: se-resize;
+        }
+
+        .resize-handle-sw {
+            bottom: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            cursor: sw-resize;
+        }
+
+        /* Visual resize indicator in bottom-right corner */
+        .window::after {
+            content: "";
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(
+                -45deg,
+                transparent 0px,
+                transparent 2px,
+                #808080 2px,
+                #808080 3px,
+                transparent 3px,
+                transparent 5px,
+                #808080 5px,
+                #808080 6px,
+                transparent 6px,
+                transparent 8px,
+                #808080 8px,
+                #808080 9px,
+                transparent 9px
+            );
+            pointer-events: none;
+        }
+
+        .window.resizing {
+            user-select: none;
         }
