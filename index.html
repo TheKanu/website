@@ -3,12 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="description" content="K.M.T - Dark Fantasy Author & D&D Dungeon Master. Read Unyielding, explore the Aetherial campaign setting, and discover immersive storytelling in a retro Windows 95 interface.">
     <meta name="keywords" content="dark fantasy, author, D&D, dungeon master, Unyielding, Aetherial, campaign setting, storytelling">
     <title>K.M.T - Dark Fantasy Author & D&D Dungeon Master</title>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js"></script>
+    <script src="space-invaders.js"></script>
+    <script src="dice-roller.js"></script>
 
 </head>
 
@@ -59,6 +61,11 @@
         <div class="desktop-icon" style="top: 110px; left: 540px;" data-window="news">
             <img src="icons/news.ico" alt="News">
             <span>Chapter Updates</span>
+        </div>
+
+        <div class="desktop-icon" style="top: 200px; left: 540px;" data-window="diceroller">
+            <img src="icons/spreadsheet_program.ico" alt="Dice Roller">
+            <span>Stats Würfeln</span>
         </div>
 
         <div class="desktop-icon" style="top: 20px; right: 20px;" data-window="asdfasd">
@@ -1078,6 +1085,99 @@ I'm interested in..." id="contact-message"></textarea>
                 <button class="button" onclick="printManuscript()">Print</button>
             </div>
         </div>
+
+        <!-- D&D Stats Dice Roller Window -->
+        <div class="window" id="window-diceroller" style="top: 120px; left: 280px; width: 500px;">
+            <div class="window-header">
+                <span class="window-title">🎲 D&D Stats Würfeln - Dice Roller Pro 95</span>
+                <div class="window-controls">
+                    <button class="window-button minimize">_</button>
+                    <button class="window-button maximize">□</button>
+                    <button class="window-button close">✕</button>
+                </div>
+            </div>
+            <div class="menu-bar">
+                <span class="menu-item">File</span>
+                <span class="menu-item">Roll</span>
+                <span class="menu-item">Stats</span>
+                <span class="menu-item">Export</span>
+                <span class="menu-item">Help</span>
+            </div>
+            <div class="window-content">
+                <h3>🎲 D&D Ability Score Generator</h3>
+                <p><em>Roll 4d6, drop lowest die for each ability score</em></p>
+                
+                <div style="border: 2px inset #c0c0c0; padding: 15px; margin: 15px 0; background: #f0f0f0;">
+                    <h4>📊 Current Character Stats</h4>
+                    <div class="stats-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 15px 0;">
+                        <div class="stat-block">
+                            <strong>STR (Strength)</strong>
+                            <div class="stat-display" id="str-result">--</div>
+                            <div class="dice-animation" id="str-dice"></div>
+                        </div>
+                        <div class="stat-block">
+                            <strong>DEX (Dexterity)</strong>
+                            <div class="stat-display" id="dex-result">--</div>
+                            <div class="dice-animation" id="dex-dice"></div>
+                        </div>
+                        <div class="stat-block">
+                            <strong>CON (Constitution)</strong>
+                            <div class="stat-display" id="con-result">--</div>
+                            <div class="dice-animation" id="con-dice"></div>
+                        </div>
+                        <div class="stat-block">
+                            <strong>INT (Intelligence)</strong>
+                            <div class="stat-display" id="int-result">--</div>
+                            <div class="dice-animation" id="int-dice"></div>
+                        </div>
+                        <div class="stat-block">
+                            <strong>WIS (Wisdom)</strong>
+                            <div class="stat-display" id="wis-result">--</div>
+                            <div class="dice-animation" id="wis-dice"></div>
+                        </div>
+                        <div class="stat-block">
+                            <strong>CHA (Charisma)</strong>
+                            <div class="stat-display" id="cha-result">--</div>
+                            <div class="dice-animation" id="cha-dice"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 20px 0;">
+                        <button class="button" id="roll-all-stats" style="font-size: 14px; padding: 10px 20px; font-weight: bold;">
+                            🎲 Roll All Stats!
+                        </button>
+                        <button class="button" id="reroll-stats" style="margin-left: 10px;">
+                            🔄 Re-roll All
+                        </button>
+                    </div>
+                    
+                    <div class="stat-summary" style="background: white; border: 1px solid #808080; padding: 10px; margin-top: 15px;">
+                        <strong>📈 Character Summary:</strong>
+                        <div id="stats-total" style="margin: 5px 0;">Total: --</div>
+                        <div id="stats-average" style="margin: 5px 0;">Average: --</div>
+                        <div id="stats-modifier-sum" style="margin: 5px 0;">Modifier Total: --</div>
+                    </div>
+                </div>
+                
+                <div style="border: 2px inset #c0c0c0; padding: 10px; margin: 10px 0; background: #f8f8f8;">
+                    <h4>🎯 Individual Stat Rolling</h4>
+                    <p style="font-size: 11px; color: #666;">Click any stat name above to re-roll just that ability score</p>
+                    
+                    <div class="rolling-log" style="background: black; color: #00ff00; font-family: 'Courier New', monospace; font-size: 10px; padding: 8px; height: 120px; overflow-y: scroll; border: 1px inset #c0c0c0;" id="roll-log">
+                        > D&D Dice Roller Pro 95 v1.0 Ready
+                        > Type 'help' for commands
+                        > Waiting for dice rolls...
+                        
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 15px 0;">
+                    <button class="button" id="export-stats">📄 Export to Character Sheet</button>
+                    <button class="button" id="save-stats" style="margin-left: 10px;">💾 Save Stats</button>
+                    <button class="button" id="clear-log" style="margin-left: 10px;">🗑️ Clear Log</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Taskbar -->
@@ -1090,6 +1190,27 @@ I'm interested in..." id="contact-message"></textarea>
         <div id="taskbar-windows"></div>
 
         <div class="clock" id="clock"></div>
+    </div>
+
+    <!-- Game Boy Style Info Bar -->
+    <div class="gameboy-info-bar" id="gameboy-info-bar">
+        <span class="info-title">NEUES BUCH: UNYIELDING</span>
+        <span class="info-status" id="press-start-btn">PRESS START</span>
+    </div>
+
+    <!-- Space Invaders Game Container -->
+    <div class="space-invaders-game" id="space-invaders-game">
+        <div class="game-header">
+            <span class="game-title">SPACE INVADERS</span>
+            <span class="game-score">SCORE: <span id="game-score">0000</span></span>
+        </div>
+        <canvas id="game-canvas" width="280" height="400"></canvas>
+        <div class="game-controls">
+            <button class="game-btn" id="move-left">◀</button>
+            <button class="game-btn" id="shoot-btn">🔫</button>
+            <button class="game-btn" id="move-right">▶</button>
+        </div>
+        <button class="game-exit-btn" id="exit-game">EXIT TO MENU</button>
     </div>
 
     <!-- Start Menu -->

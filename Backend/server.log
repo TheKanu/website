@@ -170,3 +170,227 @@
 📝 Found 3 real updates from scraped data
 📅 Filtered to 3 updates from the last 7 days (from 3 total)
 🌟 Using 3 real recent updates (no mock data needed)
+(node:1402838) Warning: An error event has already been emitted on the socket. Please use the destroy method on the socket while handling a 'clientError' event.
+(Use `node --trace-warnings ...` to show where the warning was created)
+📝 Recent updates requested
+📅 Including tapas: Episode 18.2: Relentless Underdog (Today)
+📅 Including royalroad: Chapter 18: Not Dying Quietly (2 days ago)
+📅 Including ao3: Chapter 1 (Recently)
+📝 Found 3 real updates from scraped data
+📅 Filtered to 3 updates from the last 7 days (from 3 total)
+🌟 Using 3 real recent updates (no mock data needed)
+📡 Platform status requested
+🔄 Scraping fresh data from all platforms...
+🚀 Starting real-time scraping of all platforms...
+🔍 Scraping Wattpad...
+🔍 Scraping Tapas...
+🔍 Scraping Royal Road...
+🔍 Parsing AO3 RSS...
+🔍 Scraping Inkspired...
+🔍 Scraping ScribbleHub...
+❌ ScribbleHub scraping error: Request failed with status code 403
+✅ Found views: 3794 from "Overall Score
+                            
+                                This fiction has not received enough ratings yet to have a score.
+                            
+                        
+            
+            
+                
+                    Total Views :
+                    3,794
+                    Average Views :
+                    74
+                    Followers :
+                    4
+                    Favorites :
+                    1
+                        Ratings :
+                        0
+                    Pages  :
+                    422" (.stats-content)
+⚠️ Could not find likes metric
+⚠️ Could not find comments metric
+✅ Found word count: 422 from "Overall Score
+                            
+                                This fiction has not received enough ratings yet to have a score.
+                            
+                        
+            
+            
+                
+                    Total Views :
+                    3,794
+                    Average Views :
+                    74
+                    Followers :
+                    4
+                    Favorites :
+                    1
+                        Ratings :
+                        0
+                    Pages  :
+                    422" (.stats-content)
+📝 Recent updates requested
+📅 Including tapas: Episode 18.2: Relentless Underdog (Today)
+📅 Including royalroad: Chapter 18: Not Dying Quietly (2 days ago)
+📅 Including ao3: Chapter 1 (Recently)
+📝 Found 3 real updates from scraped data
+📅 Filtered to 3 updates from the last 7 days (from 3 total)
+🌟 Using 3 real recent updates (no mock data needed)
+🧠 Smart scraping: Looking for latest chapter...
+📖 Story page title: ""
+🔍 Wattpad page structure: title elements=0, TOC=0, parts=0
+⚠️ Wrong story page or no content detected (title: ""), returning default data
+🧠 Smart Tapas scraping: Looking for latest episode...
+📖 Tapas series title: ""
+🔍 Tapas page structure: title elements=0, episode containers=0
+⚠️ Wrong Tapas series page or no episodes found (title: ""), returning fallback data
+❌ Inkspired scraping error: Request failed with status code 520
+📝 Recent updates requested
+📅 Including tapas: Episode 18.2: Relentless Underdog (Today)
+📅 Including royalroad: Chapter 18: Not Dying Quietly (2 days ago)
+📅 Including ao3: Chapter 1 (Recently)
+📝 Found 3 real updates from scraped data
+📅 Filtered to 3 updates from the last 7 days (from 3 total)
+🌟 Using 3 real recent updates (no mock data needed)
+❌ AO3 RSS parsing error: timeout of 15000ms exceeded
+✅ Scraping completed for all platforms
+📡 Platform status requested
+📋 Using cached scraped data (updated less than 1 hour ago)
+📡 Platform status requested
+📋 Using cached scraped data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including tapas: Episode 18.2: Relentless Underdog (Today)
+📅 Including royalroad: Chapter 18: Not Dying Quietly (2 days ago)
+📝 Found 2 real updates from scraped data
+📅 Filtered to 2 updates from the last 7 days (from 2 total)
+🌟 Using 2 real recent updates (no mock data needed)
+📡 Platform status requested
+🔄 Scraping fresh data from all platforms...
+🚀 Starting real-time scraping of all platforms...
+🔍 Scraping Wattpad...
+🔍 Scraping Tapas...
+🔍 Scraping Royal Road...
+🔍 Parsing AO3 RSS...
+🔍 Scraping Inkspired...
+🔍 Scraping ScribbleHub...
+❌ ScribbleHub scraping error: Request failed with status code 403
+📝 Recent updates requested
+📅 Including tapas: Episode 18.2: Relentless Underdog (Today)
+📅 Including royalroad: Chapter 18: Not Dying Quietly (2 days ago)
+📝 Found 2 real updates from scraped data
+📅 Filtered to 2 updates from the last 7 days (from 2 total)
+🌟 Using 2 real recent updates (no mock data needed)
+✅ Found views: 3799 from "Overall Score
+                            
+                                This fiction has not received enough ratings yet to have a score.
+                            
+                        
+            
+            
+                
+                    Total Views :
+                    3,799
+                    Average Views :
+                    74
+                    Followers :
+                    4
+                    Favorites :
+                    1
+                        Ratings :
+                        0
+                    Pages  :
+                    422" (.stats-content)
+⚠️ Could not find likes metric
+⚠️ Could not find comments metric
+✅ Found word count: 422 from "Overall Score
+                            
+                                This fiction has not received enough ratings yet to have a score.
+                            
+                        
+            
+            
+                
+                    Total Views :
+                    3,799
+                    Average Views :
+                    74
+                    Followers :
+                    4
+                    Favorites :
+                    1
+                        Ratings :
+                        0
+                    Pages  :
+                    422" (.stats-content)
+🧠 Smart scraping: Looking for latest chapter...
+📖 Story page title: ""
+🔍 Wattpad page structure: title elements=0, TOC=0, parts=0
+⚠️ Wrong story page or no content detected (title: ""), returning default data
+🧠 Smart Tapas scraping: Looking for latest episode...
+📖 Tapas series title: ""
+🔍 Tapas page structure: title elements=0, episode containers=0
+⚠️ Wrong Tapas series page or no episodes found (title: ""), returning fallback data
+✅ AO3 RSS response received, status: 200
+📖 Found 0 RSS items in AO3 feed
+💻 AO3 RSS feed empty, attempting direct work page scraping for latest chapter...
+📖 Found 5 chapter links on AO3 work page
+📄 Latest AO3 chapter: "Chapter 1"
+✅ Scraping completed for all platforms
+📡 Platform status requested
+📋 Using cached scraped data (updated less than 1 hour ago)
+📡 Platform status requested
+📋 Using cached scraped data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including tapas: Episode 18.2: Relentless Underdog (Today)
+📅 Including royalroad: Chapter 18: Not Dying Quietly (2 days ago)
+📅 Including ao3: Chapter 1 (Recently)
+📝 Found 3 real updates from scraped data
+📅 Filtered to 3 updates from the last 7 days (from 3 total)
+🌟 Using 3 real recent updates (no mock data needed)
+📡 Platform status requested
+📋 Using cached scraped data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including tapas: Episode 18.2: Relentless Underdog (Today)
+📅 Including royalroad: Chapter 18: Not Dying Quietly (2 days ago)
+📅 Including ao3: Chapter 1 (Recently)
+📝 Found 3 real updates from scraped data
+📅 Filtered to 3 updates from the last 7 days (from 3 total)
+🌟 Using 3 real recent updates (no mock data needed)
+📡 Platform status requested
+📋 Using cached scraped data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including tapas: Episode 18.2: Relentless Underdog (Today)
+📅 Including royalroad: Chapter 18: Not Dying Quietly (2 days ago)
+📅 Including ao3: Chapter 1 (Recently)
+📝 Found 3 real updates from scraped data
+📅 Filtered to 3 updates from the last 7 days (from 3 total)
+🌟 Using 3 real recent updates (no mock data needed)
+📡 Platform status requested
+📋 Using cached scraped data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including tapas: Episode 18.2: Relentless Underdog (Today)
+📅 Including royalroad: Chapter 18: Not Dying Quietly (2 days ago)
+📅 Including ao3: Chapter 1 (Recently)
+📝 Found 3 real updates from scraped data
+📅 Filtered to 3 updates from the last 7 days (from 3 total)
+🌟 Using 3 real recent updates (no mock data needed)
+📝 Recent updates requested
+📅 Including tapas: Episode 18.2: Relentless Underdog (Today)
+📅 Including royalroad: Chapter 18: Not Dying Quietly (2 days ago)
+📅 Including ao3: Chapter 1 (Recently)
+📝 Found 3 real updates from scraped data
+📅 Filtered to 3 updates from the last 7 days (from 3 total)
+🌟 Using 3 real recent updates (no mock data needed)
+📡 Platform status requested
+📋 Using cached scraped data (updated less than 1 hour ago)
+📡 Platform status requested
+📋 Using cached scraped data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including tapas: Episode 18.2: Relentless Underdog (Today)
+📅 Including royalroad: Chapter 18: Not Dying Quietly (2 days ago)
+📅 Including ao3: Chapter 1 (Recently)
+📝 Found 3 real updates from scraped data
+📅 Filtered to 3 updates from the last 7 days (from 3 total)
+🌟 Using 3 real recent updates (no mock data needed)
