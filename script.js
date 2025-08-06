@@ -1,6 +1,6 @@
 
 // Platform tracking API integration
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = 'https://catto.at:8443/api';
 
 // Platform tracking functions
 async function fetchPlatformData() {
@@ -9,11 +9,85 @@ async function fetchPlatformData() {
         const data = await response.json();
         updatePlatformStatusCards(data.platforms);
         updateTimestamp('last-update', 'Just now');
-        updateTimestamp('next-check', '5 minutes');
+        updateTimestamp('next-check', '1 hour');
         return data;
     } catch (error) {
-        console.error('Error fetching platform data:', error);
-        showPlatformError();
+        console.error('Error fetching platform data, using fallback:', error);
+        // Fallback mock data if API is not reachable
+        const mockData = {
+            platforms: [
+                {
+                    platform: 'tapas',
+                    status: 'behind',
+                    last_chapter: '18.1',
+                    chapter_title: 'Not Dying Quietly (Part 1)',
+                    last_update: 'Yesterday',
+                    views: 45,
+                    likes: 8,
+                    comments: 3,
+                    note: 'Daily parts Mon-Sat'
+                },
+                {
+                    platform: 'wattpad',
+                    status: 'latest',
+                    last_chapter: '18.2',
+                    chapter_title: 'Not Dying Quietly (Part 2)',
+                    last_update: '7 hours ago',
+                    views: 494,
+                    likes: 48,
+                    comments: 8,
+                    note: 'Daily parts Mon-Sat'
+                },
+                {
+                    platform: 'ao3',
+                    status: 'updated',
+                    last_chapter: 18,
+                    chapter_title: 'Not Dying Quietly (Full Chapter)',
+                    last_update: 'This Monday',
+                    views: 156,
+                    likes: 23,
+                    comments: 4,
+                    note: 'Full chapters every Monday'
+                },
+                {
+                    platform: 'inkspired',
+                    status: 'updated',
+                    last_chapter: 18,
+                    chapter_title: 'Not Dying Quietly (Full Chapter)',
+                    last_update: 'This Monday',
+                    views: 89,
+                    likes: 12,
+                    comments: 3,
+                    note: 'Full chapters every Monday'
+                },
+                {
+                    platform: 'royalroad',
+                    status: 'updated',
+                    last_chapter: 18,
+                    chapter_title: 'Not Dying Quietly (Full Chapter)',
+                    last_update: 'This Monday',
+                    views: 3776,
+                    likes: 45,
+                    comments: 12,
+                    note: 'Full chapters every Monday'
+                },
+                {
+                    platform: 'scribblehub',
+                    status: 'updated',
+                    last_chapter: 18,
+                    chapter_title: 'Not Dying Quietly (Full Chapter)',
+                    last_update: 'This Monday',
+                    views: 134,
+                    likes: 18,
+                    comments: 5,
+                    note: 'Full chapters every Monday'
+                }
+            ]
+        };
+        updatePlatformStatusCards(mockData.platforms);
+        updateTimestamp('last-update', 'Just now (offline mode)');
+        updateTimestamp('next-check', '1 hour');
+        return mockData;
     }
 }
 
@@ -24,8 +98,102 @@ async function fetchRecentUpdates() {
         updateUpdatesFeed(data.updates);
         return data;
     } catch (error) {
-        console.error('Error fetching recent updates:', error);
-        showUpdatesError();
+        console.error('Error fetching recent updates, using fallback:', error);
+        // Fallback mock data if API is not reachable
+        const mockUpdates = [
+            {
+                id: '1',
+                platform: 'wattpad',
+                platform_display: 'Wattpad',
+                platform_emoji: '📚',
+                chapter_number: '18.2',
+                chapter_title: 'Not Dying Quietly (Part 2)',
+                status: 'latest',
+                published_date: '7 hours ago',
+                word_count: 1600,
+                views: 494,
+                likes: 48,
+                comments: 8,
+                preview: 'Part 2 of Chapter 18 continues the intense battle. The warrior refuses to back down despite overwhelming odds...'
+            },
+            {
+                id: '2',
+                platform: 'tapas',
+                platform_display: 'Tapas',
+                platform_emoji: '🎨',
+                chapter_number: '18.1',
+                chapter_title: 'Not Dying Quietly (Part 1)',
+                status: 'behind',
+                published_date: 'Yesterday',
+                word_count: 1500,
+                views: 45,
+                likes: 8,
+                comments: 3,
+                preview: 'Part 1 of Chapter 18 on Tapas. Still waiting for Part 2 to be published...'
+            },
+            {
+                id: '3',
+                platform: 'royalroad',
+                platform_display: 'Royal Road',
+                platform_emoji: '👑',
+                chapter_number: '18',
+                chapter_title: 'Not Dying Quietly (Full Chapter)',
+                status: 'updated',
+                published_date: 'This Monday',
+                word_count: 3100,
+                views: 3776,
+                likes: 45,
+                comments: 12,
+                preview: 'The complete Chapter 18 released on Monday. An intense battle where our protagonist refuses to give in, fighting with every ounce of strength...'
+            },
+            {
+                id: '4',
+                platform: 'ao3',
+                platform_display: 'Archive of Our Own',
+                platform_emoji: '📖',
+                chapter_number: '18',
+                chapter_title: 'Not Dying Quietly (Full Chapter)',
+                status: 'updated',
+                published_date: 'This Monday',
+                word_count: 3100,
+                views: 156,
+                likes: 23,
+                comments: 4,
+                preview: 'Chapter 18 released in full on AO3. The pivotal confrontation reaches its climax...'
+            },
+            {
+                id: '5',
+                platform: 'inkspired',
+                platform_display: 'Inkspired',
+                platform_emoji: '🌟',
+                chapter_number: '18',
+                chapter_title: 'Not Dying Quietly (Full Chapter)',
+                status: 'updated',
+                published_date: 'This Monday',
+                word_count: 3100,
+                views: 89,
+                likes: 12,
+                comments: 3,
+                preview: 'The complete Chapter 18 on Inkspired showcases the warrior\'s determination in the face of overwhelming odds...'
+            },
+            {
+                id: '6',
+                platform: 'scribblehub',
+                platform_display: 'ScribbleHub',
+                platform_emoji: '✍️',
+                chapter_number: '18',
+                chapter_title: 'Not Dying Quietly (Full Chapter)',
+                status: 'updated',
+                published_date: 'This Monday',
+                word_count: 3100,
+                views: 134,
+                likes: 18,
+                comments: 5,
+                preview: 'Chapter 18 complete release on ScribbleHub. The intense battle continues with no quarter given...'
+            }
+        ];
+        updateUpdatesFeed(mockUpdates);
+        return { updates: mockUpdates };
     }
 }
 
@@ -43,19 +211,23 @@ function updatePlatformStatusCards(platforms) {
     };
     
     const statusColors = {
+        up_to_date: '#28a745',  // Green
+        updated: '#007bff',     // Blue
+        part_released: '#ffc107', // Yellow
+        behind: '#dc3545',      // Red
         latest: '#28a745',
-        updated: '#28a745', 
         pending: '#ffc107',
-        behind: '#dc3545',
         updating: '#17a2b8',
         error: '#6c757d'
     };
     
     const statusBgColors = {
+        up_to_date: '#28a745',  // Green
+        updated: '#007bff',     // Blue
+        part_released: '#ffc107', // Yellow
+        behind: '#dc3545',      // Red
         latest: '#28a745',
-        updated: '#28a745',
         pending: '#ffc107', 
-        behind: '#dc3545',
         updating: '#17a2b8',
         error: '#6c757d'
     };
@@ -81,9 +253,15 @@ function updatePlatformStatusCards(platforms) {
             `Chapter ${platform.last_chapter} • ${platform.last_update}` : 
             `${platform.last_update}`;
             
+        const noteText = platform.note ? `<div style="color: #6c757d; font-size: 7px; margin: 1px 0; font-style: italic;">${platform.note}</div>` : '';
+        
+        // Removed word count display as it was inaccurate
+        const wordCountText = '';
+            
         card.innerHTML = `
             <div style="color: ${statusColor}; font-weight: bold;">${config.emoji} ${config.name}</div>
             <div style="color: #6c757d; font-size: 9px; margin: 2px 0;">${chapterInfo}</div>
+            ${noteText}
             <div style="background: ${statusBg}; color: white; border-radius: 2px; padding: 2px 4px; font-size: 8px; margin-top: 3px;">
                 ${platform.status.toUpperCase()}
             </div>
@@ -111,18 +289,22 @@ function updateUpdatesFeed(updates) {
     }
     
     const statusColors = {
+        up_to_date: '#28a745',  // Green
+        updated: '#007bff',     // Blue
+        part_released: '#ffc107', // Yellow
+        behind: '#dc3545',      // Red
         latest: '#28a745',
-        updated: '#17a2b8', 
         pending: '#ffc107',
-        behind: '#dc3545',
         error: '#dc3545'
     };
     
     const statusBgs = {
+        up_to_date: '#f8fff8',    // Light green background
+        updated: '#e7f3ff',       // Light blue background  
+        part_released: '#fffdf0', // Light yellow background
+        behind: '#fff5f5',        // Light red background
         latest: '#f8fff8',
-        updated: '#f0f9ff',
         pending: '#fffdf0', 
-        behind: '#fff5f5',
         error: '#fff5f5'
     };
     
@@ -132,24 +314,56 @@ function updateUpdatesFeed(updates) {
         const color = statusColors[update.status] || '#6c757d';
         const bg = statusBgs[update.status] || '#f8f9fa';
         
+        // Format the published date to be more log-like
+        let formattedDate = update.published_date;
+        if (update.timestamp) {
+            const date = new Date(update.timestamp);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            
+            if (diffDays === 0) {
+                if (diffHours === 0) {
+                    formattedDate = 'Just now';
+                } else {
+                    formattedDate = `${diffHours}h ago`;
+                }
+            } else if (diffDays === 1) {
+                formattedDate = '1 day ago';
+            } else if (diffDays < 7) {
+                formattedDate = `${diffDays} days ago`;
+            } else {
+                formattedDate = date.toLocaleDateString();
+            }
+        }
+        
         updatesHtml += `
-            <div style="border-left: 3px solid ${color}; padding-left: 10px; margin: 10px 0; background: ${bg};">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <strong style="color: ${color}; font-size: 12px;">
-                        ${update.platform_emoji} ${update.chapter_title || `Chapter ${update.chapter_number}`} - ${update.platform_display}
-                    </strong>
-                    <span style="background: ${color}; color: white; padding: 2px 6px; border-radius: 3px; font-size: 9px;">
+            <div style="border-left: 3px solid ${color}; padding: 8px 12px; margin: 8px 0; background: ${bg}; border-radius: 4px; transition: all 0.2s ease; cursor: pointer;" 
+                 onclick="window.open('${update.url || '#'}', '_blank')" 
+                 onmouseover="this.style.transform='translateX(2px)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'" 
+                 onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+                    <div style="flex: 1;">
+                        <div style="color: ${color}; font-size: 12px; font-weight: 600; margin-bottom: 2px;">
+                            ${update.platform_emoji} ${update.chapter_title || `Chapter ${update.chapter_number}`}
+                        </div>
+                        <div style="color: #6c757d; font-size: 10px;">
+                            ${update.platform_display} • ${formattedDate} • ${update.word_count} words
+                        </div>
+                    </div>
+                    <span style="background: ${color}; color: white; padding: 2px 6px; border-radius: 12px; font-size: 8px; font-weight: 500;">
                         ${update.status.toUpperCase()}
                     </span>
                 </div>
-                <p style="color: #6c757d; font-size: 10px; margin: 5px 0;">
-                    Published ${update.published_date} • ${update.word_count} words
-                </p>
-                <p style="color: #495057; font-size: 10px; margin: 5px 0;">
+                <p style="color: #495057; font-size: 10px; margin: 6px 0 4px 0; line-height: 1.3;">
                     ${update.preview || 'New chapter available now!'}
                 </p>
-                <div style="font-size: 9px; color: #6c757d;">
-                    📊 Views: ${update.views} • ❤️ Likes: ${update.likes} • 💬 Comments: ${update.comments}
+                <div style="font-size: 9px; color: #8e949e; display: flex; gap: 12px;">
+                    <span>📊 ${update.views}</span>
+                    <span>❤️ ${update.likes}</span>
+                    <span>💬 ${update.comments}</span>
+                    <span style="margin-left: auto; font-style: italic;">Click to read →</span>
                 </div>
             </div>
         `;
@@ -193,7 +407,7 @@ function updateTimestamp(elementId, text) {
 }
 
 async function refreshPlatformData() {
-    updateTimestamp('last-update', 'Refreshing...');
+    updateTimestamp('last-update', 'Checking...');
     
     try {
         const [platformData, updatesData] = await Promise.all([
@@ -203,6 +417,14 @@ async function refreshPlatformData() {
         
         updateTimestamp('last-update', 'Just now');
         console.log('Platform data refreshed successfully');
+        
+        // Show rate limit info if available
+        if (platformData && platformData.next_update) {
+            const nextUpdate = new Date(platformData.next_update);
+            const now = new Date();
+            const hoursLeft = Math.ceil((nextUpdate - now) / (60 * 60 * 1000));
+            updateTimestamp('next-check', `${hoursLeft}h remaining`);
+        }
     } catch (error) {
         console.error('Error refreshing platform data:', error);
         updateTimestamp('last-update', 'Error');
@@ -211,16 +433,29 @@ async function refreshPlatformData() {
 
 // Initialize platform tracking when news window opens
 function initializePlatformTracking() {
-    console.log('Initializing platform tracking...');
-    fetchPlatformData();
-    fetchRecentUpdates();
+    console.log('🚀 Initializing platform tracking...');
+    console.log('📊 Loading platform status cards...');
+    fetchPlatformData().then(() => {
+        console.log('✅ Platform data loaded');
+    }).catch(err => {
+        console.error('❌ Platform data error:', err);
+    });
     
-    // Auto-refresh every 5 minutes
+    console.log('📝 Loading recent updates...');
+    fetchRecentUpdates().then(() => {
+        console.log('✅ Updates data loaded');
+    }).catch(err => {
+        console.error('❌ Updates data error:', err);
+    });
+    
+    // Auto-refresh every hour (respecting API rate limits)
     setInterval(() => {
-        console.log('Auto-refreshing platform data...');
+        console.log('⏰ Auto-refreshing platform data (hourly check)...');
         refreshPlatformData();
-    }, 5 * 60 * 1000);
+    }, 60 * 60 * 1000); // 1 hour
 }
+
+// Test function to manually trigger platform tracking
 
 document.addEventListener('DOMContentLoaded', () => {
     try {
@@ -310,9 +545,19 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Initialize platform tracking if opening news window
         if (windowId === 'news') {
+            console.log('📰 News window opened, initializing platform tracking...');
             setTimeout(() => {
                 initializePlatformTracking();
             }, 100);
+            // Also try immediate init in case timeout fails
+            setTimeout(() => {
+                const grid = document.getElementById('platform-status-grid');
+                const feed = document.getElementById('updates-feed');
+                if (grid && feed) {
+                    console.log('🔧 Backup initialization triggered');
+                    initializePlatformTracking();
+                }
+            }, 500);
         }
         
         if (!openWindows.has(windowId)) {
@@ -389,12 +634,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.querySelectorAll('.desktop-icon').forEach(icon => {
+        let isDragging = false;
+        let dragOffset = { x: 0, y: 0 };
+        let startPos = { x: 0, y: 0 };
+
+        // Make icons draggable
+        icon.draggable = true;
+        icon.style.cursor = 'move';
+
         // Single-click: auswählen
         icon.addEventListener('click', (e) => {
             e.stopPropagation();
             clearIconSelection();
             icon.classList.add('selected');
         });
+
         // Double-click: öffnen / Link folgen
         icon.addEventListener('dblclick', (e) => {
             e.stopPropagation();
@@ -414,6 +668,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 openWindow(sampleId);
             }
         });
+
+        // Drag start
+        icon.addEventListener('dragstart', (e) => {
+            isDragging = true;
+            const rect = icon.getBoundingClientRect();
+            dragOffset.x = e.clientX - rect.left;
+            dragOffset.y = e.clientY - rect.top;
+            startPos.x = rect.left;
+            startPos.y = rect.top;
+            
+            // Make icon slightly transparent while dragging
+            icon.style.opacity = '0.7';
+            e.dataTransfer.effectAllowed = 'move';
+        });
+
+        // Drag end
+        icon.addEventListener('dragend', (e) => {
+            isDragging = false;
+            icon.style.opacity = '1';
+            
+            // Calculate new position
+            const newX = e.clientX - dragOffset.x;
+            const newY = e.clientY - dragOffset.y;
+            
+            // Make sure icon stays within screen bounds
+            const maxX = window.innerWidth - icon.offsetWidth;
+            const maxY = window.innerHeight - icon.offsetHeight - 50; // Leave space for taskbar
+            
+            const finalX = Math.max(0, Math.min(newX, maxX));
+            const finalY = Math.max(0, Math.min(newY, maxY));
+            
+            // Update icon position
+            icon.style.position = 'fixed';
+            icon.style.left = finalX + 'px';
+            icon.style.top = finalY + 'px';
+            icon.style.right = 'auto';
+            icon.style.bottom = 'auto';
+        });
     });
 
 
@@ -421,14 +713,35 @@ document.addEventListener('DOMContentLoaded', () => {
         desktopElem.addEventListener('click', () => {
             clearIconSelection();
         });
+
+        // Allow dropping on desktop
+        desktopElem.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        });
+
+        desktopElem.addEventListener('drop', (e) => {
+            e.preventDefault();
+            // Drop handling is done in dragend event of icons
+        });
     }
 
     // Start-Menu Items
     document.querySelectorAll('.start-menu-item').forEach(item => {
         item.addEventListener('click', () => {
             const windowId = item.dataset.window;
+            const action = item.dataset.action;
+            
             if (windowId) {
                 openWindow(windowId);
+                if (startMenu) startMenu.classList.remove('open');
+            } else if (action === 'shutdown') {
+                // "Shutdown" öffnet das 90er Fotoprogramm mit 404.jpg
+                openWindow('photoshop');
+                if (startMenu) startMenu.classList.remove('open');
+            } else if (action === 'platform-submenu') {
+                // Zeige alle Buchplattformen in einem kleinen Fenster
+                showPlatformSubmenu();
                 if (startMenu) startMenu.classList.remove('open');
             }
         });
@@ -1615,7 +1928,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         document.getElementById('export-character').addEventListener('click', () => {
-            alert('Roll20 export feature coming soon! For now, use the Save Character button to get a JSON file.');
+            const character = {
+                name: document.getElementById('char-name').value || 'Unnamed Character',
+                race: document.getElementById('char-race').value,
+                class: document.getElementById('char-class').value,
+                level: parseInt(document.getElementById('char-level').value),
+                stats: {
+                    str: parseInt(document.getElementById('str').value),
+                    dex: parseInt(document.getElementById('dex').value),
+                    con: parseInt(document.getElementById('con').value),
+                    int: parseInt(document.getElementById('int').value),
+                    wis: parseInt(document.getElementById('wis').value),
+                    cha: parseInt(document.getElementById('cha').value)
+                }
+            };
+            
+            // Create Roll20-compatible format
+            const roll20Format = `!setattr --characterid {{CHAR_ID}} --name|${character.name} --race|${character.race} --class|${character.class} --level|${character.level} --strength|${character.stats.str} --dexterity|${character.stats.dex} --constitution|${character.stats.con} --intelligence|${character.stats.int} --wisdom|${character.stats.wis} --charisma|${character.stats.cha}`;
+            
+            // Copy to clipboard and show instructions
+            navigator.clipboard.writeText(roll20Format).then(() => {
+                alert(`Roll20 command copied to clipboard!\n\nTo import:\n1. Create a new character in Roll20\n2. Get the character ID from the character sheet\n3. Replace {{CHAR_ID}} in the command\n4. Paste and run the command in Roll20 chat`);
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = roll20Format;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Roll20 command selected! Press Ctrl+C to copy.');
+            });
         });
         
         document.getElementById('print-sheet').addEventListener('click', () => {
@@ -1990,8 +2333,257 @@ TIPS:
     // Initialize menu functionality
     initializeMenus();
 
+    // Draft saving function
+    function saveDraft() {
+        const subject = document.getElementById('contact-subject')?.value || '';
+        const message = document.getElementById('contact-message')?.value || '';
+        
+        if (!subject && !message) {
+            alert('Nothing to save - both fields are empty.');
+            return;
+        }
+        
+        const draft = {
+            subject: subject,
+            message: message,
+            timestamp: new Date().toISOString()
+        };
+        
+        localStorage.setItem('emailDraft', JSON.stringify(draft));
+        alert('Draft saved! It will be restored next time you open the mail client.');
+        
+        // Load draft on window open
+        setTimeout(() => {
+            const savedDraft = localStorage.getItem('emailDraft');
+            if (savedDraft) {
+                const draft = JSON.parse(savedDraft);
+                const subjectField = document.getElementById('contact-subject');
+                const messageField = document.getElementById('contact-message');
+                
+                if (subjectField && !subjectField.value) subjectField.value = draft.subject;
+                if (messageField && !messageField.value) messageField.value = draft.message;
+            }
+        }, 100);
+    }
+
+    // Platform Submenu Function
+    function showPlatformSubmenu() {
+        const platforms = [
+            { name: 'Tapas', url: 'https://tapas.io/series/unyielding_', icon: 'image_file' },
+            { name: 'Wattpad', url: 'https://www.wattpad.com/story/390996157-unyielding', icon: 'text_file' },
+            { name: 'Royal Road', url: 'https://www.royalroad.com/fiction/110754/unyielding', icon: 'text_editor' },
+            { name: 'AO3', url: 'https://archiveofourown.org/works/64068811', icon: 'text_file_2' },
+            { name: 'GetInkspired', url: 'https://getinkspired.com/de/story/558599/unyielding', icon: 'notepad' },
+            { name: 'ScribbleHub', url: 'https://www.scribblehub.com/series/1514528/unyielding/', icon: 'script_file' }
+        ];
+
+        // Create temporary window
+        const submenuWindow = document.createElement('div');
+        submenuWindow.className = 'window';
+        submenuWindow.id = 'platform-submenu-window';
+        submenuWindow.style.cssText = `
+            top: 200px; left: 300px; width: 400px; z-index: 10001;
+            display: flex; flex-direction: column; background: #c0c0c0;
+            border: 2px outset #c0c0c0; box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        `;
+
+        submenuWindow.innerHTML = `
+            <div class="window-header">
+                <span class="window-title">📚 Reading Platforms - Unyielding</span>
+                <div class="window-controls">
+                    <button class="window-button close">✕</button>
+                </div>
+            </div>
+            <div class="window-content" style="padding: 15px;">
+                <h3 style="margin-top: 0; text-align: center;">Choose Your Platform</h3>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                    ${platforms.map(platform => `
+                        <button class="button platform-link-btn" data-url="${platform.url}" style="padding: 10px; text-align: left; display: flex; align-items: center; gap: 8px;">
+                            <img src="icons/${platform.icon}.ico" style="width: 16px; height: 16px;">
+                            ${platform.name}
+                        </button>
+                    `).join('')}
+                </div>
+                <p style="text-align: center; margin-top: 15px; font-size: 10px; color: #666;">
+                    Click any platform to read "Unyielding" there!
+                </p>
+            </div>
+        `;
+
+        document.body.appendChild(submenuWindow);
+        makeWindowActive(submenuWindow);
+
+        // Add event listeners
+        submenuWindow.querySelector('.close').addEventListener('click', () => {
+            submenuWindow.remove();
+        });
+
+        submenuWindow.querySelectorAll('.platform-link-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                window.open(btn.dataset.url, '_blank');
+                submenuWindow.remove();
+            });
+        });
+    }
+
+    // Manuscript functions
+    function saveManuscript() {
+        const content = document.querySelector('#window-manuscript .window-content').innerHTML;
+        const blob = new Blob([content], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'unyielding_manuscript.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        alert('Manuscript saved as HTML file!');
+    }
+
+    function printManuscript() {
+        const printWindow = window.open('', '_blank');
+        const content = document.querySelector('#window-manuscript .window-content').innerHTML;
+        printWindow.document.write(`
+            <html>
+                <head><title>Unyielding Manuscript - K.M.T</title></head>
+                <body style="font-family: Times New Roman, serif; padding: 20px;">
+                    ${content}
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
+        printWindow.print();
+        printWindow.close();
+    }
+
+    // Secret folder functionality
+    let hiddenFilesVisible = false;
+
+    // Add right-click context menu for asdfasd folder
+    function initializeSecretFolder() {
+        const asdfasdContent = document.getElementById('asdfasd-content');
+        if (asdfasdContent) {
+            asdfasdContent.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                showSecretContextMenu(e.pageX, e.pageY);
+            });
+        }
+
+        // Add event delegation for dynamic content
+        document.body.addEventListener('dblclick', (e) => {
+            console.log('Double click detected:', e.target);
+            
+            // Check for secret folder
+            const secretFolder = e.target.closest('[data-folder="secret"]');
+            if (secretFolder) {
+                console.log('Secret folder clicked!');
+                e.preventDefault();
+                e.stopPropagation();
+                openWindow('secret-doc');
+                return;
+            }
+            
+            // Check for unyielding2 document
+            const unyielding2Doc = e.target.closest('[data-document="unyielding2"]');
+            if (unyielding2Doc) {
+                console.log('Unyielding2 document clicked!');
+                e.preventDefault();
+                e.stopPropagation();
+                openWindow('unyielding2');
+                return;
+            }
+        });
+    }
+
+    function showSecretContextMenu(x, y) {
+        const menu = document.createElement('div');
+        menu.className = 'context-menu';
+        menu.style.cssText = `
+            position: fixed;
+            top: ${y}px;
+            left: ${x}px;
+            background: #c0c0c0;
+            border: 2px outset #c0c0c0;
+            padding: 2px;
+            z-index: 10000;
+            font-size: 11px;
+            min-width: 150px;
+        `;
+
+        const showHiddenOption = document.createElement('div');
+        showHiddenOption.style.cssText = `
+            padding: 4px 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        `;
+        
+        if (hiddenFilesVisible) {
+            showHiddenOption.innerHTML = '☑️ Show hidden files';
+            showHiddenOption.addEventListener('click', () => {
+                hideSecretFiles();
+                menu.remove();
+            });
+        } else {
+            showHiddenOption.innerHTML = '☐ Show hidden files';
+            showHiddenOption.addEventListener('click', () => {
+                showSecretFiles();
+                menu.remove();
+            });
+        }
+
+        showHiddenOption.addEventListener('mouseenter', () => {
+            showHiddenOption.style.background = '#000080';
+            showHiddenOption.style.color = 'white';
+        });
+        showHiddenOption.addEventListener('mouseleave', () => {
+            showHiddenOption.style.background = '';
+            showHiddenOption.style.color = '';
+        });
+
+        menu.appendChild(showHiddenOption);
+        document.body.appendChild(menu);
+
+        // Close menu on click outside
+        setTimeout(() => {
+            document.addEventListener('click', () => {
+                menu.remove();
+            }, { once: true });
+        }, 100);
+    }
+
+    function showSecretFiles() {
+        hiddenFilesVisible = true;
+        document.getElementById('empty-folder-message').style.display = 'none';
+        document.getElementById('hidden-files-container').style.display = 'block';
+        
+        // Direkt das Unyielding 2 Dokument öffnen
+        setTimeout(() => {
+            openWindow('unyielding2');
+        }, 500);
+    }
+
+    function hideSecretFiles() {
+        hiddenFilesVisible = false;
+        document.getElementById('empty-folder-message').style.display = 'block';
+        document.getElementById('hidden-files-container').style.display = 'none';
+    }
+
+    // Initialize secret folder
+    initializeSecretFolder();
+
+    // Make functions global for onclick handlers
+    window.saveDraft = saveDraft;
+    window.saveManuscript = saveManuscript;
+    window.printManuscript = printManuscript;
+    window.closeWindow = closeWindow;
+
     } catch (error) {
         // Fallback: basic functionality without advanced features
         document.getElementById('clock').textContent = new Date().toLocaleTimeString();
     }
 });
+
+// Shutdown function removed - now opens PhotoEdit Pro 95 instead

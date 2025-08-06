@@ -1,0 +1,4 @@
+❌ SSL Certificate validation failed: Invalid certificate format
+💡 Generate new certificates with:
+   openssl req -x509 -newkey rsa:4096 -keyout ssl/key.pem -out ssl/cert.pem -days 365 -nodes
+❌ SSL certificate validation failed. Cannot start HTTPS server.

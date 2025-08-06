@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTTPS API Test</title>
+</head>
+<body>
+    <h1>🔒 HTTPS API Connection Test</h1>
+    <button onclick="testHTTPSAPI()">Test Secure API Connection</button>
+    <div id="result"></div>
+
+    <script>
+        async function testHTTPSAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '🔒 Testing secure connection...';
+            
+            try {
+                console.log('Testing HTTPS API connection...');
+                
+                // Test health endpoint
+                const healthResponse = await fetch('https://128.140.66.156:3443/health');
+                const healthData = await healthResponse.json();
+                console.log('HTTPS Health check:', healthData);
+                
+                // Test platforms endpoint
+                const platformsResponse = await fetch('https://128.140.66.156:3443/api/platforms/status');
+                const platformsData = await platformsResponse.json();
+                console.log('HTTPS Platforms data:', platformsData);
+                
+                // Test recent updates endpoint
+                const updatesResponse = await fetch('https://128.140.66.156:3443/api/chapters/recent');
+                const updatesData = await updatesResponse.json();
+                console.log('HTTPS Updates data:', updatesData);
+                
+                resultDiv.innerHTML = `
+                    <h3>✅ HTTPS API Connection Successful!</h3>
+                    <p><strong>🔒 Security:</strong> SSL/TLS Encryption Active</p>
+                    <p><strong>Health:</strong> ${healthData.status}</p>
+                    <p><strong>Platforms:</strong> ${platformsData.platforms ? platformsData.platforms.length : 0} found</p>
+                    <p><strong>Updates:</strong> ${updatesData.updates ? updatesData.updates.length : 0} found</p>
+                    <p><strong>Word Count:</strong> ${updatesData.updates && updatesData.updates[0] ? updatesData.updates[0].word_count : 'N/A'} words</p>
+                    <p><strong>Views:</strong> ${updatesData.updates && updatesData.updates[0] ? updatesData.updates[0].views : 'N/A'}</p>
+                `;
+                
+            } catch (error) {
+                console.error('HTTPS API connection failed:', error);
+                resultDiv.innerHTML = `
+                    <h3>❌ HTTPS API Connection Failed</h3>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                    <p>This might be due to self-signed certificate warnings.</p>
+                    <p>In production, use a valid SSL certificate from Let's Encrypt or a CA.</p>
+                `;
+            }
+        }
+        
+        // Auto-test on page load
+        window.onload = () => {
+            setTimeout(testHTTPSAPI, 1000);
+        };
+    </script>
+</body>
+</html>

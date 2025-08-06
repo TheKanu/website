@@ -7,7 +7,7 @@
 
         body {
             font-family: "MS Sans Serif", sans-serif;
-            font-size: 11px;
+            font-size: 14px;
             overflow: hidden;
             cursor: default;
         }
@@ -72,7 +72,7 @@
 
         .window-title {
             font-weight: bold;
-            font-size: 11px;
+            font-size: 13px;
             padding-left: 3px;
         }
 
@@ -82,12 +82,12 @@
         }
 
         .window-button {
-            width: 16px;
-            height: 14px;
+            width: 18px;
+            height: 16px;
             background-color: #c0c0c0;
             border: 1px solid;
             border-color: #ffffff #000000 #000000 #ffffff;
-            font-size: 10px;
+            font-size: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -140,6 +140,7 @@
         .menu-item {
             padding: 4px 8px;
             cursor: pointer;
+            font-size: 13px;
         }
 
         .menu-item {
@@ -208,7 +209,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 32px;
+            height: 40px;
             background-color: #c0c0c0;
             border-top: 2px solid #ffffff;
             display: flex;
@@ -218,17 +219,18 @@
 
         /* Start Button */
         .start-button {
-            height: 22px;
-            padding: 0 6px;
-            margin: 2px;
+            height: 34px;
+            padding: 0 10px;
+            margin: 3px;
             background-color: #c0c0c0;
             border: 2px solid;
             border-color: #ffffff #808080 #808080 #ffffff;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
             font-weight: bold;
             cursor: pointer;
+            font-size: 15px;
         }
 
         .start-button:active {
@@ -236,19 +238,19 @@
         }
 
         .start-button img {
-            width: 16px;
-            height: 16px;
+            width: 20px;
+            height: 20px;
         }
 
         /* Start Menu */
         .start-menu {
             position: absolute;
-            bottom: 28px;
+            bottom: 36px;
             left: 0;
             background-color: #c0c0c0;
             border: 2px solid;
             border-color: #ffffff #808080 #808080 #ffffff;
-            width: 200px;
+            width: 240px;
             display: none;
             z-index: 999;
         }
@@ -260,7 +262,7 @@
         .start-menu-header {
             background: linear-gradient(to bottom, #000080, #1084d0);
             color: white;
-            padding: 5px;
+            padding: 8px;
             font-weight: bold;
             writing-mode: vertical-lr;
             text-orientation: mixed;
@@ -268,7 +270,11 @@
             left: 0;
             top: 0;
             bottom: 0;
-            width: 25px;
+            width: 30px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #taskbar-windows {
@@ -280,16 +286,17 @@
         }
 
         .start-menu-items {
-            margin-left: 25px;
-            padding: 2px;
+            margin-left: 30px;
+            padding: 4px;
         }
 
         .start-menu-item {
-            padding: 8px;
+            padding: 10px 12px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            font-size: 14px;
         }
 
         .start-menu-item:hover {
@@ -298,8 +305,8 @@
         }
 
         .start-menu-item img {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
         }
 
         .separator {
@@ -310,7 +317,7 @@
 
         /* Task buttons */
         .task-button {
-            height: 22px;
+            height: 26px;
             padding: 0 10px;
             margin: 2px;
             background-color: #c0c0c0;
@@ -320,7 +327,7 @@
             align-items: center;
             gap: 4px;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 13px;
         }
 
         .task-button.active {
@@ -335,10 +342,10 @@
             margin-right: 4px;
             padding: 0 8px;
             border: 1px inset #c0c0c0;
-            height: 22px;
+            height: 26px;
             display: flex;
             align-items: center;
-            font-size: 11px;
+            font-size: 13px;
         }
 
         /* Button styles */
@@ -346,9 +353,9 @@
             background-color: #c0c0c0;
             border: 2px solid;
             border-color: #ffffff #808080 #808080 #ffffff;
-            padding: 6px 12px;
+            padding: 8px 15px;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 13px;
             font-family: "MS Sans Serif", sans-serif;
         }
 
@@ -360,9 +367,9 @@
         .text-input {
             border: 2px inset #c0c0c0;
             background-color: white;
-            padding: 3px;
+            padding: 4px;
             font-family: "MS Sans Serif", sans-serif;
-            font-size: 11px;
+            font-size: 13px;
         }
 
         /* Icon Base64 - Using emoji as placeholders */

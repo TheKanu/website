@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>API Connection Test</h1>
+    <button onclick="testAPI()">Test API Connection</button>
+    <div id="result"></div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                console.log('Testing API connection...');
+                
+                // Test health endpoint
+                const healthResponse = await fetch('http://localhost:3001/health');
+                const healthData = await healthResponse.json();
+                console.log('Health check:', healthData);
+                
+                // Test platforms endpoint
+                const platformsResponse = await fetch('http://localhost:3001/api/platforms/status');
+                const platformsData = await platformsResponse.json();
+                console.log('Platforms data:', platformsData);
+                
+                // Test recent updates endpoint
+                const updatesResponse = await fetch('http://localhost:3001/api/chapters/recent');
+                const updatesData = await updatesResponse.json();
+                console.log('Updates data:', updatesData);
+                
+                resultDiv.innerHTML = `
+                    <h3>✅ API Connection Successful!</h3>
+                    <p><strong>Health:</strong> ${healthData.status}</p>
+                    <p><strong>Platforms:</strong> ${platformsData.platforms ? platformsData.platforms.length : 0} found</p>
+                    <p><strong>Updates:</strong> ${updatesData.updates ? updatesData.updates.length : 0} found</p>
+                    <p><strong>Word Count:</strong> ${updatesData.updates && updatesData.updates[0] ? updatesData.updates[0].word_count : 'N/A'} words</p>
+                `;
+                
+            } catch (error) {
+                console.error('API connection failed:', error);
+                resultDiv.innerHTML = `
+                    <h3>❌ API Connection Failed</h3>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                    <p>Make sure the API server is running on port 3001</p>
+                `;
+            }
+        }
+        
+        // Auto-test on page load
+        window.onload = () => {
+            setTimeout(testAPI, 1000);
+        };
+    </script>
+</body>
+</html>
