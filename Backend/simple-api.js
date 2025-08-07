@@ -25,28 +25,37 @@ function shouldUpdateData() {
     return (now - lastUpdateTime) >= UPDATE_INTERVAL_MS;
 }
 
-// Platform configurations for scraping - OFFICIAL UNYIELDING BOOK LINKS
+// Platform configurations - MANUAL UPDATE SYSTEM for blog tracking
 const PLATFORMS = {
     wattpad: {
         name: 'Wattpad',
         url: 'https://www.wattpad.com/story/390996157-unyielding',
         emoji: '📚',
         type: 'parts',
-        note: 'Daily parts Mon-Sat'
+        note: 'Daily parts Mon-Sat',
+        // Manual tracking - update when you post
+        last_chapter: 'Chapter 18',
+        last_update: '2025-08-06', // Update this when you post
+        scraping: false // Disable scraping, use manual data
     },
     tapas: {
         name: 'Tapas',
         url: 'https://tapas.io/series/unyielding_',
         emoji: '🎨',
         type: 'parts',
-        note: 'Daily parts Mon-Sat'
+        note: 'Daily parts Mon-Sat',
+        // Manual tracking
+        last_chapter: 'Episode 18',
+        last_update: '2025-08-06',
+        scraping: false
     },
     royalroad: {
         name: 'Royal Road',
         url: 'https://www.royalroad.com/fiction/110754/unyielding',
         emoji: '👑',
         type: 'full',
-        note: 'Full chapters every Monday'
+        note: 'Full chapters every Monday',
+        scraping: true // This one works with scraping
     },
     ao3: {
         name: 'Archive of Our Own',
@@ -54,25 +63,34 @@ const PLATFORMS = {
         rss: 'https://archiveofourown.org/works/64068811/chapters.atom',
         emoji: '📖',
         type: 'full',
-        note: 'Full chapters every Monday'
+        note: 'Full chapters every Monday',
+        scraping: true // This one works with scraping
     },
     inkspired: {
         name: 'Inkspired',
         url: 'https://getinkspired.com/de/story/558599/unyielding',
         emoji: '🌟',
         type: 'full',
-        note: 'Full chapters every Monday'
+        note: 'Full chapters every Monday',
+        // Manual tracking
+        last_chapter: 'Chapter 18',
+        last_update: '2025-08-05', // Behind by 1 day
+        scraping: false
     },
     scribblehub: {
         name: 'ScribbleHub',
         url: 'https://www.scribblehub.com/series/1514528/unyielding/',
         emoji: '✍️',
-        type: 'full',
-        note: 'Full chapters every Monday'
+        type: 'full', 
+        note: 'Full chapters every Monday',
+        // Manual tracking
+        last_chapter: 'Chapter 17',
+        last_update: '2025-07-29', // Behind
+        scraping: false
     }
 };
 
-// Real scraping functions
+// Real scraping functions - NO MOCK DATA FALLBACKS
 async function scrapeWattpad() {
     try {
         console.log('🔍 Scraping Wattpad...');
@@ -80,179 +98,132 @@ async function scrapeWattpad() {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
             },
-            timeout: 10000
+            timeout: 15000
         });
         
         const $ = cheerio.load(response.data);
         
-        // Smart scraping: Look for the latest chapter in table of contents
-        console.log('🧠 Smart scraping: Looking for latest chapter...');
+        console.log('🧠 Scraping Wattpad chapter list...');
         
-        // First, verify we're on the right story page by checking title
-        const storyTitle = $('h1, .story-title, .title, .story-info h1, .story-cover + div h1').text().toLowerCase();
-        console.log(`📖 Story page title: "${storyTitle}"`);
-        
-        // More flexible title matching - look for key words
-        const hasUnyielding = storyTitle.includes('unyielding');
-        const hasStoryContent = $('.table-of-contents, .story-parts, .part-item').length > 0;
-        
-        // Debug: log page structure
-        console.log(`🔍 Wattpad page structure: title elements=${$('h1, .story-title, .title').length}, TOC=${$('.table-of-contents').length}, parts=${$('.story-parts').length}`);
-        
-        // Try to continue with scraping even if title doesn't match, as long as we have story content
-        if (!hasUnyielding && !hasStoryContent) {
-            console.log(`⚠️ Wrong story page or no content detected (title: "${storyTitle}"), returning default data`);
-            return {
-                platform: 'wattpad',
-                status: 'up_to_date',
-                last_chapter: 'Chapter 18.2',
-                chapter_title: 'Chapter 18.2: Relentless Underdog',
-                last_update: 'Today',
-                timestamp: new Date().toISOString(),
-                views: 494,
-                likes: 48,
-                comments: 8,
-                word_count: 2500,
-                chapter_url: 'https://www.wattpad.com/1527602325-unyielding-chapter-18-2-relentless-underdog',
-                raw_title: 'Chapter 18.2: Relentless Underdog'
-            };
-        }
-        
-        // Try multiple selectors for Wattpad story page - be more specific for the right story
+        // New approach: Look for story parts/chapters in the table of contents
+        // Based on actual Wattpad structure with 84 parts
         const chapterSelectors = [
+            'ul.table-of-contents li', // Main TOC structure
+            '.table-of-contents li',
+            '.story-parts li',
+            'ul.table-of-contents .part',
+            '.table-of-contents a[href*="part"]',
+            '.story__parts .part',
+            'ul[data-component="table-of-contents"] li',
             '.table-of-contents .story-part',
-            '.story-parts .story-part', 
-            '.part-item',
-            '.chapter-item',
-            'a[href*="/390996157-"][href*="chapter"]',  // Specific to Unyielding story ID
-            'a[href*="/390996157-"][href*="part"]',     // Specific to Unyielding story ID
-            'a[href*="unyielding"][href*="chapter"]',   // Contains "unyielding" in URL
-            'a[href*="unyielding"][href*="part"]',      // Contains "unyielding" in URL
-            '.table-of-contents a',                     // General TOC links
-            '.story-parts a'                            // General story part links
+            '.toc-list li'
         ];
         
-        let latestChapter = null;
-        let chapterElements = null;
+        let chapters = $();
+        let usedSelector = '';
         
         for (const selector of chapterSelectors) {
-            chapterElements = $(selector);
-            if (chapterElements.length > 0) {
-                console.log(`✅ Found ${chapterElements.length} chapters using selector: ${selector}`);
-                // Get the LAST element (latest chapter) instead of first
-                latestChapter = chapterElements.last();
+            chapters = $(selector);
+            if (chapters.length > 0) {
+                console.log(`✅ Found ${chapters.length} chapters using selector: ${selector}`);
+                usedSelector = selector;
                 break;
             }
         }
         
-        let title = '';
-        let chapterUrl = null;
-        
-        if (latestChapter && latestChapter.length > 0) {
-            title = latestChapter.find('a, .title, h2, span').text().trim() || latestChapter.text().trim();
-            const chapterLink = latestChapter.find('a').attr('href') || latestChapter.attr('href');
-            
-            if (chapterLink) {
-                // Construct full URL if it's a relative link
-                chapterUrl = chapterLink.startsWith('http') ? chapterLink : `https://www.wattpad.com${chapterLink}`;
-                console.log(`🔗 Found chapter URL: ${chapterUrl}`);
-            } else {
-                console.log('⚠️ No chapter link found');
-            }
-            
-            console.log(`📖 Latest chapter: "${title}"`);
-        } else {
-            console.log('⚠️ No chapters found with any selector');
-        }
-        
-        // If we found a chapter, process it
-        if (latestChapter && latestChapter.length > 0 && title && title.trim().length > 0) {
-            // Enhanced engagement metrics extraction
-            const reads = extractEngagementMetric($, [
-                '.reads', '.read-count', '.views', '.view-count', 
-                '[class*="read"]', '[class*="view"]'
-            ], 'reads');
-            
-            const votes = extractEngagementMetric($, [
-                '.votes', '.vote-count', '.likes', '.like-count', '.hearts',
-                '[class*="vote"]', '[class*="like"]', '[class*="heart"]'
-            ], 'votes');
-            
-            const comments = extractEngagementMetric($, [
-                '.comments', '.comment-count', '.replies', '.reply-count',
-                '[class*="comment"]', '[class*="reply"]'
-            ], 'comments');
-            
-            // Extract word count for latest chapter/part
-            const wordCount = extractWordCount($, [
-                '.word-count', '.words', '.length', '.part-stats .words',
-                '[class*="word"]', '[class*="length"]', '.stats .words',
-                '.story-stats', '.part-details'
-            ], 'wattpad');
-            
-            // Try to find publication date/time
-            const timeElement = latestChapter.find('.timestamp, .published, .date, time, .ago');
-            let timestamp = null;
-            let lastUpdate = 'Recently';
-            
-            if (timeElement.length > 0) {
-                const timeText = timeElement.text().trim();
-                const timeAttr = timeElement.attr('datetime') || timeElement.attr('title');
-                
-                if (timeAttr) {
-                    timestamp = new Date(timeAttr);
-                    lastUpdate = formatRelativeTime(timestamp);
-                } else if (timeText) {
-                    // Try to parse relative time like "2 hours ago", "yesterday"
-                    timestamp = parseRelativeTime(timeText);
-                    lastUpdate = timeText;
-                }
-            }
-            
+        if (chapters.length === 0) {
+            console.log('❌ No chapters found with any selector');
             return {
                 platform: 'wattpad',
-                status: 'updated',
-                last_chapter: extractChapterNumber(title),
-                chapter_title: title,
-                last_update: lastUpdate,
-                timestamp: timestamp ? timestamp.toISOString() : null,
-                views: reads || 494,
-                likes: votes || 48,
-                comments: comments || 8,
-                word_count: wordCount || 2500,
-                chapter_url: chapterUrl,
-                raw_title: title
+                status: 'error',
+                error: 'Could not find chapter list'
             };
         }
         
+        // Get the LATEST chapter (last in list, as Wattpad lists chronologically)
+        const latestChapter = chapters.last();
+        const chapterLink = latestChapter.find('a');
+        
+        if (chapterLink.length === 0) {
+            console.log('❌ No chapter link found in latest chapter element');
+            return {
+                platform: 'wattpad',
+                status: 'error', 
+                error: 'Could not extract chapter link'
+            };
+        }
+        
+        const title = chapterLink.text().trim();
+        const href = chapterLink.attr('href');
+        const chapterUrl = href?.startsWith('http') ? href : `https://www.wattpad.com${href}`;
+        
+        console.log(`📖 Latest Wattpad chapter: "${title}"`);
+        console.log(`🔗 Chapter URL: ${chapterUrl}`);
+        
+        // Extract chapter number from title 
+        const chapterNumber = extractChapterNumber(title) || 'Latest';
+        
+        // Try to extract publication date from the chapter element
+        const timeElement = latestChapter.find('time, .date, .published, [datetime]');
+        let timestamp = null;
+        let lastUpdate = 'Recently';
+        
+        if (timeElement.length > 0) {
+            const timeAttr = timeElement.attr('datetime') || timeElement.attr('data-original-title');
+            const timeText = timeElement.text().trim();
+            
+            if (timeAttr) {
+                timestamp = new Date(timeAttr);
+                lastUpdate = formatRelativeTime(timestamp);
+                console.log(`🕒 Found publication date: ${timestamp}`);
+            } else if (timeText) {
+                timestamp = parseRelativeTime(timeText);
+                lastUpdate = timeText;
+            }
+        }
+        
+        // Extract engagement metrics from the main story page
+        const views = extractEngagementMetric($, [
+            '.reads', '.read-count', '.story-stats .reads',
+            '.stats-item:contains("Reads")', 
+            '[data-original-title*="reads" i]'
+        ], 'reads');
+        
+        const votes = extractEngagementMetric($, [
+            '.votes', '.vote-count', '.story-stats .votes',
+            '.stats-item:contains("Votes")',
+            '[data-original-title*="votes" i]'
+        ], 'votes');
+        
+        const comments = extractEngagementMetric($, [
+            '.comments', '.comment-count', '.story-stats .comments',
+            '.stats-item:contains("Comments")',
+            '[data-original-title*="comments" i]'
+        ], 'comments');
+        
         return {
             platform: 'wattpad',
-            status: 'up_to_date',
-            last_chapter: 'Latest',
-            chapter_title: 'Up to Date',
-            last_update: 'Recently',
-            timestamp: new Date().toISOString(),
-            views: 494,
-            likes: 48,
-            comments: 8,
-            word_count: 2500,
-            note: 'Daily parts Mon-Sat'
+            status: 'updated',
+            last_chapter: chapterNumber,
+            chapter_title: title,
+            last_update: lastUpdate,
+            timestamp: timestamp ? timestamp.toISOString() : new Date().toISOString(),
+            views: views || 0,
+            likes: votes || 0, 
+            comments: comments || 0,
+            word_count: 2500, // Estimated per chapter
+            chapter_url: chapterUrl,
+            raw_title: title,
+            total_chapters: chapters.length,
+            scraping_method: usedSelector
         };
         
     } catch (error) {
         console.error('❌ Wattpad scraping error:', error.message);
         return {
             platform: 'wattpad',
-            status: 'up_to_date',
-            last_chapter: 'Latest',
-            chapter_title: 'Up to Date',
-            last_update: 'Recently',
-            timestamp: new Date().toISOString(),
-            views: 494,
-            likes: 48,
-            comments: 8,
-            word_count: 2500,
-            note: 'Daily parts Mon-Sat'
+            status: 'error',
+            error: `Scraping failed: ${error.message}`
         };
     }
 }
@@ -264,171 +235,96 @@ async function scrapeTapas() {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
             },
-            timeout: 10000
+            timeout: 15000
         });
         
         const $ = cheerio.load(response.data);
         
-        // Smart scraping: Look for the latest episode in series page
-        console.log('🧠 Smart Tapas scraping: Looking for latest episode...');
+        console.log('🧠 Scraping Tapas episode list...');
         
-        // First check if this is the Unyielding series page
-        const seriesTitle = $('h1, .series-title, .js-series-title, .title, .series__title, .series-info h1').text().toLowerCase();
-        console.log(`📖 Tapas series title: "${seriesTitle}"`);
-        
-        // More flexible matching - look for episodes or series content
-        const hasUnyielding = seriesTitle.includes('unyielding');
-        const hasEpisodes = $('.js-episode-list, .episode-list, .series-episodes').length > 0;
-        
-        // Debug: log page structure
-        console.log(`🔍 Tapas page structure: title elements=${$('h1, .series-title').length}, episode containers=${$('.js-episode-list, .episode-list').length}`);
-        
-        // Try to continue with scraping even if title doesn't match, as long as we have episodes
-        if (!hasUnyielding && !hasEpisodes) {
-            console.log(`⚠️ Wrong Tapas series page or no episodes found (title: "${seriesTitle}"), returning fallback data`);
-            return {
-                platform: 'tapas',
-                status: 'updated',
-                last_chapter: 'Episode 18.2',
-                chapter_title: 'Episode 18.2: Relentless Underdog',
-                last_update: 'Today',
-                timestamp: new Date().toISOString(),
-                views: 2456,
-                likes: 42,
-                comments: 15,
-                word_count: 2800,
-                chapter_url: 'https://tapas.io/series/unyielding_',
-                raw_title: 'Episode 18.2: Relentless Underdog'
-            };
-        }
-        
-        // Try multiple selectors for Tapas series page
+        // Try multiple episode selectors for Tapas
         const episodeSelectors = [
-            '.js-episode-list .js-episode',
+            '.js-episode-list .js-episode', // Main episode list
             '.episode-list .episode',
-            '.series-episodes .episode',
+            '.series-episodes .episode', 
             '.episode-item',
             '.content__item',
-            '[data-episode-id]',
-            '.series-episode',
-            'a[href*="/episode/"]',
-            '.episode-row',
-            '.ep-item',
-            '.episode',
-            '.js-episode'
+            'a[href*="/episode/"]',  
+            '.episode-card',
+            '.episode-container'
         ];
         
-        let latestEpisode = null;
-        let episodes = null;
+        let episodes = $();
+        let usedSelector = '';
         
         for (const selector of episodeSelectors) {
             episodes = $(selector);
             if (episodes.length > 0) {
                 console.log(`✅ Found ${episodes.length} episodes using selector: ${selector}`);
-                // Get the FIRST element (latest episode on Tapas is usually first)
-                latestEpisode = episodes.first();
+                usedSelector = selector;
                 break;
             }
         }
         
-        if (latestEpisode && latestEpisode.length > 0) {
-            const title = latestEpisode.find('.episode-title, .title, h3, a, .text--title, .episode__title').text().trim() || latestEpisode.text().trim();
-            const chapterLink = latestEpisode.find('a').attr('href');
-            let chapterUrl = null;
-            
-            if (chapterLink) {
-                // Construct full URL if it's a relative link
-                chapterUrl = chapterLink.startsWith('http') ? chapterLink : `https://tapas.io${chapterLink}`;
-            }
-            
-            // Enhanced engagement metrics for Tapas
-            const views = extractEngagementMetric($, [
-                '.view-count', '.views', '.view', '.episode-stats .views',
-                '[class*="view"]', '.stats-views'
-            ], 'views');
-            
-            const likes = extractEngagementMetric($, [
-                '.like-count', '.likes', '.hearts', '.love', '.episode-stats .likes',
-                '[class*="like"]', '[class*="heart"]', '.stats-likes'
-            ], 'likes');
-            
-            const comments = extractEngagementMetric($, [
-                '.comment-count', '.comments', '.replies', '.episode-stats .comments',
-                '[class*="comment"]', '[class*="reply"]', '.stats-comments'
-            ], 'comments');
-            
-            // Extract word count for latest episode/part
-            const wordCount = extractWordCount($, [
-                '.word-count', '.words', '.episode-length', '.episode-stats .words',
-                '[class*="word"]', '[class*="length"]', '.content-length',
-                '.episode-details', '.stats-words'
-            ], 'tapas');
-            
-            // Try to find publication time - updated selectors for Tapas
-            const timeElement = latestEpisode.find('.timestamp, .date, .published, time, .ago, .episode__date, .text--meta, [data-published]');
-            let timestamp = null;
-            let lastUpdate = 'Recently';
-            
-            console.log(`🔍 Tapas episode: "${title}"`);
-            console.log(`🕒 Time element found: ${timeElement.length > 0 ? timeElement.text().trim() : 'none'}`);
-            
-            if (timeElement.length > 0) {
-                const timeText = timeElement.text().trim();
-                const timeAttr = timeElement.attr('datetime') || timeElement.attr('data-timestamp');
-                
-                if (timeAttr) {
-                    timestamp = new Date(timeAttr);
-                    lastUpdate = formatRelativeTime(timestamp);
-                } else if (timeText) {
-                    timestamp = parseRelativeTime(timeText);
-                    lastUpdate = timeText;
-                }
-            }
-            
+        if (episodes.length === 0) {
+            console.log('❌ No episodes found with any selector on Tapas');
             return {
                 platform: 'tapas',
-                status: 'updated',
-                last_chapter: extractChapterNumber(title),
-                chapter_title: title,
-                last_update: lastUpdate,
-                timestamp: timestamp ? timestamp.toISOString() : null,
-                views: views || 45,
-                likes: likes || 8,
-                comments: comments || 3,
-                word_count: wordCount || 1800,
-                chapter_url: chapterUrl,
-                raw_title: title
+                status: 'error',
+                error: 'Could not find episode list'
             };
         }
         
+        // Get latest episode (first in Tapas list, as they're reverse chronological)
+        const latestEpisode = episodes.first();
+        const episodeLink = latestEpisode.find('a').first();
+        
+        if (episodeLink.length === 0) {
+            console.log('❌ No episode link found');
+            return {
+                platform: 'tapas',
+                status: 'error',
+                error: 'Could not extract episode link'
+            };
+        }
+        
+        let title = episodeLink.text().trim();
+        if (!title) {
+            title = latestEpisode.find('.episode-title, .title, h3, .text--title').text().trim();
+        }
+        
+        const href = episodeLink.attr('href');
+        const chapterUrl = href?.startsWith('http') ? href : `https://tapas.io${href}`;
+        
+        console.log(`📖 Latest Tapas episode: "${title}"`);
+        console.log(`🔗 Episode URL: ${chapterUrl}`);
+        
+        // Extract episode number
+        const episodeNumber = extractChapterNumber(title) || 'Latest';
+        
         return {
             platform: 'tapas',
-            status: 'up_to_date',
-            last_chapter: 'Latest',
-            chapter_title: 'Up to Date',
+            status: 'updated',
+            last_chapter: episodeNumber,
+            chapter_title: title,
             last_update: 'Recently',
             timestamp: new Date().toISOString(),
-            views: 45,
-            likes: 8,
-            comments: 3,
+            views: 0,
+            likes: 0, 
+            comments: 0,
             word_count: 1800,
-            note: 'Daily parts Mon-Sat'
+            chapter_url: chapterUrl,
+            raw_title: title,
+            total_episodes: episodes.length,
+            scraping_method: usedSelector
         };
         
     } catch (error) {
         console.error('❌ Tapas scraping error:', error.message);
         return {
             platform: 'tapas',
-            status: 'up_to_date',
-            last_chapter: 'Latest',
-            chapter_title: 'Up to Date',
-            last_update: 'Recently',
-            timestamp: new Date().toISOString(),
-            views: 45,
-            likes: 8,
-            comments: 3,
-            word_count: 1800,
-            note: 'Daily parts Mon-Sat'
+            status: 'error',
+            error: `Scraping failed: ${error.message}`
         };
     }
 }
@@ -440,111 +336,134 @@ async function scrapeRoyalRoad() {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
             },
-            timeout: 10000
+            timeout: 15000
         });
         
         const $ = cheerio.load(response.data);
         
-        // Look for chapter table with timestamps
-        const chapters = $('.chapter-row');
-        if (chapters.length > 0) {
-            const latestChapter = chapters.last();
-            // Extract just the chapter title, not the time information
-            let title = latestChapter.find('a').first().text().replace(/\s+/g, ' ').trim();
-            // Remove any trailing time information like "2 days ago"
-            title = title.replace(/\s*\d+\s+(days?|hours?|minutes?|weeks?)\s+ago\s*$/i, '').trim();
-            const chapterLink = latestChapter.find('a').attr('href');
-            let chapterUrl = null;
-            
-            if (chapterLink) {
-                // Construct full URL if it's a relative link
-                chapterUrl = chapterLink.startsWith('http') ? chapterLink : `https://www.royalroad.com${chapterLink}`;
+        console.log('🧠 Scraping Royal Road chapter table...');
+        
+        // Look for chapter table - Royal Road has a specific structure
+        const chapterSelectors = [
+            'tbody .chapter-row', // Main chapter table rows
+            '.chapter-row',
+            'table tr:has(td)', 
+            '.portlet-body table tr',
+            '#chapters tbody tr'
+        ];
+        
+        let chapters = $();
+        let usedSelector = '';
+        
+        for (const selector of chapterSelectors) {
+            chapters = $(selector);
+            if (chapters.length > 0) {
+                console.log(`✅ Found ${chapters.length} chapters using selector: ${selector}`);
+                usedSelector = selector;
+                break;
             }
-            
-            // Enhanced Royal Road metrics extraction
-            const views = extractEngagementMetric($, [
-                '.stats-content', '.views', '.view-count', '.fiction-stats .views',
-                '[class*="view"]', '.total-views'
-            ], 'views') || extractViewsFromStats($('.stats-content').text());
-            
-            const likes = extractEngagementMetric($, [
-                '.ratings', '.rating', '.stars', '.likes', '.fiction-stats .rating',
-                '[class*="rating"]', '[class*="star"]', '.total-rating'
-            ], 'likes');
-            
-            const comments = extractEngagementMetric($, [
-                '.reviews', '.review-count', '.comments', '.comment-count',
-                '[class*="review"]', '[class*="comment"]', '.total-reviews'
-            ], 'comments');
-            
-            // Extract word count from Royal Road stats
-            const wordCount = extractWordCount($, [
-                '.word-count', '.words', '.fiction-stats .words', '.stats-content',
-                '[class*="word"]', '.total-words', '.chapter-word-count'
-            ], 'royalroad');
-            
-            // Try to find chapter publication time
-            const timeElement = latestChapter.find('time, .date, .published');
-            let timestamp = null;
-            let lastUpdate = 'Recently';
-            
-            if (timeElement.length > 0) {
-                const timeAttr = timeElement.attr('datetime') || timeElement.attr('data-time');
-                const timeText = timeElement.text().replace(/\s+/g, ' ').trim();
-                
-                if (timeAttr) {
-                    timestamp = new Date(timeAttr);
-                    lastUpdate = formatRelativeTime(timestamp);
-                } else if (timeText) {
-                    timestamp = parseRelativeTime(timeText);
-                    lastUpdate = timeText;
-                }
-            }
-            
+        }
+        
+        if (chapters.length === 0) {
+            console.log('❌ No chapters found with any selector');
             return {
                 platform: 'royalroad',
-                status: 'updated',
-                last_chapter: extractChapterNumber(title),
-                chapter_title: title,
-                last_update: lastUpdate,
-                timestamp: timestamp ? timestamp.toISOString() : null,
-                views: views || 3776,
-                likes: 45,
-                comments: 12,
-                word_count: wordCount || 3200,
-                chapter_url: chapterUrl,
-                raw_title: title
+                status: 'error',
+                error: 'Could not find chapter table'
             };
         }
         
+        // Get the LATEST chapter (last in Royal Road table, as they're in chronological order)
+        const latestChapter = chapters.last();
+        const chapterLink = latestChapter.find('a[href*="chapter"]').first();
+        
+        if (chapterLink.length === 0) {
+            console.log('❌ No chapter link found in latest chapter row');
+            return {
+                platform: 'royalroad',
+                status: 'error',
+                error: 'Could not extract chapter link'
+            };
+        }
+        
+        let title = chapterLink.text().trim();
+        // Clean up title - remove extra whitespace and time info
+        title = title.replace(/\s+/g, ' ').replace(/\s*\d+\s+(days?|hours?|minutes?|weeks?)\s+ago\s*$/i, '').trim();
+        
+        const href = chapterLink.attr('href');
+        const chapterUrl = href?.startsWith('http') ? href : `https://www.royalroad.com${href}`;
+        
+        console.log(`📖 Latest Royal Road chapter: "${title}"`);
+        console.log(`🔗 Chapter URL: ${chapterUrl}`);
+        
+        // Extract chapter number from title
+        const chapterNumber = extractChapterNumber(title) || 'Latest';
+        
+        // Try to extract publication date from the chapter row
+        const timeElement = latestChapter.find('time[datetime], time[unixtime], [title*="ago" i]');
+        let timestamp = null;
+        let lastUpdate = 'Recently';
+        
+        if (timeElement.length > 0) {
+            const timeAttr = timeElement.attr('datetime') || timeElement.attr('unixtime') || timeElement.attr('title');
+            
+            if (timeAttr) {
+                if (timeAttr.includes('ago')) {
+                    // Parse relative time from title attribute like "2 days ago"
+                    timestamp = parseRelativeTime(timeAttr);
+                    lastUpdate = timeAttr;
+                } else {
+                    // Parse datetime or unix timestamp
+                    timestamp = new Date(isNaN(timeAttr) ? timeAttr : parseInt(timeAttr) * 1000);
+                    lastUpdate = formatRelativeTime(timestamp);
+                }
+                console.log(`🕒 Found publication date: ${timestamp}`);
+            }
+        }
+        
+        // Extract fiction stats from the page
+        const views = extractEngagementMetric($, [
+            '.stats-content', '.view-count', '.fiction-stats dd',
+            'dd:contains("Views")', '.stats dd'
+        ], 'views') || extractViewsFromStats($('.stats-content').text());
+        
+        const followers = extractEngagementMetric($, [
+            '.fiction-stats dd', 'dd:contains("Followers")',
+            '.stats dd', '.followers'
+        ], 'followers');
+        
+        const favorites = extractEngagementMetric($, [
+            '.fiction-stats dd', 'dd:contains("Favorites")', 
+            '.stats dd', '.favorites'
+        ], 'favorites');
+        
+        const rating = $('span[property="ratingValue"]').text() || $('.fiction-stats .stars').text();
+        
         return {
             platform: 'royalroad',
-            status: 'up_to_date',
-            last_chapter: 'Latest',
-            chapter_title: 'Up to Date',
-            last_update: 'Recently',
-            timestamp: new Date().toISOString(),
-            views: 3776,
-            likes: 45,
-            comments: 12,
-            word_count: 3200,
-            note: 'Full chapters every Monday'
+            status: 'updated', 
+            last_chapter: chapterNumber,
+            chapter_title: title,
+            last_update: lastUpdate,
+            timestamp: timestamp ? timestamp.toISOString() : new Date().toISOString(),
+            views: views || 0,
+            likes: favorites || 0, // Use favorites as "likes"
+            comments: 0, // Would need to scrape individual chapter for comments
+            word_count: 3200, // Estimated per chapter
+            chapter_url: chapterUrl,
+            raw_title: title,
+            total_chapters: chapters.length,
+            followers: followers || 0,
+            rating: rating,
+            scraping_method: usedSelector
         };
         
     } catch (error) {
         console.error('❌ Royal Road scraping error:', error.message);
         return {
             platform: 'royalroad',
-            status: 'up_to_date',
-            last_chapter: 'Latest',
-            chapter_title: 'Up to Date',
-            last_update: 'Recently',
-            timestamp: new Date().toISOString(),
-            views: 3776,
-            likes: 45,
-            comments: 12,
-            word_count: 3200,
-            note: 'Full chapters every Monday'
+            status: 'error',
+            error: `Scraping failed: ${error.message}`
         };
     }
 }
@@ -563,198 +482,173 @@ async function parseAO3RSS() {
         
         const $ = cheerio.load(response.data, { xmlMode: true });
         
-        // Check if this is an Atom feed (AO3 uses Atom) or RSS feed
+        // Check if this is an Atom feed (AO3 uses Atom)  
         const atomEntries = $('entry');
-        const rssItems = $('item');
-        const items = atomEntries.length > 0 ? atomEntries : rssItems;
+        console.log(`📖 Found ${atomEntries.length} Atom entries in AO3 feed`);
         
-        console.log(`📖 Found ${items.length} ${atomEntries.length > 0 ? 'Atom entries' : 'RSS items'} in AO3 feed`);
-        
-        if (items.length > 0) {
-            const latestItem = items.first();
-            const title = latestItem.find('title').text();
-            const pubDate = latestItem.find('pubDate, published, updated').text();
-            console.log(`📄 Latest item: "${title}" published: ${pubDate}`);
+        if (atomEntries.length > 0) {
+            const latestEntry = atomEntries.first();
+            const title = latestEntry.find('title').text().trim();
+            const published = latestEntry.find('published').text().trim();
+            const updated = latestEntry.find('updated').text().trim();
+            const pubDate = updated || published;
             
-            // Try to scrape the actual AO3 work page for metrics
-            let views = null, likes = null, comments = null, wordCount = null;
-            try {
-                const workResponse = await axios.get(PLATFORMS.ao3.url, {
-                    headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
-                    timeout: 10000
-                });
-                const workPage$ = cheerio.load(workResponse.data);
-                
-                // Enhanced AO3 metrics extraction
-                views = extractEngagementMetric(workPage$, [
-                    '.hits', '.hit-count', '.stats .hits', 'dd.hits',
-                    '[class*="hit"]', '.kudos_stats .hits'
-                ], 'views');
-                
-                likes = extractEngagementMetric(workPage$, [
-                    '.kudos', '.kudos-count', '.stats .kudos', 'dd.kudos',
-                    '[class*="kudos"]', '.kudos_stats .kudos'
-                ], 'likes');
-                
-                comments = extractEngagementMetric(workPage$, [
-                    '.comments', '.comment-count', '.stats .comments', 'dd.comments',
-                    '[class*="comment"]', '.kudos_stats .comments'
-                ], 'comments');
-                
-                // Extract word count from AO3
-                wordCount = extractWordCount(workPage$, [
-                    '.words', '.word-count', '.stats .words', 'dd.words',
-                    '[class*="word"]', '.work-stats .words'
-                ], 'ao3');
-                
-            } catch (workError) {
-                console.log('⚠️ Could not scrape AO3 work page for metrics:', workError.message);
-            }
+            console.log(`📄 Latest AO3 entry: "${title}" published: ${pubDate}`);
             
-            return {
-                platform: 'ao3',
-                status: 'updated',
-                last_chapter: extractChapterNumber(title),
-                chapter_title: title,
-                last_update: formatDate(pubDate),
-                timestamp: new Date(pubDate).toISOString(),
-                views: views || 156,
-                likes: likes || 23,
-                comments: comments || 4,
-                word_count: wordCount || 2800,
-                raw_title: title
-            };
-        }
-        
-        // If RSS feed is empty, try to scrape the work page for LATEST CHAPTER info
-        console.log('💻 AO3 RSS feed empty, attempting direct work page scraping for latest chapter...');
-        try {
-            const workResponse = await axios.get(PLATFORMS.ao3.url, {
-                headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
-                timeout: 15000
-            });
-            const workPage$ = cheerio.load(workResponse.data);
-            
-            // Look for chapter index/list to find the LATEST chapter
-            const chapterLinks = workPage$('#chapter_index .chapter a, .chapter .title a, .work .chapter a, ol.index a');
-            console.log(`📖 Found ${chapterLinks.length} chapter links on AO3 work page`);
-            
-            if (chapterLinks.length > 0) {
-                // Get the LAST chapter (most recent)
-                const latestChapterLink = chapterLinks.last();
-                const chapterTitle = latestChapterLink.text().trim();
-                const chapterUrl = latestChapterLink.attr('href');
+            if (title && pubDate) {
+                const chapterNumber = extractChapterNumber(title) || 'Latest';
+                const timestamp = new Date(pubDate);
+                const lastUpdate = formatRelativeTime(timestamp);
                 
-                console.log(`📄 Latest AO3 chapter: "${chapterTitle}"`);
+                console.log(`🕒 AO3 chapter timestamp: ${timestamp}`);
                 
-                // Try to get chapter publication date from the chapter link or surrounding elements
-                let chapterDate = 'Recently';
-                let timestamp = new Date().toISOString();
-                
-                // Look for date information near the chapter link
-                const dateElement = latestChapterLink.closest('li, .chapter').find('time, .datetime, .published');
-                if (dateElement.length > 0) {
-                    const dateAttr = dateElement.attr('datetime') || dateElement.attr('title');
-                    const dateText = dateElement.text().trim();
-                    
-                    if (dateAttr) {
-                        timestamp = new Date(dateAttr).toISOString();
-                        chapterDate = formatRelativeTime(new Date(dateAttr));
-                    } else if (dateText) {
-                        const parsed = parseRelativeTime(dateText);
-                        if (parsed) {
-                            timestamp = parsed.toISOString();
-                            chapterDate = dateText;
-                        }
-                    }
-                }
-                
-                // For chapter-specific metrics, we would need to scrape the individual chapter
-                // For now, return chapter info with reasonable defaults since this is about tracking updates
                 return {
                     platform: 'ao3',
                     status: 'updated',
-                    last_chapter: extractChapterNumber(chapterTitle),
-                    chapter_title: chapterTitle,
-                    last_update: chapterDate,
-                    timestamp: timestamp,
-                    views: Math.floor(Math.random() * 50) + 20, // Chapter-level views (estimated)
-                    likes: Math.floor(Math.random() * 10) + 2,  // Chapter-level kudos (estimated)
-                    comments: Math.floor(Math.random() * 5) + 1, // Chapter-level comments (estimated)
-                    word_count: Math.floor(Math.random() * 2000) + 2500, // Chapter word count (estimated)
-                    chapter_url: chapterUrl ? `https://archiveofourown.org${chapterUrl}` : PLATFORMS.ao3.url,
-                    raw_title: chapterTitle,
-                    note: 'Full chapters every Monday'
+                    last_chapter: chapterNumber,
+                    chapter_title: title,
+                    last_update: lastUpdate,
+                    timestamp: timestamp.toISOString(),
+                    views: 0, // RSS doesn't include metrics
+                    likes: 0,
+                    comments: 0,
+                    word_count: 2800, // Estimated per chapter
+                    chapter_url: PLATFORMS.ao3.url,
+                    raw_title: title,
+                    source: 'rss_feed'
                 };
-            } else {
-                // Look for any work update information
-                const workTitle = workPage$('h2.title').text().trim();
-                const lastUpdate = workPage$('.stats .status').text().trim() || 'Recently';
-                
-                if (workTitle.includes('Unyielding') || workTitle) {
-                    console.log(`📋 Found AO3 work: "${workTitle}"`);
-                    return {
-                        platform: 'ao3',
-                        status: 'updated',
-                        last_chapter: 'Latest',
-                        chapter_title: 'Recent Update',
-                        last_update: lastUpdate,
-                        timestamp: new Date().toISOString(),
-                        views: Math.floor(Math.random() * 50) + 20,
-                        likes: Math.floor(Math.random() * 10) + 2,
-                        comments: Math.floor(Math.random() * 5) + 1,
-                        word_count: Math.floor(Math.random() * 2000) + 2500,
-                        chapter_url: PLATFORMS.ao3.url,
-                        raw_title: 'Recent Update',
-                        note: 'Full chapters every Monday'
-                    };
-                }
             }
-        } catch (directScrapeError) {
-            console.log('⚠️ AO3 direct scraping also failed:', directScrapeError.message);
         }
+        
+        // If RSS parsing fails, try direct work page scraping
+        console.log('💻 AO3 RSS feed empty/failed, attempting direct work page scraping...');
+        
+        const workResponse = await axios.get(PLATFORMS.ao3.url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
+            timeout: 15000
+        });
+        const workPage$ = cheerio.load(workResponse.data);
+        
+        console.log('🧠 Scraping AO3 work page for chapter list...');
+        
+        // Look for chapter index - AO3 has different structures
+        const chapterSelectors = [
+            '#chapter_index li a', // Main chapter index
+            '.chapter .title a',
+            'ol.index.group li a',
+            '.work .chapter a'
+        ];
+        
+        let chapterLinks = $();
+        let usedSelector = '';
+        
+        for (const selector of chapterSelectors) {
+            chapterLinks = workPage$(selector);
+            if (chapterLinks.length > 0) {
+                console.log(`✅ Found ${chapterLinks.length} chapters using selector: ${selector}`);
+                usedSelector = selector;
+                break;
+            }
+        }
+        
+        if (chapterLinks.length === 0) {
+            console.log('❌ No chapter links found on AO3 work page');
+            return {
+                platform: 'ao3',
+                status: 'error',
+                error: 'Could not find chapter list'
+            };
+        }
+        
+        // Get the LAST chapter (most recent)
+        const latestChapterLink = chapterLinks.last();
+        const chapterTitle = latestChapterLink.text().trim();
+        const chapterHref = latestChapterLink.attr('href');
+        const chapterUrl = chapterHref ? `https://archiveofourown.org${chapterHref}` : PLATFORMS.ao3.url;
+        
+        console.log(`📄 Latest AO3 chapter: "${chapterTitle}"`);
+        console.log(`🔗 Chapter URL: ${chapterUrl}`);
+        
+        // Extract chapter number
+        const chapterNumber = extractChapterNumber(chapterTitle) || 'Latest';
+        
+        // Try to get the work's last updated date
+        const updatedElement = workPage$('dt:contains("Updated") + dd, .meta dt:contains("Updated") + dd');
+        let timestamp = new Date();
+        let lastUpdate = 'Recently';
+        
+        if (updatedElement.length > 0) {
+            const dateText = updatedElement.text().trim();
+            try {
+                timestamp = new Date(dateText);
+                lastUpdate = formatRelativeTime(timestamp);
+                console.log(`🕒 Found AO3 update date: ${timestamp}`);
+            } catch (dateError) {
+                console.log('⚠️ Could not parse AO3 date:', dateText);
+            }
+        }
+        
+        // Extract work stats
+        const hits = workPage$('dt:contains("Hits") + dd').text().trim();
+        const kudos = workPage$('dt:contains("Kudos") + dd').text().trim(); 
+        const comments = workPage$('dt:contains("Comments") + dd').text().trim();
+        const words = workPage$('dt:contains("Words") + dd').text().trim();
         
         return {
             platform: 'ao3',
-            status: 'up_to_date',
-            last_chapter: 'Latest',
-            chapter_title: 'Up to Date',
-            last_update: 'Recently',
-            timestamp: new Date().toISOString(),
-            views: 156,
-            likes: 23,
-            comments: 4,
-            word_count: 2800,
-            note: 'Full chapters every Monday'
+            status: 'updated',
+            last_chapter: chapterNumber,
+            chapter_title: chapterTitle,
+            last_update: lastUpdate,
+            timestamp: timestamp.toISOString(),
+            views: hits ? parseInt(hits.replace(/,/g, '')) : 0,
+            likes: kudos ? parseInt(kudos.replace(/,/g, '')) : 0,
+            comments: comments ? parseInt(comments.replace(/,/g, '')) : 0,
+            word_count: words ? parseInt(words.replace(/,/g, '')) : 2800,
+            chapter_url: chapterUrl,
+            raw_title: chapterTitle,
+            total_chapters: chapterLinks.length,
+            work_stats: { hits, kudos, comments, words },
+            scraping_method: usedSelector,
+            source: 'work_page'
         };
         
     } catch (error) {
-        console.error('❌ AO3 RSS parsing error:', error.message);
+        console.error('❌ AO3 scraping error:', error.message);
         return {
             platform: 'ao3',
-            status: 'up_to_date',
-            last_chapter: 'Latest',
-            chapter_title: 'Up to Date',
-            last_update: 'Recently',
-            timestamp: new Date().toISOString(),
-            views: 156,
-            likes: 23,
-            comments: 4,
-            word_count: 2800,
-            note: 'Full chapters every Monday'
+            status: 'error',
+            error: `Scraping failed: ${error.message}`
         };
     }
 }
 
 // Utility functions
 function extractChapterNumber(title) {
-    const match = title.match(/(\d+)\.(\d+)|chapter\s*(\d+)/i);
-    if (match) {
-        if (match[1] && match[2]) {
-            return `${match[1]}.${match[2]}`;
+    if (!title) return 'Unknown';
+    
+    // Try different patterns for chapter/episode numbers
+    const patterns = [
+        /(\d+)\.(\d+)/,                    // "18.2", "1.1" 
+        /chapter\s*(\d+)/i,               // "Chapter 18"
+        /kapitel\s*(\d+)/i,               // "Kapitel 18" (German)
+        /episode\s*(\d+)/i,               // "Episode 18"
+        /part\s*(\d+)/i,                  // "Part 18"
+        /teil\s*(\d+)/i,                  // "Teil 18" (German)
+        /(\d+):/,                         // "18: Title"
+        /^(\d+)/                          // Starting with number
+    ];
+    
+    for (const pattern of patterns) {
+        const match = title.match(pattern);
+        if (match) {
+            if (match[1] && match[2]) {
+                return `${match[1]}.${match[2]}`;
+            }
+            return match[1] || match[2] || match[3];
         }
-        return match[3] || match[1];
     }
+    
     return 'Unknown';
 }
 
@@ -978,117 +872,7 @@ function determineUploadStatus(timestamp) {
     return 'older';
 }
 
-// OLD MOCK DATA - REMOVING
-const oldMockPlatforms = [
-    {
-        platform: 'tapas',
-        status: 'updated',
-        last_chapter: 'Latest',
-        chapter_title: 'New Chapter Available',
-        last_update: '2 days ago',
-        views: 1234,
-        likes: 89,
-        comments: 12
-    },
-    {
-        platform: 'wattpad',
-        status: 'pending',
-        last_chapter: 'Latest',
-        chapter_title: 'Chapter in Review',
-        last_update: '3 days ago',
-        views: 2891,
-        likes: 156,
-        comments: 24
-    },
-    {
-        platform: 'ao3',
-        status: 'behind',
-        last_chapter: 'Latest',
-        chapter_title: 'Update Pending',
-        last_update: '5 days ago',
-        views: 987,
-        likes: 67,
-        comments: 8
-    },
-    {
-        platform: 'inkspired',
-        status: 'updated',
-        last_chapter: 'Latest',
-        chapter_title: 'Fresh Chapter',
-        last_update: '1 day ago',
-        views: 1567,
-        likes: 98,
-        comments: 15
-    },
-    {
-        platform: 'royalroad',
-        status: 'latest',
-        last_chapter: 'Latest',
-        chapter_title: 'Newest Release',
-        last_update: '1 day ago',
-        views: 3456,
-        likes: 234,
-        comments: 45
-    },
-    {
-        platform: 'scribblehub',
-        status: 'updating',
-        last_chapter: 'Latest',
-        chapter_title: 'Coming Soon',
-        last_update: '4 days ago',
-        views: 876,
-        likes: 54,
-        comments: 9
-    }
-];
-
-const mockUpdates = [
-    {
-        id: '1',
-        platform: 'royalroad',
-        platform_display: 'Royal Road',
-        platform_emoji: '👑',
-        chapter_number: 'Latest',
-        chapter_title: 'The Journey Continues',
-        status: 'latest',
-        published_date: '1 day ago',
-        word_count: 2847,
-        views: 3456,
-        likes: 234,
-        comments: 45,
-        preview: 'In this exciting chapter, our protagonist faces new challenges and discovers hidden truths about their destiny...'
-    },
-    {
-        id: '2',
-        platform: 'tapas',
-        platform_display: 'Tapas',
-        platform_emoji: '🎨',
-        chapter_number: 'Latest',
-        chapter_title: 'Echoes of the Past',
-        status: 'updated',
-        published_date: '2 days ago',
-        word_count: 2156,
-        views: 1234,
-        likes: 89,
-        comments: 12,
-        preview: 'Memories surface as the story takes an unexpected turn, revealing connections to earlier events...'
-    },
-    {
-        id: '3',
-        platform: 'inkspired',
-        platform_display: 'Inkspired',
-        platform_emoji: '🌟',
-        chapter_number: 'Latest',
-        chapter_title: 'Rising Tensions',
-        status: 'updated',
-        published_date: '1 day ago',
-        word_count: 2634,
-        views: 1567,
-        likes: 98,
-        comments: 15,
-        preview: 'The conflict intensifies as alliances are tested and new enemies emerge from the shadows...'
-    }
-];
+// Mock data removed - using only real scraped data
 
 async function scrapeInkspired() {
     try {
@@ -1097,100 +881,85 @@ async function scrapeInkspired() {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
             },
-            timeout: 10000
+            timeout: 15000
         });
         
         const $ = cheerio.load(response.data);
         
-        // Look for chapter list or latest chapter
-        const chapters = $('.chapter, .story-chapter, .chapter-item, .episode');
-        if (chapters.length > 0) {
-            const latestChapter = chapters.first();
-            const title = latestChapter.find('h3, .title, .chapter-title, a').text().trim() || $('h1').text().trim();
-            
-            // Enhanced Inkspired metrics extraction
-            const views = extractEngagementMetric($, [
-                '.views', '.view-count', '.reads', '.story-stats .views',
-                '[class*="view"]', '.stats-views', '.total-views'
-            ], 'views');
-            
-            const likes = extractEngagementMetric($, [
-                '.likes', '.like-count', '.hearts', '.love', '.story-stats .likes',
-                '[class*="like"]', '[class*="heart"]', '.stats-likes'
-            ], 'likes');
-            
-            const comments = extractEngagementMetric($, [
-                '.comments', '.comment-count', '.reviews', '.story-stats .comments',
-                '[class*="comment"]', '[class*="review"]', '.stats-comments'
-            ], 'comments');
-            
-            // Extract word count for Inkspired
-            const wordCount = extractWordCount($, [
-                '.word-count', '.words', '.story-stats .words', '.chapter-stats',
-                '[class*="word"]', '[class*="length"]', '.stats-words'
-            ], 'inkspired');
-            
-            // Try to find publication time
-            const timeElement = latestChapter.find('.timestamp, .date, .published, time, .ago');
-            let timestamp = null;
-            let lastUpdate = 'Recently';
-            
-            if (timeElement.length > 0) {
-                const timeText = timeElement.text().trim();
-                const timeAttr = timeElement.attr('datetime') || timeElement.attr('data-time');
-                
-                if (timeAttr) {
-                    timestamp = new Date(timeAttr);
-                    lastUpdate = formatRelativeTime(timestamp);
-                } else if (timeText) {
-                    timestamp = parseRelativeTime(timeText);
-                    lastUpdate = timeText;
-                }
+        console.log('🧠 Scraping Inkspired chapter list...');
+        
+        // Look for chapter/story structure
+        const chapterSelectors = [
+            '.chapter-list .chapter',
+            '.story-chapters .chapter',
+            '.chapters .chapter-item',
+            '.episode-list .episode',
+            '.content-list .content-item'
+        ];
+        
+        let chapters = $();
+        let usedSelector = '';
+        
+        for (const selector of chapterSelectors) {
+            chapters = $(selector);
+            if (chapters.length > 0) {
+                console.log(`✅ Found ${chapters.length} chapters using selector: ${selector}`);
+                usedSelector = selector;
+                break;
             }
-            
+        }
+        
+        if (chapters.length === 0) {
+            console.log('❌ No chapters found with any selector');
             return {
                 platform: 'inkspired',
-                status: 'updated',
-                last_chapter: extractChapterNumber(title),
-                chapter_title: title,
-                last_update: lastUpdate,
-                timestamp: timestamp ? timestamp.toISOString() : null,
-                views: views || 89,
-                likes: likes || 12,
-                comments: comments || 5,
-                word_count: wordCount || 2200,
-                raw_title: title
+                status: 'error',
+                error: 'Could not find chapter list'
             };
         }
         
+        // Get latest chapter (first or last depending on ordering)
+        const latestChapter = chapters.first();
+        const chapterLink = latestChapter.find('a').first();
+        
+        if (chapterLink.length === 0) {
+            console.log('❌ No chapter link found');
+            return {
+                platform: 'inkspired',
+                status: 'error',
+                error: 'Could not extract chapter link'
+            };
+        }
+        
+        const title = chapterLink.text().trim();
+        const href = chapterLink.attr('href');
+        const chapterUrl = href?.startsWith('http') ? href : `https://getinkspired.com${href}`;
+        
+        console.log(`📖 Latest Inkspired chapter: "${title}"`);
+        
         return {
             platform: 'inkspired',
-            status: 'up_to_date',
-            last_chapter: 'Latest',
-            chapter_title: 'Up to Date',
+            status: 'updated',
+            last_chapter: extractChapterNumber(title) || 'Latest',
+            chapter_title: title,
             last_update: 'Recently',
             timestamp: new Date().toISOString(),
-            views: 89,
-            likes: 12,
-            comments: 5,
+            views: 0,
+            likes: 0,
+            comments: 0,
             word_count: 2200,
-            note: 'Full chapters every Monday'
+            chapter_url: chapterUrl,
+            raw_title: title,
+            total_chapters: chapters.length,
+            scraping_method: usedSelector
         };
         
     } catch (error) {
         console.error('❌ Inkspired scraping error:', error.message);
         return {
             platform: 'inkspired',
-            status: 'up_to_date',
-            last_chapter: 'Latest',
-            chapter_title: 'Up to Date',
-            last_update: 'Recently',
-            timestamp: new Date().toISOString(),
-            views: 89,
-            likes: 12,
-            comments: 5,
-            word_count: 2200,
-            note: 'Full chapters every Monday'
+            status: 'error',
+            error: `Scraping failed: ${error.message}`
         };
     }
 }
@@ -1202,146 +971,158 @@ async function scrapeScribbleHub() {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
             },
-            timeout: 10000
+            timeout: 15000
         });
         
         const $ = cheerio.load(response.data);
         
-        // Look for chapter table or list
-        const chapters = $('.chapter_row_table, .toc_w, .chapter-item, tr');
-        if (chapters.length > 0) {
-            const latestChapter = chapters.first();
-            const title = latestChapter.find('a, .chapter-title, td').text().trim() || $('h1').text().trim();
-            
-            // Enhanced ScribbleHub metrics extraction
-            const views = extractEngagementMetric($, [
-                '.views', '.view-count', '.wi_views', '.stats .views',
-                '[class*="view"]', '.total-views', '.story-stats .views'
-            ], 'views');
-            
-            const likes = extractEngagementMetric($, [
-                '.likes', '.like-count', '.wi_likes', '.hearts', '.stats .likes',
-                '[class*="like"]', '[class*="heart"]', '.story-stats .likes'
-            ], 'likes');
-            
-            const comments = extractEngagementMetric($, [
-                '.comments', '.comment-count', '.wi_comments', '.stats .comments',
-                '[class*="comment"]', '.story-stats .comments'
-            ], 'comments');
-            
-            // Extract word count for ScribbleHub
-            const wordCount = extractWordCount($, [
-                '.word-count', '.words', '.wi_words', '.stats .words',
-                '[class*="word"]', '.chapter-stats', '.story-stats .words'
-            ], 'scribblehub');
-            
-            // Try to find publication time
-            const timeElement = latestChapter.find('.fic_date, time, .date, .published');
-            let timestamp = null;
-            let lastUpdate = 'Recently';
-            
-            if (timeElement.length > 0) {
-                const timeText = timeElement.text().trim();
-                const timeAttr = timeElement.attr('datetime') || timeElement.attr('title');
-                
-                if (timeAttr) {
-                    timestamp = new Date(timeAttr);
-                    lastUpdate = formatRelativeTime(timestamp);
-                } else if (timeText) {
-                    timestamp = parseRelativeTime(timeText);
-                    lastUpdate = timeText;
-                }
+        console.log('🧠 Scraping ScribbleHub chapter table...');
+        
+        // Look for chapter table/list - ScribbleHub specific selectors
+        const chapterSelectors = [
+            '.toc_w tr', // Table of contents rows
+            '.chapter_row_table tr',
+            '.toc-table tr',
+            'table tr:has(td)',
+            '.chapter-table tr'
+        ];
+        
+        let chapters = $();
+        let usedSelector = '';
+        
+        for (const selector of chapterSelectors) {
+            chapters = $(selector);
+            if (chapters.length > 0) {
+                console.log(`✅ Found ${chapters.length} chapters using selector: ${selector}`);
+                usedSelector = selector;
+                break;
             }
-            
+        }
+        
+        if (chapters.length === 0) {
+            console.log('❌ No chapters found with any selector');
             return {
                 platform: 'scribblehub',
-                status: 'updated',
-                last_chapter: extractChapterNumber(title),
-                chapter_title: title,
-                last_update: lastUpdate,
-                timestamp: timestamp ? timestamp.toISOString() : null,
-                views: views || 123,
-                likes: likes || 18,
-                comments: comments || 7,
-                word_count: wordCount || 2900,
-                raw_title: title
+                status: 'error',
+                error: 'Could not find chapter table'
             };
         }
         
+        // Get latest chapter (usually last in ScribbleHub tables)
+        const latestChapter = chapters.last();
+        const chapterLink = latestChapter.find('a[href*="chapter"], a[href*="read"]').first();
+        
+        if (chapterLink.length === 0) {
+            console.log('❌ No chapter link found');
+            return {
+                platform: 'scribblehub',
+                status: 'error',
+                error: 'Could not extract chapter link'
+            };
+        }
+        
+        const title = chapterLink.text().trim();
+        const href = chapterLink.attr('href');
+        const chapterUrl = href?.startsWith('http') ? href : `https://www.scribblehub.com${href}`;
+        
+        console.log(`📖 Latest ScribbleHub chapter: "${title}"`);
+        
         return {
             platform: 'scribblehub',
-            status: 'up_to_date',
-            last_chapter: 'Latest',
-            chapter_title: 'Up to Date',
+            status: 'updated',
+            last_chapter: extractChapterNumber(title) || 'Latest',
+            chapter_title: title,
             last_update: 'Recently',
             timestamp: new Date().toISOString(),
-            views: 123,
-            likes: 18,
-            comments: 7,
+            views: 0,
+            likes: 0,
+            comments: 0,
             word_count: 2900,
-            note: 'Full chapters every Monday'
+            chapter_url: chapterUrl,
+            raw_title: title,
+            total_chapters: chapters.length,
+            scraping_method: usedSelector
         };
         
     } catch (error) {
         console.error('❌ ScribbleHub scraping error:', error.message);
         return {
             platform: 'scribblehub',
-            status: 'up_to_date',
-            last_chapter: 'Latest',
-            chapter_title: 'Up to Date',
-            last_update: 'Recently',
-            timestamp: new Date().toISOString(),
-            views: 123,
-            likes: 18,
-            comments: 7,
-            word_count: 2900,
-            note: 'Full chapters every Monday'
+            status: 'error',
+            error: `Scraping failed: ${error.message}`
         };
     }
 }
 
-// Main scraping function
+// Hybrid scraping function - combines real scraping + manual tracking
 async function scrapeAllPlatforms() {
-    console.log('🚀 Starting real-time scraping of all platforms...');
+    console.log('🚀 Starting hybrid scraping (auto + manual tracking)...');
     
-    const scrapers = [
-        scrapeWattpad(),
-        scrapeTapas(), 
-        scrapeRoyalRoad(),
-        parseAO3RSS(),
-        scrapeInkspired(),
-        scrapeScribbleHub()
-    ];
+    const platforms = [];
     
-    const results = await Promise.allSettled(scrapers);
-    const platforms = results.map((result, index) => {
-        if (result.status === 'fulfilled') {
-            return result.value;
+    // Process each platform based on its scraping setting
+    for (const [platformKey, config] of Object.entries(PLATFORMS)) {
+        if (config.scraping) {
+            // Use real scraping for platforms that work
+            console.log(`🔍 Auto-scraping ${config.name}...`);
+            try {
+                let result;
+                if (platformKey === 'royalroad') {
+                    result = await scrapeRoyalRoad();
+                } else if (platformKey === 'ao3') {
+                    result = await parseAO3RSS();
+                }
+                
+                if (result) {
+                    result.note = config.note;
+                    platforms.push(result);
+                } else {
+                    platforms.push({
+                        platform: platformKey,
+                        status: 'error',
+                        error: 'Scraping failed'
+                    });
+                }
+            } catch (error) {
+                platforms.push({
+                    platform: platformKey,
+                    status: 'error', 
+                    error: error.message
+                });
+            }
         } else {
-            const platformNames = ['wattpad', 'tapas', 'royalroad', 'ao3', 'inkspired', 'scribblehub'];
-            return {
-                platform: platformNames[index],
-                status: 'error',
-                error: result.reason?.message || 'Scraping failed'
-            };
+            // Use manual tracking data
+            console.log(`📋 Using manual data for ${config.name}...`);
+            const lastUpdate = new Date(config.last_update);
+            const daysBehind = Math.floor((new Date() - lastUpdate) / (1000 * 60 * 60 * 24));
+            
+            let status = 'up_to_date';
+            if (daysBehind > 7) status = 'behind';
+            else if (daysBehind > 2) status = 'pending';
+            else if (daysBehind <= 1) status = 'updated';
+            
+            platforms.push({
+                platform: platformKey,
+                status: status,
+                last_chapter: config.last_chapter,
+                chapter_title: `${config.last_chapter}: Latest`,
+                last_update: formatRelativeTime(lastUpdate),
+                timestamp: lastUpdate.toISOString(),
+                views: 0, // Manual tracking doesn't include metrics
+                likes: 0,
+                comments: 0,
+                word_count: platformKey === 'wattpad' || platformKey === 'tapas' ? 2500 : 3200,
+                chapter_url: config.url,
+                raw_title: `${config.last_chapter}: Latest`,
+                note: config.note,
+                tracking_method: 'manual',
+                days_behind: daysBehind
+            });
         }
-    });
+    }
     
-    // Determine status based on comparison
-    const processedPlatforms = platforms.map(platform => {
-        if (platform.status === 'error') return platform;
-        
-        // Add notes from platform configuration
-        const config = PLATFORMS[platform.platform];
-        if (config && config.note) {
-            platform.note = config.note;
-        }
-        
-        return platform;
-    });
-    
-    console.log('✅ Scraping completed for all platforms');
-    return processedPlatforms;
+    console.log('✅ Hybrid scraping completed for all platforms');
+    return platforms;
 }
 
 // Enhanced generic scraper with engagement metrics
@@ -1449,7 +1230,7 @@ app.get('/api/platforms/status', async (req, res) => {
     try {
         // Check if we should update data (max once per hour)
         if (shouldUpdateData() || Object.keys(platformCache).length === 0) {
-            console.log('🔄 Scraping fresh data from all platforms...');
+            console.log('🔄 Getting fresh data from all platforms (hybrid mode)...');
             
             const platforms = await scrapeAllPlatforms();
             
@@ -1457,11 +1238,12 @@ app.get('/api/platforms/status', async (req, res) => {
                 platforms,
                 last_check: new Date().toISOString(),
                 next_update: new Date(Date.now() + UPDATE_INTERVAL_MS).toISOString(),
-                scraped_live: true
+                scraped_live: true,
+                tracking_method: 'hybrid'
             };
             lastUpdateTime = new Date();
         } else {
-            console.log('📋 Using cached scraped data (updated less than 1 hour ago)');
+            console.log('📋 Using cached hybrid data (updated less than 1 hour ago)');
         }
         
         res.json(platformCache);
@@ -1557,158 +1339,11 @@ app.get('/api/chapters/recent', (req, res) => {
         
         console.log(`📅 Filtered to ${filteredRecentUpdates.length} updates from the last 7 days (from ${recentUpdates.length} total)`);
         
-        // Only add mock data if we have no real recent updates
+        // NO MOCK DATA - Only real scraped updates
+        console.log(`🌟 Using ${filteredRecentUpdates.length} real recent updates (no mock data)`);
+        
         if (filteredRecentUpdates.length === 0) {
-            console.log('📝 No recent real updates found, adding mock data for 7-day history');
-        
-        // Add today's Tapas update (18.2)
-        recentUpdates.push({
-            id: 'mock-tapas-today',
-            platform: 'tapas',
-            platform_display: 'Tapas',
-            platform_emoji: '🎨',
-            chapter_number: 'Episode 18.2',
-            chapter_title: 'Chapter 18.2: Relentless Underdog',  
-            status: 'updated',
-            published_date: new Date().toISOString(),
-            timestamp: new Date().toISOString(),
-            word_count: 3100,
-            views: 1234,
-            likes: 78,
-            comments: 15,
-            url: PLATFORMS.tapas.url,
-            chapter_url: PLATFORMS.tapas.url,
-            platform_url: PLATFORMS.tapas.url,
-            preview: "Today's fresh chapter brings new developments and exciting plot twists!"
-        });
-        
-        // Add specific realistic updates from past few days
-        const specificUpdates = [
-            // 1 day ago - Wattpad
-            {
-                id: 'mock-wattpad-1day',
-                platform: 'wattpad',
-                platform_display: 'Wattpad',
-                platform_emoji: '📚',
-                chapter_number: 'Chapter 18.2',
-                chapter_title: 'Chapter 18.2: Relentless Underdog',
-                status: 'updated',
-                published_date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-                timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-                word_count: 2950,
-                views: 1500,
-                likes: 89,
-                comments: 23,
-                url: 'https://www.wattpad.com/1527602325-unyielding-chapter-18-2-relentless-underdog',
-                chapter_url: 'https://www.wattpad.com/1527602325-unyielding-chapter-18-2-relentless-underdog',
-                platform_url: PLATFORMS.wattpad.url,
-                preview: 'The latest Wattpad chapter with intense character development...'
-            },
-            // 2 days ago - Royal Road  
-            {
-                id: 'mock-royalroad-2days',
-                platform: 'royalroad',
-                platform_display: 'Royal Road',
-                platform_emoji: '👑',
-                chapter_number: 'Chapter 18.1',
-                chapter_title: 'Chapter 18.1: The Path Forward',
-                status: 'updated',
-                published_date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-                timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-                word_count: 3200,
-                views: 2800,
-                likes: 156,
-                comments: 45,
-                url: `${PLATFORMS.royalroad.url}/chapter/2490303/chapter-18-the-path-forward`,
-                chapter_url: `${PLATFORMS.royalroad.url}/chapter/2490303/chapter-18-the-path-forward`,
-                platform_url: PLATFORMS.royalroad.url,
-                preview: 'A pivotal chapter that sets the stage for what comes next...'
-            },
-            // 3 days ago - AO3
-            {
-                id: 'mock-ao3-3days',
-                platform: 'ao3',
-                platform_display: 'Archive of Our Own',
-                platform_emoji: '📖',
-                chapter_number: 'Chapter 18',
-                chapter_title: 'Chapter 18: Convergence',
-                status: 'updated',
-                published_date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-                timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-                word_count: 2800,
-                views: 1800,
-                likes: 92,
-                comments: 18,
-                url: `${PLATFORMS.ao3.url}/chapters/164375182`,
-                chapter_url: `${PLATFORMS.ao3.url}/chapters/164375182`,
-                platform_url: PLATFORMS.ao3.url,
-                preview: 'Multiple storylines begin to converge in unexpected ways...'
-            },
-            // 4 days ago - Wattpad
-            {
-                id: 'mock-wattpad-4days',
-                platform: 'wattpad',
-                platform_display: 'Wattpad',
-                platform_emoji: '📚',
-                chapter_number: 'Chapter 18.1',
-                chapter_title: 'Chapter 18.1: Rising Storm',
-                status: 'updated',
-                published_date: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
-                timestamp: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
-                word_count: 2750,
-                views: 2200,
-                likes: 134,
-                comments: 31,
-                url: 'https://www.wattpad.com/1526891047-unyielding-chapter-18-1-rising-storm',
-                chapter_url: 'https://www.wattpad.com/1526891047-unyielding-chapter-18-1-rising-storm',
-                platform_url: PLATFORMS.wattpad.url,
-                preview: 'Tensions escalate as new challenges emerge...'
-            },
-            // 5 days ago - Royal Road
-            {
-                id: 'mock-royalroad-5days',
-                platform: 'royalroad',
-                platform_display: 'Royal Road',
-                platform_emoji: '👑',
-                chapter_number: 'Chapter 18',
-                chapter_title: 'Chapter 18: Not Dying Quietly',
-                status: 'updated',
-                published_date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-                timestamp: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-                word_count: 3800,
-                views: 3776,
-                likes: 278,
-                comments: 89,
-                url: `${PLATFORMS.royalroad.url}/chapter/2490303/chapter-18-not-dying-quietly`,
-                chapter_url: `${PLATFORMS.royalroad.url}/chapter/2490303/chapter-18-not-dying-quietly`,
-                platform_url: PLATFORMS.royalroad.url,
-                preview: 'A fierce battle where our heroes refuse to go down without a fight...'
-            },
-            // 6 days ago - AO3
-            {
-                id: 'mock-ao3-6days',
-                platform: 'ao3',
-                platform_display: 'Archive of Our Own',
-                platform_emoji: '📖',
-                chapter_number: 'Chapter 17.5',
-                chapter_title: 'Chapter 17.5: Interlude',
-                status: 'updated',
-                published_date: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
-                timestamp: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
-                word_count: 2100,
-                views: 1600,
-                likes: 87,
-                comments: 15,
-                url: `${PLATFORMS.ao3.url}/chapters/164375181`,
-                chapter_url: `${PLATFORMS.ao3.url}/chapters/164375181`,
-                platform_url: PLATFORMS.ao3.url,
-                preview: 'A quiet moment before the storm, revealing hidden depths...'
-            }
-        ];
-        
-            filteredRecentUpdates.push(...specificUpdates);
-        } else {
-            console.log(`🌟 Using ${filteredRecentUpdates.length} real recent updates (no mock data needed)`);
+            console.log('⚠️ No recent real updates found - returning empty list');
         }
         
         // Sort by most recent first (chronological order - newest on top)
@@ -1775,10 +1410,10 @@ app.post('/api/sync/trigger', async (req, res) => {
     
     if (shouldUpdateData()) {
         console.log('✅ Manual sync allowed (over 1 hour since last update)');
-        // Force update by running actual scraping
+        // Force update by running hybrid scraping
         const scrapedData = await scrapeAllPlatforms();
         platformCache = {
-            platforms: scrapedData.platforms,
+            platforms: scrapedData,
             last_check: new Date().toISOString(),
             next_update: new Date(Date.now() + UPDATE_INTERVAL_MS).toISOString()
         };
@@ -1802,6 +1437,46 @@ app.post('/api/sync/trigger', async (req, res) => {
             next_allowed_sync: new Date(lastUpdateTime.getTime() + UPDATE_INTERVAL_MS).toISOString()
         });
     }
+});
+
+// NEW: Manual chapter update endpoint for your blog
+app.post('/api/chapter/update', (req, res) => {
+    console.log('📝 Manual chapter update triggered');
+    
+    const { platform, chapter, date } = req.body;
+    
+    if (!platform || !chapter || !date) {
+        return res.status(400).json({
+            success: false,
+            error: 'Missing required fields: platform, chapter, date'
+        });
+    }
+    
+    if (!PLATFORMS[platform]) {
+        return res.status(400).json({
+            success: false,
+            error: `Unknown platform: ${platform}`
+        });
+    }
+    
+    // Update the platform data (in a real system, this would update a database)
+    PLATFORMS[platform].last_chapter = chapter;
+    PLATFORMS[platform].last_update = date;
+    
+    // Clear cache to force refresh
+    platformCache = {};
+    lastUpdateTime = new Date(0);
+    
+    console.log(`✅ Updated ${platform}: Chapter ${chapter} on ${date}`);
+    
+    res.json({
+        success: true,
+        message: `Updated ${PLATFORMS[platform].name}`,
+        platform: platform,
+        chapter: chapter,
+        date: date,
+        timestamp: new Date().toISOString()
+    });
 });
 
 // Health check

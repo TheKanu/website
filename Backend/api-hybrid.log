@@ -1,0 +1,83 @@
+
+🚀 Secure API Server started!
+📡 HTTPS Server running on https://128.140.66.156:8443
+🔒 SSL/TLS encryption enabled
+
+📋 Available endpoints:
+   GET  /api/platforms/status
+   GET  /api/chapters/recent
+   POST /api/sync/trigger
+   GET  /health
+
+✅ Ready to serve platform data securely!
+
+📡 HTTP Server running on http://128.140.66.156:3001 (redirects to HTTPS)
+📡 Platform status requested
+🔄 Getting fresh data from all platforms (hybrid mode)...
+🚀 Starting hybrid scraping (auto + manual tracking)...
+📋 Using manual data for Wattpad...
+📋 Using manual data for Tapas...
+🔍 Auto-scraping Royal Road...
+🔍 Scraping Royal Road...
+🧠 Scraping Royal Road chapter table...
+✅ Found 51 chapters using selector: tbody .chapter-row
+📖 Latest Royal Road chapter: "Chapter 18: Not Dying Quietly"
+🔗 Chapter URL: https://www.royalroad.com/fiction/110754/unyielding/chapter/2490303/chapter-18-not-dying-quietly
+🕒 Found publication date: Mon Aug 04 2025 07:00:10 GMT+0200 (Central European Summer Time)
+✅ Found views: 3850 from "Overall Score
+                            
+                                This fiction has not received enough ratings yet to have a score.
+                            
+                        
+            
+            
+                
+                    Total Views :
+                    3,850
+                    Average Views :
+                    75
+                    Followers :
+                    4
+                    Favorites :
+                    1
+                        Ratings :
+                        0
+                    Pages  :
+                    422" (.stats-content)
+⚠️ Could not find followers metric
+⚠️ Could not find favorites metric
+🔍 Auto-scraping Archive of Our Own...
+🔍 Parsing AO3 RSS...
+✅ AO3 RSS response received, status: 200
+📖 Found 0 Atom entries in AO3 feed
+💻 AO3 RSS feed empty/failed, attempting direct work page scraping...
+🧠 Scraping AO3 work page for chapter list...
+✅ Found 1 chapters using selector: #chapter_index li a
+📄 Latest AO3 chapter: "Full-page index"
+🔗 Chapter URL: https://archiveofourown.org/works/64068811/navigate
+🕒 Found AO3 update date: Sun Jul 27 2025 02:00:00 GMT+0200 (Central European Summer Time)
+📋 Using manual data for Inkspired...
+📋 Using manual data for ScribbleHub...
+✅ Hybrid scraping completed for all platforms
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (Yesterday)
+📅 Including tapas: Episode 18: Latest (Yesterday)
+📅 Including royalroad: Chapter 18: Not Dying Quietly (3 days ago)
+📅 Including ao3: Full-page index (1 weeks ago)
+📅 Including scribblehub: Chapter 17: Latest (1 weeks ago)
+📝 Found 5 real updates from scraped data
+📅 Filtered to 3 updates from the last 7 days (from 5 total)
+🌟 Using 3 real recent updates (no mock data)
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (Yesterday)
+📅 Including tapas: Episode 18: Latest (Yesterday)
+📅 Including royalroad: Chapter 18: Not Dying Quietly (3 days ago)
+📅 Including ao3: Full-page index (1 weeks ago)
+📅 Including scribblehub: Chapter 17: Latest (1 weeks ago)
+📝 Found 5 real updates from scraped data
+📅 Filtered to 3 updates from the last 7 days (from 5 total)
+🌟 Using 3 real recent updates (no mock data)
