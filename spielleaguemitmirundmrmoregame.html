@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>=% SPIEL LEAGUE MIT MIR UND MR MORE GAME!!! =%</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(45deg, #ff0080, #00ff80, #8000ff, #ff8000);
+            background-size: 400% 400%;
+            animation: gradientShift 2s ease-in-out infinite alternate;
+            font-family: 'Comic Neue', cursive;
+            overflow-x: hidden;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        
+        .container {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .title {
+            font-size: 4rem;
+            color: #ffff00;
+            text-shadow: 3px 3px 0px #ff00ff, 6px 6px 0px #00ffff;
+            animation: bounce 1s infinite, rainbow 3s linear infinite;
+            margin: 30px 0;
+            transform: rotate(-5deg);
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotate(-5deg); }
+            40% { transform: translateY(-30px) rotate(5deg); }
+            60% { transform: translateY(-15px) rotate(-5deg); }
+        }
+        
+        @keyframes rainbow {
+            0% { color: #ff0000; }
+            16% { color: #ff8000; }
+            33% { color: #ffff00; }
+            50% { color: #00ff00; }
+            66% { color: #0080ff; }
+            83% { color: #8000ff; }
+            100% { color: #ff0000; }
+        }
+        
+        .download-section {
+            background: linear-gradient(45deg, #ff0000, #ffff00);
+            border: 10px solid #00ff00;
+            border-radius: 50px;
+            padding: 50px;
+            margin: 50px auto;
+            max-width: 800px;
+            box-shadow: 0 0 50px #ff00ff;
+            animation: wiggle 0.5s infinite, glow 1s ease-in-out infinite alternate;
+            position: relative;
+        }
+        
+        @keyframes wiggle {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(1deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-1deg); }
+            100% { transform: rotate(0deg); }
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 20px #ff00ff; }
+            to { box-shadow: 0 0 100px #ff00ff, 0 0 150px #00ffff; }
+        }
+        
+        .download-btn {
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: bold;
+            padding: 30px 60px;
+            border: 5px solid #ffff00;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px;
+            animation: pulse 1s infinite, shake 0.3s infinite;
+            text-shadow: 2px 2px 0px #000000;
+            box-shadow: 0 10px 0 #8000ff;
+            transition: all 0.1s;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(5px);
+            box-shadow: 0 5px 0 #8000ff;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            10% { transform: translateX(-2px); }
+            20% { transform: translateX(2px); }
+            30% { transform: translateX(-2px); }
+            40% { transform: translateX(2px); }
+            50% { transform: translateX(0); }
+            100% { transform: translateX(0); }
+        }
+        
+        .blink {
+            animation: blink 0.5s infinite;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background: #ffff00;
+            width: 4px;
+            height: 4px;
+            animation: twinkle 1s infinite, move 10s linear infinite;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0); }
+        }
+        
+        @keyframes move {
+            0% { transform: translateY(100vh); }
+            100% { transform: translateY(-100px); }
+        }
+        
+        .warning-text {
+            font-size: 1.5rem;
+            color: #ff0000;
+            background: #ffff00;
+            padding: 15px;
+            border: 3px dashed #ff00ff;
+            margin: 20px 0;
+            animation: blink 1s infinite;
+        }
+        
+        .sparkle {
+            display: inline-block;
+            animation: sparkle 2s linear infinite;
+        }
+        
+        @keyframes sparkle {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.2); }
+            50% { transform: rotate(180deg) scale(1); }
+            75% { transform: rotate(270deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        
+        .explosion {
+            font-size: 3rem;
+            animation: explosion 0.5s infinite;
+        }
+        
+        @keyframes explosion {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(1); }
+        }
+        
+        .popup {
+            position: fixed;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            border: 5px solid #ffff00;
+            border-radius: 20px;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 2px 2px 0px #000000;
+            box-shadow: 0 0 30px #ff00ff;
+            animation: popupBounce 2s infinite, popupGlow 1s ease-in-out infinite alternate;
+            z-index: 1000;
+            cursor: pointer;
+            max-width: 250px;
+            text-align: center;
+        }
+        
+        .popup-left {
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .popup-right {
+            right: 20px;
+            top: 30%;
+            transform: translateY(-50%);
+        }
+        
+        .popup-top-left {
+            left: 10px;
+            top: 20%;
+        }
+        
+        .popup-bottom-right {
+            right: 10px;
+            bottom: 20%;
+        }
+        
+        @keyframes popupBounce {
+            0% { transform: translateY(-50%) scale(1); }
+            25% { transform: translateY(-60%) scale(1.1) rotate(2deg); }
+            50% { transform: translateY(-40%) scale(0.9) rotate(-2deg); }
+            75% { transform: translateY(-55%) scale(1.05) rotate(1deg); }
+            100% { transform: translateY(-50%) scale(1); }
+        }
+        
+        @keyframes popupGlow {
+            from { box-shadow: 0 0 20px #ff00ff; }
+            to { box-shadow: 0 0 50px #ff00ff, 0 0 70px #00ffff; }
+        }
+        
+        .popup:hover {
+            animation-duration: 0.5s;
+            transform: scale(1.2) !important;
+        }
+        
+        .popup-heart {
+            animation: heartbeat 1s infinite;
+            display: inline-block;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        .taric-drive {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 5px solid #ffd700;
+            box-shadow: 0 0 30px #ff69b4;
+            animation: drive 15s linear infinite, bounce 1s ease-in-out infinite alternate;
+            z-index: 999;
+            cursor: pointer;
+        }
+        
+        @keyframes drive {
+            0% {
+                left: -120px;
+                top: 20%;
+                transform: rotate(0deg);
+            }
+            25% {
+                left: calc(100vw - 50px);
+                top: 70%;
+                transform: rotate(90deg);
+            }
+            50% {
+                left: calc(100vw + 120px);
+                top: 30%;
+                transform: rotate(180deg);
+            }
+            75% {
+                left: 50px;
+                top: 80%;
+                transform: rotate(270deg);
+            }
+            100% {
+                left: -120px;
+                top: 20%;
+                transform: rotate(360deg);
+            }
+        }
+        
+        .taric-drive:hover {
+            animation-duration: 5s;
+            box-shadow: 0 0 50px #ff69b4, 0 0 100px #ffd700;
+            transform: scale(1.5);
+        }
+        
+        .teemo-run {
+            position: absolute;
+            width: 60px;
+            height: auto;
+            animation: runLeftRight 8s linear infinite;
+            z-index: 1001;
+            cursor: pointer;
+        }
+        
+        @keyframes runLeftRight {
+            0% {
+                left: calc(100% + 60px);
+                transform: scaleX(1);
+            }
+            50% {
+                transform: scaleX(1);
+            }
+            51% {
+                transform: scaleX(-1);
+            }
+            100% {
+                left: -60px;
+                transform: scaleX(-1);
+            }
+        }
+        
+        .teemo-run:hover {
+            animation-duration: 3s;
+            transform: scale(1.5);
+        }
+        
+        .xp-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            background: linear-gradient(to bottom, #0078d4, #004578);
+            border: 2px outset #c0c0c0;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+            font-family: 'Tahoma', sans-serif;
+            font-size: 11px;
+            z-index: 9999;
+            animation: xpBounce 2s ease-in-out infinite;
+            display: none;
+        }
+        
+        .xp-titlebar {
+            background: linear-gradient(to bottom, #0078d4, #004578);
+            color: white;
+            padding: 4px 8px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 6px 6px 0 0;
+        }
+        
+        .xp-close-btn {
+            background: #ff4444;
+            color: white;
+            border: 1px outset #ff6666;
+            width: 16px;
+            height: 14px;
+            font-size: 10px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 12px;
+        }
+        
+        .xp-close-btn:hover {
+            background: #ff6666;
+        }
+        
+        .xp-content {
+            background: #f0f0f0;
+            padding: 20px;
+            border: 1px inset #c0c0c0;
+            text-align: center;
+        }
+        
+        .xp-icon {
+            width: 32px;
+            height: 32px;
+            background: #ffff00;
+            border: 1px solid #000000;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .xp-message {
+            margin: 10px 0;
+            color: #000080;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .xp-buttons {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .xp-btn {
+            background: linear-gradient(to bottom, #e1e1e1, #d4d4d4);
+            border: 1px outset #c0c0c0;
+            padding: 4px 16px;
+            font-size: 11px;
+            cursor: pointer;
+            color: #000000;
+            font-weight: normal;
+        }
+        
+        .xp-btn:hover {
+            background: linear-gradient(to bottom, #e8e8e8, #d8d8d8);
+        }
+        
+        .xp-btn:active {
+            border: 1px inset #c0c0c0;
+            background: linear-gradient(to bottom, #d4d4d4, #e1e1e1);
+        }
+        
+        .blue-pill {
+            animation: pillGlow 1s ease-in-out infinite alternate;
+        }
+        
+        @keyframes xpBounce {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.02); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        @keyframes pillGlow {
+            0% { color: #0000ff; text-shadow: 0 0 5px #0066ff; }
+            100% { color: #0066ff; text-shadow: 0 0 15px #0099ff; }
+        }
+        
+        .xp-popup2 {
+            position: fixed;
+            top: 30%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+            width: 450px;
+            background: linear-gradient(to bottom, #d40000, #780000);
+            border: 2px outset #c0c0c0;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+            font-family: 'Tahoma', sans-serif;
+            font-size: 11px;
+            z-index: 10000;
+            animation: xpBounce 2s ease-in-out infinite;
+            display: none;
+        }
+        
+        .xp-titlebar2 {
+            background: linear-gradient(to bottom, #d40000, #780000);
+            color: white;
+            padding: 4px 8px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 6px 6px 0 0;
+        }
+        
+        .fleeing-popup {
+            position: fixed;
+            top: 20%;
+            left: 30%;
+            width: 480px;
+            background: linear-gradient(to bottom, #ff6600, #cc4400);
+            border: 2px outset #c0c0c0;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+            font-family: 'Tahoma', sans-serif;
+            font-size: 11px;
+            z-index: 10001;
+            animation: xpBounce 2s ease-in-out infinite;
+            display: none;
+            transition: all 0.3s ease-out;
+        }
+        
+        .fleeing-titlebar {
+            background: linear-gradient(to bottom, #ff6600, #cc4400);
+            color: white;
+            padding: 4px 8px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 6px 6px 0 0;
+        }
+        
+        .flee-close-btn {
+            background: #ff4444;
+            color: white;
+            border: 1px outset #ff6666;
+            width: 16px;
+            height: 14px;
+            font-size: 10px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 12px;
+        }
+        
+        .webcam-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background: linear-gradient(45deg, #ff0000, #ff4444);
+            border: 5px solid #ffff00;
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 0 30px #ff0000;
+            z-index: 1001;
+            animation: webcamPulse 2s ease-in-out infinite alternate;
+        }
+        
+        .webcam-header {
+            text-align: center;
+            background: linear-gradient(45deg, #000000, #333333);
+            color: #ff0000;
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 8px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px #ffffff;
+            animation: headerBlink 1s infinite;
+        }
+        
+        .webcam-video {
+            width: 100%;
+            height: auto;
+            border: 3px solid #000000;
+            border-radius: 10px;
+            box-shadow: inset 0 0 20px #ff6666;
+        }
+        
+        @keyframes webcamPulse {
+            0% { 
+                transform: scale(1);
+                box-shadow: 0 0 30px #ff0000;
+            }
+            100% { 
+                transform: scale(1.02);
+                box-shadow: 0 0 50px #ff0000, 0 0 70px #ffff00;
+            }
+        }
+        
+        @keyframes headerBlink {
+            0% { color: #ff0000; }
+            50% { color: #ffff00; }
+            100% { color: #ff0000; }
+        }
+        
+        .diagonal-fish {
+            position: fixed;
+            top: 40%;
+            left: 250px;
+            transform: translateY(-50%) rotate(-15deg);
+            width: 400px;
+            height: auto;
+            animation: fishWobble 3s ease-in-out infinite alternate, fishSpin 4s linear infinite;
+            z-index: 500;
+        }
+        
+        @keyframes fishWobble {
+            0% { 
+                left: 250px;
+                top: 40%;
+            }
+            50% { 
+                left: 255px;
+                top: 35%;
+            }
+            100% { 
+                left: 245px;
+                top: 45%;
+            }
+        }
+        
+        @keyframes fishSpin {
+            0% { 
+                transform: translateY(-50%) rotate(-15deg) scale(1);
+            }
+            25% { 
+                transform: translateY(-50%) rotate(75deg) scale(1.1);
+            }
+            50% { 
+                transform: translateY(-50%) rotate(165deg) scale(0.9);
+            }
+            75% { 
+                transform: translateY(-50%) rotate(255deg) scale(1.05);
+            }
+            100% { 
+                transform: translateY(-50%) rotate(345deg) scale(1);
+            }
+        }
+        
+        .testimonial-popup {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 450px;
+            background: linear-gradient(to bottom, #00aa00, #006600);
+            border: 3px solid #ffff00;
+            border-radius: 15px;
+            padding: 0;
+            box-shadow: 0 0 20px #00ff00;
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 14px;
+            z-index: 1002;
+            animation: testimonialGlow 3s ease-in-out infinite alternate;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px #000000;
+        }
+        
+        .trust-banner {
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            color: #ffffff;
+            text-align: center;
+            padding: 12px;
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive;
+            text-shadow: 3px 3px 6px #000000;
+            border-radius: 12px 12px 0 0;
+            margin-bottom: 10px;
+            animation: trustPulse 2s ease-in-out infinite;
+        }
+        
+        .testimonial-content {
+            padding: 15px;
+        }
+        
+        @keyframes trustPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .testimonial-header {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffff00;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 3px #000000;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        
+        .testimonial-comment {
+            background: #ffffff;
+            color: #000000;
+            padding: 12px;
+            margin: 5px 0;
+            border-radius: 8px;
+            border: 2px solid #cccccc;
+            font-size: 13px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        
+        .testimonial-author {
+            font-weight: bold;
+            color: #0066cc;
+        }
+        
+        @keyframes testimonialGlow {
+            0% { box-shadow: 0 0 20px #00ff00; }
+            100% { box-shadow: 0 0 40px #00ff00, 0 0 60px #ffff00; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <!-- Diagonal Fish -->
+    <img src="diagonalrotierenderfisch.gif" alt="Rotating Fish" class="diagonal-fish">
+    
+    <!-- Webcam Container -->
+    <div class="webcam-container">
+        <div class="webcam-header">
+            🔴 LIVEREACTION!!!! 🔴
+        </div>
+        <video class="webcam-video" id="webcamVideo" muted>
+            <source src="MrMore.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+    <!-- Testimonial Popup -->
+    <div class="testimonial-popup">
+        <div class="trust-banner">
+            🔥 TRUST US! 🔥
+        </div>
+        <div class="testimonial-content">
+            <div class="testimonial-header">
+                🌟 HUNDERTE VERTRAUEN UNS! 🌟
+            </div>
+            <div class="testimonial-comment" id="testimonialComment">
+                <span class="testimonial-author">MrLessGame:</span> Franky ist ein Hund aber League of Legends ist cool!
+            </div>
+        </div>
+    </div>
+    
+    <!-- Windows XP Style Popup -->
+    <div class="xp-popup">
+        <div class="xp-titlebar">
+            <span>🔵 League Elo Booster Pro</span>
+            <div class="xp-close-btn" onclick="showSecondPopup()">×</div>
+        </div>
+        <div class="xp-content">
+            <div class="xp-icon">💊</div>
+            <div class="xp-message">
+                <div class="blue-pill">🔵 BLAUE PILLE KAUFEN! 🔵</div>
+                <div style="margin: 8px 0;">SOFORT MASTER ERREICHEN!</div>
+                <div style="font-size: 10px; color: #666;">Garantiert in 24 Stunden oder Geld zurück!</div>
+            </div>
+            <div class="xp-buttons">
+                <button class="xp-btn" onclick="alert('KAUFEN FÜR NUR 999.99€!')">💳 JETZT KAUFEN!</button>
+                <button class="xp-btn" onclick="showSecondPopup()">❌ Später</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Second XP Popup -->
+    <div class="xp-popup2">
+        <div class="xp-titlebar2">
+            <span>⚠️ Bronze Noob Alert!</span>
+            <div class="xp-close-btn" onclick="showFleeingPopup()">×</div>
+        </div>
+        <div class="xp-content">
+            <div class="xp-icon" style="background: #ff0000;">🚨</div>
+            <div class="xp-message">
+                <div style="color: #ff0000; font-weight: bold; font-size: 14px;">BIST DU DIR SICHER DASS DU</div>
+                <div style="color: #ff0000; font-weight: bold; font-size: 14px;">EIN BRONZE NOOB SEIN WILLST?</div>
+                <div style="margin: 8px 0; font-size: 10px;">Deine Freunde werden dich auslachen!</div>
+            </div>
+            <div class="xp-buttons">
+                <button class="xp-btn" onclick="alert('WEISE ENTSCHEIDUNG! KAUFE JETZT!')">💎 NEIN, ICH WILL MASTER!</button>
+                <button class="xp-btn" onclick="showFleeingPopup()">😢 Ja, ich bleibe Bronze...</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Fleeing Popup -->
+    <div class="fleeing-popup" id="fleeingPopup" onmouseover="fleeFromMouse(event)">
+        <div class="fleeing-titlebar">
+            <span>😤 GG NOOB</span>
+            <div class="flee-close-btn">×</div>
+        </div>
+        <div class="xp-content">
+            <div class="xp-icon" style="background: #666666;">💩</div>
+            <div class="xp-message">
+                <div style="color: #cc0000; font-weight: bold;">NA GUT DANN BLEIB IRON</div>
+                <div style="color: #cc0000; font-weight: bold;">DU OPFER!</div>
+                <div style="margin: 8px 0; font-size: 10px; color: #666;">Viel Spaß beim Verlieren... 🙄</div>
+                <div style="font-size: 9px;">*flieht vor deiner Noobigkeit*</div>
+            </div>
+            <div class="xp-buttons">
+                <button class="xp-btn" onclick="alert('Haha, erwischt! Du bist wirklich ein Noob!')">😭 WARTE, ICH BEREUE ES!</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Driving Taric -->
+    <img src="taric.jpg" alt="Taric" class="taric-drive" title="GEMS! GEMS ARE TRULY OUTRAGEOUS!">
+    
+    
+    <!-- Pop-up Ads -->
+    <div class="popup popup-left blink" style="background: linear-gradient(45deg, #69c4ff, #0099ff); border-color: #00ffff; width: 280px; color: #ffffff; text-shadow: 1px 1px 2px #003366;">
+        <span class="popup-heart">❄️</span> HEISSER TRUNDLE <span class="popup-heart">❄️</span>
+        <br>
+        <span class="blink">SUCHT PILLAR PARTNER!</span>
+        <br>
+        <span style="font-size: 0.8rem;">"ICH BIN SCHON HART GEFROREN!" 🧊</span>
+        <br>
+        <span style="font-size: 0.9rem;">🔥 KLICK HIER! 🔥</span>
+    </div>
+    
+    <div class="popup popup-right blink" style="background: linear-gradient(45deg, #9d4edd, #6f2dbd); border-color: #c77dff; width: 320px; color: #ffff00; text-shadow: 2px 2px 3px #330066;">
+        <span class="explosion">💥</span> SCHARFER MUNDO <span class="explosion">💥</span>
+        <br>
+        <span class="sparkle">✨ GEHT WO ER WILL! ✨</span>
+        <br>
+        <span style="font-size: 0.8rem;">"MUNDO FINDET DICH MUNDO-SE!" 💜</span>
+        <br>
+        <span style="font-size: 0.9rem;" class="blink">🎯 JETZT CHATTEN! 🎯</span>
+    </div>
+    
+    <div class="popup popup-top-left blink" style="background: linear-gradient(45deg, #ffd60a, #ffb700); border-color: #ffeaa7; width: 300px; color: #8B4513; text-shadow: 1px 1px 2px #ffeeaa; font-weight: bold;">
+        <span class="sparkle">🌟</span> AZIR'S GEHEIME SEITE <span class="sparkle">🌟</span>
+        <br>
+        <span class="blink">SAND SOLDIERS WARTEN!</span>
+        <br>
+        <span style="font-size: 0.8rem;">"SHURIMA IST ETERNAL!" ⚡</span>
+        <br>
+        <span style="font-size: 0.8rem;">🔞 EMPEROR'S COMMAND! 🔞</span>
+    </div>
+    
+    <div class="popup popup-bottom-right blink" style="background: linear-gradient(45deg, #ff6b9d, #ff1744); border-color: #ffb3ba; width: 340px; color: #ffffff; text-shadow: 2px 2px 4px #990033; font-style: italic;">
+        <span class="popup-heart">💎</span> FABELHAFTER TARIC <span class="popup-heart">💎</span>
+        <br>
+        <span class="floating">GEMS ARE TRULY OUTRAGEOUS!</span>
+        <br>
+        <span style="font-size: 0.8rem;">"ICH BIN SO FABELHAFT!" ✨</span>
+        <br>
+        <span style="font-size: 0.9rem;" class="sparkle">💅 DAZZLE MICH! 💅</span>
+    </div>
+    
+    <div class="container">
+        <h1 class="title blink"><� SPIEL LEAGUE MIT MIR UND MR MORE GAME!!! <�</h1>
+        
+        <div class="download-section">
+            <div class="warning-text floating">
+                <span class="sparkle">(</span> ACHTUNG! SUPER MEGA GAME DOWNLOAD! <span class="sparkle">(</span>
+            </div>
+            
+            <h2 style="font-size: 3rem; color: #ffffff; text-shadow: 3px 3px 0px #000000; margin: 20px 0;" class="blink">
+                <span class="explosion">=�</span> LEAGUE OF LEGENDS DOWNLOADEN! <span class="explosion">=�</span>
+            </h2>
+            
+            <div style="font-size: 1.8rem; color: #000000; margin: 20px 0;" class="floating">
+                <span class="sparkle"><</span> KOSTENLOS! SOFORT! JETZT! <span class="sparkle"><</span>
+            </div>
+            
+            <a href="https://lol.secure.dyn.riotcdn.net/channels/public/x/installer/current/live.euw.exe" 
+               class="download-btn" 
+               download>
+                <span class="blink">=% JETZT DOWNLOADEN! =%</span>
+            </a>
+            
+            <div class="warning-text">
+                <span class="sparkle">�</span> WARNUNG: 100% LEGAL & SICHER! <span class="sparkle">�</span>
+                <br>
+                <span class="blink">OFFIZIELLER RIOT GAMES DOWNLOAD!</span>
+            </div>
+        </div>
+        
+        <div style="margin: 50px 0; position: relative;">
+            <!-- Running Teemo over this section -->
+            <img src="teemo.jpg" alt="Teemo" class="teemo-run" title="Captain Teemo on duty! Hut two three four!">
+            <h3 style="font-size: 2rem; color: #ff00ff;" class="floating blink">
+                <span class="sparkle"><�</span> WARUM LEAGUE OF LEGENDS? <span class="sparkle"><�</span>
+            </h3>
+            <div style="background: #00ff00; color: #000000; padding: 20px; margin: 20px; border: 5px solid #ff0000; font-size: 1.3rem;" class="floating">
+                <div class="blink"><� WELTWEITES PH�NOMEN!</div>
+                <div class="blink">� EPISCHE K�MPFE!</div>
+                <div class="blink">=e SPIELE MIT FREUNDEN!</div>
+                <div class="blink">=� KOMPLETT KOSTENLOS!</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function createStar() {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.querySelector('.stars').appendChild(star);
+            
+            setTimeout(() => {
+                star.remove();
+            }, 12000);
+        }
+        
+        setInterval(createStar, 200);
+        
+        for (let i = 0; i < 20; i++) {
+            setTimeout(createStar, i * 100);
+        }
+        
+        // Show XP popup after 2 seconds
+        setTimeout(function() {
+            document.querySelector('.xp-popup').style.display = 'block';
+        }, 2000);
+        
+        // Testimonial cycling
+        const testimonials = [
+            { author: "MrLessGame", text: "Franky ist ein Hund aber League of Legends ist cool!" },
+            { author: "NowayFour3", text: "Nach der blauen Pille bin ich endlich aus Bronze raus! 5 Sterne!" },
+            { author: "Papaflat", text: "Ich war Iron 4, jetzt bin ich Challenger! Danke für die Pillen!" },
+            { author: "FoodOfBlud", text: "Diese Seite ist sus aber League ist ehrenlos geil!" },
+            { author: "Knosso", text: "BRUUUDER! Die Pillen funktionieren wirklich!" },
+            { author: "Trymaxx", text: "Ich habe alle meine ranked games gewonnen! Unglaublich!" },
+            { author: "Rewindside", text: "Von Bronze zu Diamond in einer Woche! Beste Investition ever!" },
+            { author: "LichtLuca", text: "Die blauen Pillen sind OP! Meine KDA ist jetzt 20/0/15!" },
+            { author: "HandOfBlud", text: "Ich bereue es nicht! Bin jetzt endlich kein Noob mehr!" },
+            { author: "Zombei", text: "Ich dachte es wäre Betrug, aber mein Rank ist explodiert! 💥" },
+            { author: "Kapuzenworm", text: "Von Noob zu Pro in 3 Tagen! Diese Pillen sind magisch!" },
+            { author: "HollyLT", text: "OMG! Endlich kann ich mit meinen Freunden mithalten! ⭐⭐⭐⭐⭐" },
+            { author: "Peetmeet", text: "Brummen hat gesagt ich soll das nicht machen aber es funktioniert!" },
+            { author: "Grönkh", text: "Diese Seite ist legendär! Meine Yasuo Skills sind jetzt godlike!" },
+            { author: "MontanaWhite89", text: "Vom Bronze Scrub zum Master Tier! Danke für die OP Pillen!" },
+            { author: "Sturmkaraffe", text: "Ich war skeptisch, aber jetzt bin ich der Carry in jedem Game!" },
+            { author: "Ralf Schaummacher", text: "Als Ex-F1 Fahrer kann ich sagen: Diese Pillen sind schneller als mein Rennauto!" }
+        ];
+        
+        let testimonialIndex = 0;
+        
+        function cycleTestimonials() {
+            const commentElement = document.getElementById('testimonialComment');
+            const currentTestimonial = testimonials[testimonialIndex];
+            
+            commentElement.innerHTML = `<span class="testimonial-author">${currentTestimonial.author}:</span> ${currentTestimonial.text}`;
+            
+            testimonialIndex = (testimonialIndex + 1) % testimonials.length;
+        }
+        
+        // Change testimonial every 3 seconds
+        setInterval(cycleTestimonials, 3000);
+        
+        // Video ping-pong playback
+        const video = document.getElementById('webcamVideo');
+        let playingForward = true;
+        
+        video.addEventListener('loadeddata', function() {
+            video.play();
+        });
+        
+        video.addEventListener('ended', function() {
+            // Start reverse playback simulation
+            playingForward = false;
+            reversePlayback();
+        });
+        
+        function reversePlayback() {
+            const interval = setInterval(function() {
+                if (video.currentTime <= 0.1) {
+                    clearInterval(interval);
+                    // Start forward playback again
+                    playingForward = true;
+                    video.currentTime = 0;
+                    video.play();
+                } else {
+                    // Move backwards in smaller steps for smoother playback
+                    video.currentTime -= 0.033; // 1 frame back at 30fps
+                }
+            }, 33); // 33ms intervals = 30fps for smooth reverse playback
+        }
+        
+        function showSecondPopup() {
+            document.querySelector('.xp-popup').style.display = 'none';
+            document.querySelector('.xp-popup2').style.display = 'block';
+        }
+        
+        function showFleeingPopup() {
+            document.querySelector('.xp-popup2').style.display = 'none';
+            document.querySelector('.fleeing-popup').style.display = 'block';
+        }
+        
+        function fleeFromMouse(event) {
+            const popup = document.getElementById('fleeingPopup');
+            const rect = popup.getBoundingClientRect();
+            const popupCenterX = rect.left + rect.width / 2;
+            const popupCenterY = rect.top + rect.height / 2;
+            
+            // Calculate distances from popup center to each screen edge
+            const distToLeft = popupCenterX;
+            const distToRight = window.innerWidth - popupCenterX;
+            const distToTop = popupCenterY;
+            const distToBottom = window.innerHeight - rect.bottom;
+            
+            // Check if popup is too close to any edge (within 100px)
+            const edgeThreshold = 100;
+            const tooCloseToEdge = distToLeft < edgeThreshold || distToRight < edgeThreshold || 
+                                  distToTop < edgeThreshold || distToBottom < edgeThreshold;
+            
+            let newX, newY;
+            
+            if (tooCloseToEdge || Math.random() < 0.3) {
+                // Teleport to a random safe position
+                const safeMargin = 50;
+                newX = safeMargin + Math.random() * (window.innerWidth - rect.width - safeMargin * 2);
+                newY = safeMargin + Math.random() * (window.innerHeight - rect.height - safeMargin * 2);
+            } else {
+                // Normal flee behavior - move away from mouse
+                const mouseX = event.clientX;
+                const mouseY = event.clientY;
+                
+                const deltaX = popupCenterX - mouseX;
+                const deltaY = popupCenterY - mouseY;
+                
+                // Normalize and multiply by flee distance
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                const fleeDistance = 200;
+                
+                if (distance > 0) {
+                    newX = rect.left + (deltaX / distance) * fleeDistance;
+                    newY = rect.top + (deltaY / distance) * fleeDistance;
+                } else {
+                    // If mouse is exactly on popup center, flee randomly
+                    const randomAngle = Math.random() * Math.PI * 2;
+                    newX = rect.left + Math.cos(randomAngle) * fleeDistance;
+                    newY = rect.top + Math.sin(randomAngle) * fleeDistance;
+                }
+            }
+            
+            // Add some randomness
+            newX += (Math.random() - 0.5) * 80;
+            newY += (Math.random() - 0.5) * 80;
+            
+            // Keep popup within screen bounds with margin
+            const margin = 20;
+            newX = Math.max(margin, Math.min(window.innerWidth - rect.width - margin, newX));
+            newY = Math.max(margin, Math.min(window.innerHeight - rect.height - margin, newY));
+            
+            popup.style.left = newX + 'px';
+            popup.style.top = newY + 'px';
+            popup.style.transform = 'none';
+        }
+    </script>
+</body>
+</html>

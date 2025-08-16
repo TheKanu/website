@@ -17,7 +17,37 @@ app.use(express.json());
 // Cache and rate limiting
 let platformCache = {};
 let lastUpdateTime = new Date(0); // Initialize to epoch so first request triggers update
+
+// Ko-fi updates cache
+let kofiUpdates = [];
 const UPDATE_INTERVAL_MS = 60 * 60 * 1000; // 1 hour in milliseconds
+
+// Ko-fi helper functions
+function addKofiUpdate(update) {
+    kofiUpdates.unshift(update); // Neueste zuerst
+    kofiUpdates = kofiUpdates.slice(0, 20); // Max 20 Updates behalten
+    console.log(`☕ Ko-fi update hinzugefügt: ${update.chapter_title}`);
+}
+
+function getKofiUpdatesForFeed() {
+    return kofiUpdates.map(update => ({
+        id: `kofi-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        platform: 'kofi',
+        platform_display: 'Ko-fi',
+        platform_emoji: '☕',
+        chapter_number: 'Support',
+        chapter_title: update.chapter_title,
+        status: 'updated',
+        published_date: update.last_update,
+        timestamp: update.timestamp,
+        url: 'https://ko-fi.com/amke',
+        chapter_url: 'https://ko-fi.com/amke',
+        platform_url: 'https://ko-fi.com/amke',
+        preview: update.preview || 'Danke für die Unterstützung!',
+        upload_status: update.upload_status || 'just_uploaded',
+        post_type: 'kofi_support'
+    }));
+}
 
 // Check if we need to update data (max once per hour)
 function shouldUpdateData() {
@@ -35,7 +65,7 @@ const PLATFORMS = {
         note: 'Daily parts Mon-Sat',
         // Manual tracking - update when you post
         last_chapter: 'Chapter 18',
-        last_update: '2025-08-06', // Update this when you post
+        last_update: '2025-08-06T14:30:00', // Update this when you post (with time!)
         scraping: false // Disable scraping, use manual data
     },
     tapas: {
@@ -46,7 +76,7 @@ const PLATFORMS = {
         note: 'Daily parts Mon-Sat',
         // Manual tracking
         last_chapter: 'Episode 18',
-        last_update: '2025-08-06',
+        last_update: '2025-08-06T15:45:00', // Include precise time
         scraping: false
     },
     royalroad: {
@@ -74,7 +104,7 @@ const PLATFORMS = {
         note: 'Full chapters every Monday',
         // Manual tracking
         last_chapter: 'Chapter 18',
-        last_update: '2025-08-05', // Behind by 1 day
+        last_update: '2025-08-05T16:20:00', // Behind by 1 day
         scraping: false
     },
     scribblehub: {
@@ -85,8 +115,16 @@ const PLATFORMS = {
         note: 'Full chapters every Monday',
         // Manual tracking
         last_chapter: 'Chapter 17',
-        last_update: '2025-07-29', // Behind
+        last_update: '2025-07-29T18:00:00', // Behind
         scraping: false
+    },
+    kofi: {
+        name: 'Ko-fi Posts',
+        url: 'https://ko-fi.com/amke',
+        emoji: '☕',
+        type: 'posts',
+        note: 'Updates & Blog Posts',
+        scraping: true // Will scrape Ko-fi posts
     }
 };
 
@@ -792,17 +830,28 @@ function formatRelativeTime(date) {
         const weeks = Math.floor(days / 7);
         const months = Math.floor(days / 30);
         
-        if (minutes < 1) return 'Just now';
-        if (minutes < 60) return `${minutes} minutes ago`;
-        if (hours < 24) return `${hours} hours ago`;
-        if (days === 1) return 'Yesterday';
-        if (days < 7) return `${days} days ago`;
-        if (weeks < 4) return `${weeks} weeks ago`;
-        if (months < 12) return `${months} months ago`;
+        // German-style formatting with precise times for recent updates
+        if (minutes < 1) return 'Gerade eben';
+        if (minutes < 60) return `vor ${minutes} Minuten`;
+        if (hours < 24) {
+            const timeStr = date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+            return hours === 1 ? `vor 1 Stunde (${timeStr})` : `vor ${hours} Stunden (${timeStr})`;
+        }
+        if (days === 1) {
+            const timeStr = date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+            return `Gestern um ${timeStr}`;
+        }
+        if (days < 7) {
+            const timeStr = date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+            return `vor ${days} Tagen (${timeStr})`;
+        }
+        if (weeks === 1) return 'vor 1 Woche';
+        if (weeks < 4) return `vor ${weeks} Wochen`;
+        if (months < 12) return `vor ${months} Monaten`;
         
-        return date.toLocaleDateString();
+        return date.toLocaleDateString('de-DE');
     } catch {
-        return 'Recently';
+        return 'Kürzlich';
     }
 }
 
@@ -1054,6 +1103,100 @@ async function scrapeScribbleHub() {
     }
 }
 
+// Ko-fi Posts scraper
+async function scrapeKofi() {
+    try {
+        console.log('🔍 Scraping Ko-fi posts...');
+        const response = await axios.get(PLATFORMS.kofi.url, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            },
+            timeout: 15000
+        });
+        
+        const $ = cheerio.load(response.data);
+        
+        console.log('🧠 Looking for Ko-fi posts...');
+        
+        // Try to find Ko-fi posts
+        const postSelectors = [
+            '.feedpost-container',
+            '.post-container', 
+            '.kfds-layout-item',
+            '.feed-item',
+            'article',
+            '.post'
+        ];
+        
+        let posts = $();
+        let usedSelector = '';
+        
+        for (const selector of postSelectors) {
+            posts = $(selector);
+            if (posts.length > 0) {
+                console.log(`✅ Found ${posts.length} posts using selector: ${selector}`);
+                usedSelector = selector;
+                break;
+            }
+        }
+        
+        if (posts.length === 0) {
+            console.log('❌ No Ko-fi posts found with any selector');
+            return {
+                platform: 'kofi',
+                status: 'error',
+                error: 'Could not find posts'
+            };
+        }
+        
+        // Get the latest post (first one)
+        const latestPost = posts.first();
+        const postLink = latestPost.find('a').first();
+        
+        let title = postLink.text().trim() || latestPost.find('h1, h2, h3, .title').text().trim() || 'Latest Ko-fi Post';
+        const href = postLink.attr('href');
+        const postUrl = href?.startsWith('http') ? href : `https://ko-fi.com${href}`;
+        
+        console.log(`📖 Latest Ko-fi post: "${title}"`);
+        
+        // Try to extract post date
+        const timeElement = latestPost.find('time, .date, .timestamp, [datetime]');
+        let timestamp = null;
+        let lastUpdate = 'Recently';
+        
+        if (timeElement.length > 0) {
+            const timeAttr = timeElement.attr('datetime') || timeElement.attr('data-time');
+            if (timeAttr) {
+                timestamp = new Date(timeAttr);
+                lastUpdate = formatRelativeTime(timestamp);
+            }
+        }
+        
+        return {
+            platform: 'kofi',
+            status: 'updated',
+            last_chapter: 'Latest Post',
+            chapter_title: title,
+            last_update: lastUpdate,
+            timestamp: timestamp ? timestamp.toISOString() : new Date().toISOString(),
+            // Metrics removed - focus on content only
+            chapter_url: postUrl,
+            raw_title: title,
+            total_posts: posts.length,
+            scraping_method: usedSelector,
+            post_type: 'kofi_update'
+        };
+        
+    } catch (error) {
+        console.error('❌ Ko-fi scraping error:', error.message);
+        return {
+            platform: 'kofi',
+            status: 'error',
+            error: `Scraping failed: ${error.message}`
+        };
+    }
+}
+
 // Hybrid scraping function - combines real scraping + manual tracking
 async function scrapeAllPlatforms() {
     console.log('🚀 Starting hybrid scraping (auto + manual tracking)...');
@@ -1071,6 +1214,8 @@ async function scrapeAllPlatforms() {
                     result = await scrapeRoyalRoad();
                 } else if (platformKey === 'ao3') {
                     result = await parseAO3RSS();
+                } else if (platformKey === 'kofi') {
+                    result = await scrapeKofi();
                 }
                 
                 if (result) {
@@ -1108,10 +1253,7 @@ async function scrapeAllPlatforms() {
                 chapter_title: `${config.last_chapter}: Latest`,
                 last_update: formatRelativeTime(lastUpdate),
                 timestamp: lastUpdate.toISOString(),
-                views: 0, // Manual tracking doesn't include metrics
-                likes: 0,
-                comments: 0,
-                word_count: platformKey === 'wattpad' || platformKey === 'tapas' ? 2500 : 3200,
+                // Metrics removed - not reliably scrapeable
                 chapter_url: config.url,
                 raw_title: `${config.last_chapter}: Latest`,
                 note: config.note,
@@ -1311,10 +1453,7 @@ app.get('/api/chapters/recent', (req, res) => {
                         status: platform.status,
                         published_date: platform.last_update,
                         timestamp: platform.timestamp,
-                        word_count: platform.word_count || 2500,
-                        views: platform.views || 0,
-                        likes: platform.likes || 0,
-                        comments: platform.comments || 0,
+                        // Metrics removed - unreliable data
                         url: chapterUrl,
                         chapter_url: chapterUrl,
                         platform_url: PLATFORMS[platform.platform]?.url || '#',
@@ -1339,8 +1478,15 @@ app.get('/api/chapters/recent', (req, res) => {
         
         console.log(`📅 Filtered to ${filteredRecentUpdates.length} updates from the last 7 days (from ${recentUpdates.length} total)`);
         
-        // NO MOCK DATA - Only real scraped updates
+        // NO MOCK DATA - Only real scraped updates + Ko-fi
         console.log(`🌟 Using ${filteredRecentUpdates.length} real recent updates (no mock data)`);
+        
+        // Add Ko-fi updates to recent updates
+        const kofiRecentUpdates = getKofiUpdatesForFeed();
+        if (kofiRecentUpdates.length > 0) {
+            console.log(`☕ Adding ${kofiRecentUpdates.length} Ko-fi updates`);
+            filteredRecentUpdates.push(...kofiRecentUpdates);
+        }
         
         if (filteredRecentUpdates.length === 0) {
             console.log('⚠️ No recent real updates found - returning empty list');
@@ -1443,12 +1589,12 @@ app.post('/api/sync/trigger', async (req, res) => {
 app.post('/api/chapter/update', (req, res) => {
     console.log('📝 Manual chapter update triggered');
     
-    const { platform, chapter, date } = req.body;
+    const { platform, chapter, date, time } = req.body;
     
-    if (!platform || !chapter || !date) {
+    if (!platform || !chapter) {
         return res.status(400).json({
             success: false,
-            error: 'Missing required fields: platform, chapter, date'
+            error: 'Missing required fields: platform, chapter'
         });
     }
     
@@ -1459,24 +1605,113 @@ app.post('/api/chapter/update', (req, res) => {
         });
     }
     
-    // Update the platform data (in a real system, this would update a database)
+    // Create full datetime string
+    let updateDateTime;
+    if (date && time) {
+        updateDateTime = `${date}T${time}:00`;
+    } else if (date) {
+        updateDateTime = `${date}T${new Date().toTimeString().slice(0,5)}:00`;
+    } else {
+        updateDateTime = new Date().toISOString();
+    }
+    
+    // Update the platform data
     PLATFORMS[platform].last_chapter = chapter;
-    PLATFORMS[platform].last_update = date;
+    PLATFORMS[platform].last_update = updateDateTime;
     
     // Clear cache to force refresh
     platformCache = {};
     lastUpdateTime = new Date(0);
     
-    console.log(`✅ Updated ${platform}: Chapter ${chapter} on ${date}`);
+    const formattedTime = new Date(updateDateTime).toLocaleString('de-DE');
+    console.log(`✅ Updated ${platform}: Chapter ${chapter} um ${formattedTime}`);
     
     res.json({
         success: true,
         message: `Updated ${PLATFORMS[platform].name}`,
         platform: platform,
         chapter: chapter,
-        date: date,
+        datetime: updateDateTime,
+        formatted_time: formattedTime,
         timestamp: new Date().toISOString()
     });
+});
+
+// Ko-fi Webhook Endpoint
+app.post('/api/kofi/webhook', (req, res) => {
+    console.log('☕ Ko-fi webhook received');
+    
+    try {
+        const kofiData = req.body;
+        console.log('Ko-fi data:', JSON.stringify(kofiData, null, 2));
+        
+        // Ko-fi sendet data als form-encoded, nicht JSON
+        const data = kofiData.data ? JSON.parse(kofiData.data) : kofiData;
+        
+        if (!data.from_name) {
+            console.log('⚠️ Invalid Ko-fi webhook data');
+            return res.status(400).json({ error: 'Invalid webhook data' });
+        }
+        
+        // Ko-fi Update erstellen
+        const update = {
+            supporter_name: data.from_name,
+            message: data.message || '',
+            amount: data.amount || '0',
+            timestamp: new Date().toISOString(),
+            chapter_title: `☕ Unterstützung von ${data.from_name}`,
+            last_update: 'Gerade eben',
+            preview: data.message || `${data.from_name} unterstützt dich${data.amount ? ` mit ${data.amount}` : ''}! Danke! 💖`,
+            upload_status: 'just_uploaded'
+        };
+        
+        // Zu Ko-fi Updates hinzufügen
+        addKofiUpdate(update);
+        
+        console.log(`✅ Ko-fi update verarbeitet: ${data.from_name}`);
+        res.status(200).send('OK');
+        
+    } catch (error) {
+        console.error('❌ Ko-fi webhook error:', error);
+        res.status(500).json({ error: 'Webhook processing failed' });
+    }
+});
+
+// Manual Ko-fi Update Endpoint (zum Testen)
+app.post('/api/kofi/manual', (req, res) => {
+    console.log('☕ Manual Ko-fi update');
+    
+    const { supporter_name, message, amount } = req.body;
+    
+    if (!supporter_name) {
+        return res.status(400).json({ error: 'supporter_name required' });
+    }
+    
+    const update = {
+        supporter_name: supporter_name,
+        message: message || '',
+        amount: amount || '',
+        timestamp: new Date().toISOString(),
+        chapter_title: `☕ Unterstützung von ${supporter_name}`,
+        last_update: 'Gerade eben',
+        preview: message || `${supporter_name} unterstützt dich${amount ? ` mit ${amount}` : ''}! Danke! 💖`,
+        upload_status: 'just_uploaded'
+    };
+    
+    addKofiUpdate(update);
+    
+    res.json({
+        success: true,
+        message: 'Ko-fi update added',
+        update: update
+    });
+});
+
+// Ko-fi clear endpoint
+app.delete('/api/kofi/clear', (req, res) => {
+    kofiUpdates = [];
+    console.log('🗑️ Ko-fi updates cleared');
+    res.json({ success: true, message: 'Ko-fi updates cleared' });
 });
 
 // Health check

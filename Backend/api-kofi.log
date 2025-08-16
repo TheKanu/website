@@ -1,0 +1,513 @@
+
+🚀 Secure API Server started!
+📡 HTTPS Server running on https://128.140.66.156:8443
+🔒 SSL/TLS encryption enabled
+
+📋 Available endpoints:
+   GET  /api/platforms/status
+   GET  /api/chapters/recent
+   POST /api/sync/trigger
+   GET  /health
+
+✅ Ready to serve platform data securely!
+
+📡 HTTP Server running on http://128.140.66.156:3001 (redirects to HTTPS)
+SyntaxError: Unexpected token ! in JSON at position 86
+    at JSON.parse (<anonymous>)
+    at parse (/home/amke/website/Backend/node_modules/body-parser/lib/types/json.js:92:19)
+    at /home/amke/website/Backend/node_modules/body-parser/lib/read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:203:9)
+    at invokeCallback (/home/amke/website/Backend/node_modules/raw-body/index.js:238:16)
+    at done (/home/amke/website/Backend/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/home/amke/website/Backend/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:517:28)
+    at endReadableNT (node:internal/streams/readable:1400:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+☕ Manual Ko-fi update
+☕ Ko-fi update hinzugefügt: ☕ Unterstützung von TestSupporter
+📝 Recent updates requested
+📝 Found 0 real updates from scraped data
+📅 Filtered to 0 updates from the last 7 days (from 0 total)
+🌟 Using 0 real recent updates (no mock data)
+☕ Adding 1 Ko-fi updates
+☕ Manual Ko-fi update
+☕ Ko-fi update hinzugefügt: ☕ Unterstützung von Anna_Writer
+📝 Recent updates requested
+📝 Found 0 real updates from scraped data
+📅 Filtered to 0 updates from the last 7 days (from 0 total)
+🌟 Using 0 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+📡 Platform status requested
+🔄 Getting fresh data from all platforms (hybrid mode)...
+🚀 Starting hybrid scraping (auto + manual tracking)...
+📋 Using manual data for Wattpad...
+📋 Using manual data for Tapas...
+🔍 Auto-scraping Royal Road...
+🔍 Scraping Royal Road...
+📝 Recent updates requested
+📝 Found 0 real updates from scraped data
+📅 Filtered to 0 updates from the last 7 days (from 0 total)
+🌟 Using 0 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+📝 Recent updates requested
+📝 Found 0 real updates from scraped data
+📅 Filtered to 0 updates from the last 7 days (from 0 total)
+🌟 Using 0 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+🧠 Scraping Royal Road chapter table...
+✅ Found 51 chapters using selector: tbody .chapter-row
+📖 Latest Royal Road chapter: "Chapter 18: Not Dying Quietly"
+🔗 Chapter URL: https://www.royalroad.com/fiction/110754/unyielding/chapter/2490303/chapter-18-not-dying-quietly
+🕒 Found publication date: Mon Aug 04 2025 07:00:10 GMT+0200 (Central European Summer Time)
+✅ Found views: 3851 from "Overall Score
+                            
+                                This fiction has not received enough ratings yet to have a score.
+                            
+                        
+            
+            
+                
+                    Total Views :
+                    3,851
+                    Average Views :
+                    76
+                    Followers :
+                    4
+                    Favorites :
+                    1
+                        Ratings :
+                        0
+                    Pages  :
+                    422" (.stats-content)
+⚠️ Could not find followers metric
+⚠️ Could not find favorites metric
+🔍 Auto-scraping Archive of Our Own...
+🔍 Parsing AO3 RSS...
+📝 Recent updates requested
+📝 Found 0 real updates from scraped data
+📅 Filtered to 0 updates from the last 7 days (from 0 total)
+🌟 Using 0 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+✅ AO3 RSS response received, status: 200
+📖 Found 0 Atom entries in AO3 feed
+💻 AO3 RSS feed empty/failed, attempting direct work page scraping...
+🧠 Scraping AO3 work page for chapter list...
+✅ Found 1 chapters using selector: #chapter_index li a
+📄 Latest AO3 chapter: "Full-page index"
+🔗 Chapter URL: https://archiveofourown.org/works/64068811/navigate
+🕒 Found AO3 update date: Sun Jul 27 2025 02:00:00 GMT+0200 (Central European Summer Time)
+📋 Using manual data for Inkspired...
+📋 Using manual data for ScribbleHub...
+🔍 Auto-scraping Ko-fi Posts...
+🔍 Scraping Ko-fi posts...
+❌ Ko-fi scraping error: Request failed with status code 403
+✅ Hybrid scraping completed for all platforms
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+SyntaxError: Unexpected token ! in JSON at position 228
+    at JSON.parse (<anonymous>)
+    at parse (/home/amke/website/Backend/node_modules/body-parser/lib/types/json.js:92:19)
+    at /home/amke/website/Backend/node_modules/body-parser/lib/read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:203:9)
+    at invokeCallback (/home/amke/website/Backend/node_modules/raw-body/index.js:238:16)
+    at done (/home/amke/website/Backend/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/home/amke/website/Backend/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:517:28)
+    at endReadableNT (node:internal/streams/readable:1400:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 2 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+☕ Ko-fi webhook received
+Ko-fi data: {
+  "verification_token": "test",
+  "type": "Donation",
+  "is_public": true,
+  "from_name": "TestSupporter",
+  "message": "Vielen Dank für die Geschichten",
+  "amount": "3.00",
+  "url": "https://ko-fi.com/test",
+  "email": "test@example.com",
+  "currency": "EUR",
+  "timestamp": "2025-08-07T10:30:00Z",
+  "kofi_transaction_id": "test123"
+}
+☕ Ko-fi update hinzugefügt: ☕ Unterstützung von TestSupporter
+✅ Ko-fi update verarbeitet: TestSupporter
+(node:1464409) Warning: An error event has already been emitted on the socket. Please use the destroy method on the socket while handling a 'clientError' event.
+(Use `node --trace-warnings ...` to show where the warning was created)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 3 Ko-fi updates
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 3 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 3 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 3 Ko-fi updates
+📡 Platform status requested
+🔄 Getting fresh data from all platforms (hybrid mode)...
+🚀 Starting hybrid scraping (auto + manual tracking)...
+📋 Using manual data for Wattpad...
+📋 Using manual data for Tapas...
+🔍 Auto-scraping Royal Road...
+🔍 Scraping Royal Road...
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 3 Ko-fi updates
+🧠 Scraping Royal Road chapter table...
+✅ Found 51 chapters using selector: tbody .chapter-row
+📖 Latest Royal Road chapter: "Chapter 18: Not Dying Quietly"
+🔗 Chapter URL: https://www.royalroad.com/fiction/110754/unyielding/chapter/2490303/chapter-18-not-dying-quietly
+🕒 Found publication date: Mon Aug 04 2025 07:00:10 GMT+0200 (Central European Summer Time)
+✅ Found views: 3851 from "Overall Score
+                            
+                                This fiction has not received enough ratings yet to have a score.
+                            
+                        
+            
+            
+                
+                    Total Views :
+                    3,851
+                    Average Views :
+                    76
+                    Followers :
+                    4
+                    Favorites :
+                    1
+                        Ratings :
+                        0
+                    Pages  :
+                    422" (.stats-content)
+⚠️ Could not find followers metric
+⚠️ Could not find favorites metric
+🔍 Auto-scraping Archive of Our Own...
+🔍 Parsing AO3 RSS...
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 20 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 19 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 3 Ko-fi updates
+✅ AO3 RSS response received, status: 200
+📖 Found 0 Atom entries in AO3 feed
+💻 AO3 RSS feed empty/failed, attempting direct work page scraping...
+🧠 Scraping AO3 work page for chapter list...
+✅ Found 1 chapters using selector: #chapter_index li a
+📄 Latest AO3 chapter: "Full-page index"
+🔗 Chapter URL: https://archiveofourown.org/works/64068811/navigate
+🕒 Found AO3 update date: Sun Jul 27 2025 02:00:00 GMT+0200 (Central European Summer Time)
+📋 Using manual data for Inkspired...
+📋 Using manual data for ScribbleHub...
+🔍 Auto-scraping Ko-fi Posts...
+🔍 Scraping Ko-fi posts...
+❌ Ko-fi scraping error: Request failed with status code 403
+✅ Hybrid scraping completed for all platforms
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 21 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 20 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 3 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 21 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 20 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 3 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 21 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 20 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 3 Ko-fi updates
+☕ Manual Ko-fi update
+☕ Manual Ko-fi update
+☕ Ko-fi update hinzugefügt: ☕ Unterstützung von K.M.T
+☕ Manual Ko-fi update
+☕ Ko-fi update hinzugefügt: ☕ Unterstützung von K.M.T
+☕ Manual Ko-fi update
+☕ Ko-fi update hinzugefügt: ☕ Unterstützung von K.M.T
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 21 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 20 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 6 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 21 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 20 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 6 Ko-fi updates
+📡 Platform status requested
+📋 Using cached hybrid data (updated less than 1 hour ago)
+📝 Recent updates requested
+📅 Including wattpad: Chapter 18: Latest (vor 21 Stunden (14:30))
+📅 Including tapas: Episode 18: Latest (vor 20 Stunden (15:45))
+📅 Including royalroad: Chapter 18: Not Dying Quietly (vor 3 Tagen (07:00))
+📅 Including ao3: Full-page index (vor 1 Woche)
+📅 Including inkspired: Chapter 18: Latest (Gestern um 16:20)
+📅 Including scribblehub: Chapter 17: Latest (vor 1 Woche)
+📝 Found 6 real updates from scraped data
+📅 Filtered to 4 updates from the last 7 days (from 6 total)
+🌟 Using 4 real recent updates (no mock data)
+☕ Adding 6 Ko-fi updates
